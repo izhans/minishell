@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:39:55 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/17 19:27:13 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/17 19:49:10 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 bool	ft_is_empty(char *string);
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
+	char	*line;
+
 	if (argc > 1)
 		return (1);
-	char *line;
 	while (true)
 	{
 		// read -> is empty -> save
@@ -28,7 +29,7 @@ int main(int argc, char **argv, char **envp)
 		if (ft_is_empty(line))
 		{
 			free(line);
-			continue;
+			continue ;
 		}
 		
 		add_history(line);
@@ -39,13 +40,11 @@ int main(int argc, char **argv, char **envp)
 bool	ft_is_empty(char *string)
 {
 	int		start;
-	int		end;
 
 	if (string == NULL)
 		return (true);
 	start = 0;
-	end = ft_strlen(string);
 	while (ft_isspace(string[start]) && string[start])
 		start++;
-	return (start == end);
+	return (start == ft_strlen(string));
 }

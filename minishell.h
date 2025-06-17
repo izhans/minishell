@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:42:27 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/17 19:09:10 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/06/17 19:45:49 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,22 @@
 # include <stdbool.h>
 
 # include "libft/libft.h"
+
+typedef struct s_command
+{
+	char	*path; // binary route
+	char	**args; // cmd args (includes cmd name)
+	char	***env; // enviroment vars // ? might not use?
+}	t_commmand;
+
+typedef struct s_line
+{
+	char		*line; // TODO delete later
+	char		**splited;
+	char		*infile;
+	char		*outfile;
+	int			cmd_number;
+	t_commmand	*cmds;
+}	t_line;
 
 #endif
