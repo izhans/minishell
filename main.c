@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:39:55 by isastre-          #+#    #+#             */
-/*   Updated: 2025/06/17 19:49:10 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:38:04 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@ int	main(int argc, char **argv, char **envp)
 			free(line);
 			continue ;
 		}
-		
+		ft_parse(line);
 		add_history(line);
 		free(line);
 	}
 }
+
+//primero dividir |
+// a | echo "|" | | b
 
 bool	ft_is_empty(char *string)
 {
