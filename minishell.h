@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:42:27 by isastre-          #+#    #+#             */
-/*   Updated: 2025/07/02 18:00:37 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/07/07 18:50:23 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,18 @@ typedef struct s_command
 	char	*path; // binary route
 	char	**args; // cmd args (includes cmd name)
 	char	***env; // enviroment vars // ? might not use?
+	char	*infile;
+	char	*outfile;
 }	t_commmand;
 
 typedef struct s_line
 {
 	char		*line; // TODO delete later
 	char		**splited;
-	char		*infile;
-	char		*outfile;
 	int			cmd_number;
 	t_commmand	*cmds;
 }	t_line;
+
+char	**ft_minishell_split(char *line, char delimiter);
 
 #endif

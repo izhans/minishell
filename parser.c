@@ -6,98 +6,134 @@
 /*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:29:06 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/07/02 20:42:54 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/07/07 20:57:28 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**ft_minishell_split(char *line, char delimiter);
+void ft_process_command(char *split, t_commmand *command);
 
 /**
 *	@param line Receives a non-null not empty line.
 */
-t_line	ft_parse(char *line)
+t_line	*ft_parse(char *line)
 {
+	t_line *parsed;
+
+	parsed = malloc(sizeof(t_line));
+	if (parsed == NULL)
+		return (NULL);
+	parsed->line = line;
+	parsed->splited = ft_minishell_split(line, '|');
 	
 }
 
-void ft_comma_check(char *comma, char line_char)
+int ft_count_split(char **split)
 {
-	if (*comma == 0 && (line_char == SIMPLE_COMMA || line_char == DOUBLE_COMMA))
-		*comma = line_char;
-	else if (line_char == *comma)
-		*comma = 0;
-}
-
-int ft_count_parts(char *line, char delimiter)
-{
-	char	comma;
-	int		parts;
-	bool	in_delimiter;
-
-	comma = 0;
-	parts = 1;
-	in_delimiter = false;
-	while (*line != '\0')
-	{
-		ft_comma_check(&comma, *line);
-		if (comma == 0 && !in_delimiter && *line == delimiter)
-			in_delimiter = true;
-		else if (comma == 0 && in_delimiter && *line != delimiter)
-		{
-			parts++;
-			in_delimiter = false;
-		}
-		line++;
-	}
-	return (parts);
-}
-
-char	**ft_minishell_split(char *line, char delimiter)
-{
-	int		i;
-	char	comma;
-	char	**splitted;
-	int		start;
-	int		j;
+	int	i;
 
 	i = 0;
-	comma = 0;
-	start = 0;
-	j = 0;
-	splitted = malloc(sizeof(char *) * (ft_count_parts(line, delimiter) + 1));
-	if (splitted == NULL)
+	while (split[i] != NULL)
+		i++;
+	return (i);
+}
+
+t_commmand *ft_command_parser(char **split)
+{
+	t_commmand	*command;
+	int			i;
+
+	command = malloc(sizeof(t_commmand) * (ft_count_split(split) + 1));
+	if (command == NULL)
 		return (NULL);
-	while (line[i] != '\0')
+	i = 0;
+	while (split[i])
 	{
-		ft_comma_check(&comma, line[i]);
-		if (comma == 0 && line[i] == delimiter && start != i)
-		{
-			splitted[j] = ft_substr(line, start, i - start);
-			start = i + 1;
-			j++;
-		}
-		else if (comma == 0 && line[i] == delimiter)
-			start = i + 1;
+		ft_process_command(split[i], &command[i]);
 		i++;
 	}
-	if (line[i] != delimiter)
+}
+
+void ft_process_command(char *split, t_commmand *command)
+{
+	char	**splitcmd;
+	int		i;
+
+	splitcmd = ft_minishell_split(split, ' ');
+	i = 0;
+	while (splitcmd[i])
 	{
-		splitted[j] = ft_substr(line, start, i - start);
-		j++;
+		command->path = NULL;
+		// command->args = 
 	}
-	splitted[j] = NULL;
-	return (splitted);
+	
+}
+
+int		ft_count_args(char **split)
+{
+	int	i;
+	int	count;
+	bool	redirection;
+
+	i = 0;
+	count = 0;
+	redirection = false;
+	while (split[i] != NULL)
+	{
+		printf("i: %d %s\n", i, split[i]);
+		if (split[i][0] == '<' || split[i][0] == '>')
+		{
+			if (ft_strlen(split[i]) == 1)
+				redirection = true;
+		}
+		else if (redirection)
+			redirection = false;
+		else
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+char	**ft_command_args(char **split)
+{
+	int		i;
+	int		j;
+	bool	redirection;
+	char	**split_arg;
+
+	split_arg = malloc(sizeof(char *) * ft_count_args(split));
+	if (split_arg == NULL)
+		return (NULL);
+	i = 0;
+	j = 0;
+	redirection = false;
+	while (split[i] != NULL)
+	{
+		if (split[i][0] == '<' || split[i][0] == '>')
+		{
+			if (ft_strlen(split[i]) == 1)
+				redirection = true;
+		}
+		else if (redirection)
+			redirection = false;
+		else
+		{
+			split_arg[j] = ft_strdup(split[i]);
+			j++;
+		}
+		i++;
+	}
 }
 
 int main(int argc, char **argv)
 {
-	char **splitted = ft_minishell_split(argv[1], ' ');
-	printf("Partes: %d", ft_count_parts(argv[1], ' '));
+	char **splitted = ft_minishell_split(argv[1], '|');
 	while (*splitted)
 	{
 		printf(">%s|\n", *splitted);
+		printf("Tiene %d args\n", ft_count_args(ft_minishell_split(*splitted, ' ')));
 		splitted++;	
 	}
 }
