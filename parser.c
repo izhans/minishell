@@ -6,14 +6,14 @@
 /*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:29:06 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/07/09 19:33:22 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/07/09 20:25:24 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		ft_process_command(char *split, t_commmand *command);
-t_commmand	*ft_command_parser(char **split);
+void		ft_process_command(char *split, t_commmand **command);
+t_commmand	**ft_command_parser(char **split);
 char		**ft_command_args(char **split);
 int			ft_count_args(char **split);
 char		*ft_command_redirection(char **split, char redirection);
@@ -43,46 +43,55 @@ t_line	*ft_parse(char *line)
  * @param split a line splitted on the pipes (|)
  * @returns an array of the parsed t_commands from the line
  */
-t_commmand *ft_command_parser(char **split)
+t_commmand **ft_command_parser(char **split)
 {
-	t_commmand	*command;
+	t_commmand	**commands;
 	int			i;
 
-	command = calloc(sizeof(t_commmand), (ft_str_array_len(split) + 1));
-	if (command == NULL)
+	commands = calloc(sizeof(t_commmand *), (ft_str_array_len(split) + 1));
+	if (commands == NULL)
 		return (NULL);
 	i = 0;
 	while (split[i] != NULL)
 	{
-		ft_process_command(split[i], &command[i]);
+		ft_process_command(split[i], &commands[i]);
+		if (commands[i] == NULL)
+		{
+			// TODO: liberar todo.
+			return (NULL);
+		}
 		i++;
 	}
-	return (command);
+	commands[i] = NULL;
+	return (commands);
 }
 
 /**
- * @brief parses a command data into a t_command struct
- * @param split a command call (cmd + infile/outfile + args...)
- * @param command the struct to populate
+ * @brief parses a commands data into a t_command struct
+ * @param split a commands call (cmd + infile/outfile + args...)
+ * @param commands the struct to populate
  */
-void ft_process_command(char *split, t_commmand *command)
+void ft_process_command(char *split, t_commmand **command)
 {
 	char	**splitcmd;
 
 	splitcmd = ft_minishell_split(split, ' ');
 	
-	command->args = ft_command_args(splitcmd);
-	command->path = NULL;
-	command->infile = ft_command_redirection(splitcmd, '<');
-	command->outfile = ft_command_redirection(splitcmd, '>');
+	*command = calloc(sizeof(t_commmand), 1);
+	if (command == NULL)
+		return;
+	(*command)->args = ft_command_args(splitcmd);
+	(*command)->path = NULL;
+	(*command)->infile = ft_command_redirection(splitcmd, '<');
+	(*command)->outfile = ft_command_redirection(splitcmd, '>');
 	
 	ft_free_str_array(splitcmd);
 }
 
 /**
- * @brief parses the command arguments, avoiding counting redirections
- * @param split splitted command by space
- * @returns splitted command real arguments
+ * @brief parses the commands arguments, avoiding counting redirections
+ * @param split splitted commands by space
+ * @returns splitted commands real arguments
  */
 char	**ft_command_args(char **split)
 {
