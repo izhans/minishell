@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:48:03 by isastre-          #+#    #+#             */
-/*   Updated: 2025/05/19 18:14:38 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:22:04 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void			*ft_memset(void *dest, int c, size_t count);
 // string
 char			*ft_joinstrs(char const **strs);
 char			**ft_split(char const *s, char c);
+int				ft_str_array_len(char **strs);
 char			*ft_strchr(const char *s, int c);
 char			*ft_strcpy(char *dst, const char *src);
 char			*ft_strdup(const char *s);

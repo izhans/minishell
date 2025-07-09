@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:42:27 by isastre-          #+#    #+#             */
-/*   Updated: 2025/07/07 18:50:23 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/07/09 19:13:34 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,11 @@ typedef struct s_line
 	char		*line; // TODO delete later
 	char		**splited;
 	int			cmd_number;
-	t_commmand	*cmds;
+	t_commmand	**cmds;
 }	t_line;
 
 char	**ft_minishell_split(char *line, char delimiter);
+t_line	*ft_parse(char *line);
+void	ft_free_tline(t_line *line);
 
 #endif

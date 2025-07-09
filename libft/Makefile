@@ -41,6 +41,7 @@ STRING_FOLDER = string/
 STRING_SRCS = \
 			ft_joinstrs.c \
 			ft_split.c \
+			ft_str_array_len.c \
 			ft_strchr.c \
 			ft_strdup.c \
 			ft_striteri.c \
