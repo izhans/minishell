@@ -6,13 +6,11 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:39:55 by isastre-          #+#    #+#             */
-/*   Updated: 2025/07/15 19:20:41 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/07/15 20:57:37 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-bool	ft_is_empty(char *string);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -34,7 +32,8 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		parsed = ft_parse(line);
-		
+		if (ft_validator(parsed) == true)
+			printf("Válido\n");
 		add_history(line);
 		free(line);
 		ft_free_tline(parsed);

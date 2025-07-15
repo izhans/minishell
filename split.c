@@ -6,13 +6,12 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 18:42:11 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/07/15 19:21:41 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/07/15 20:34:18 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_comma_check(char *comma, char line_char);
 static int	ft_count_parts(char *line, char delimiter);
 
 char	**ft_minishell_split(char *line, char delimiter)
@@ -33,17 +32,15 @@ char	**ft_minishell_split(char *line, char delimiter)
 	while (line[i] != '\0')
 	{
 		ft_comma_check(&comma, line[i]);
-		if (comma == 0 && line[i] == delimiter && start != i)
+		if (comma == 0 && line[i] == delimiter)
 		{
 			splitted[j] = ft_substr(line, start, i - start);
 			start = i + 1;
 			j++;
 		}
-		else if (comma == 0 && line[i] == delimiter)
-			start = i + 1;
 		i++;
 	}
-	if (line[i] != delimiter && start != i)
+	if (line[i] != delimiter)
 	{
 		splitted[j] = ft_substr(line, start, i - start);
 		j++;
@@ -56,21 +53,14 @@ static int ft_count_parts(char *line, char delimiter)
 {
 	char	comma;
 	int		parts;
-	bool	in_delimiter;
 
 	comma = 0;
 	parts = 1;
-	in_delimiter = false;
 	while (*line != '\0')
 	{
 		ft_comma_check(&comma, *line);
-		if (comma == 0 && !in_delimiter && *line == delimiter)
-			in_delimiter = true;
-		else if (comma == 0 && in_delimiter && *line != delimiter)
-		{
+		if (comma == 0 && *line == delimiter)
 			parts++;
-			in_delimiter = false;
-		}
 		line++;
 	}
 	return (parts);

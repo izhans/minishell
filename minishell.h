@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:42:27 by isastre-          #+#    #+#             */
-/*   Updated: 2025/07/15 19:22:40 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/07/15 19:47:56 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_line
 char	**ft_minishell_split(char *line, char delimiter);
 t_line	*ft_parse(char *line);
 void	ft_free_tline(t_line *line);
+bool	ft_validator(t_line *parsed);
 
 //Utils:
 void	ft_comma_check(char *comma, char line_char);

@@ -9,7 +9,8 @@ SRC	=	free.c \
 		main.c \
 		parser.c \
 		split.c \
-		validator.c
+		validator.c \
+		utils.c
 
 OBJ_DIR = objects
 OBJ =	$(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
