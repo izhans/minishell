@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:29:06 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/07/09 20:25:24 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/07/15 19:20:47 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,15 +184,3 @@ char	*ft_command_redirection(char **split, char redirection)
 	}
 	return (NULL);
 }
-
-/*
-int main(int argc, char **argv)
-{
-	char **splitted = ft_minishell_split(argv[1], '|');
-	while (*splitted)
-	{
-		printf(">%s|\n", *splitted);
-		printf("Tiene %d args\n", ft_count_args(ft_minishell_split(*splitted, ' ')));
-		splitted++;	
-	}
-}*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:42:27 by isastre-          #+#    #+#             */
-/*   Updated: 2025/07/09 19:13:34 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/07/15 19:22:40 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 
 # define SIMPLE_COMMA '\''
 # define DOUBLE_COMMA '"'
+# define PIPE '|'
 
 typedef struct s_command
 {
@@ -47,7 +48,7 @@ typedef struct s_command
 
 typedef struct s_line
 {
-	char		*line; // TODO delete later
+	char		*line;
 	char		**splited;
 	int			cmd_number;
 	t_commmand	**cmds;
@@ -56,5 +57,9 @@ typedef struct s_line
 char	**ft_minishell_split(char *line, char delimiter);
 t_line	*ft_parse(char *line);
 void	ft_free_tline(t_line *line);
+
+//Utils:
+void	ft_comma_check(char *comma, char line_char);
+bool	ft_is_empty(char *string);
 
 #endif

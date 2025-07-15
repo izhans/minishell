@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 18:42:11 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/07/07 19:36:23 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/07/15 19:21:41 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	ft_comma_check(char *comma, char line_char);
-static int		ft_count_parts(char *line, char delimiter);
+static int	ft_count_parts(char *line, char delimiter);
 
 char	**ft_minishell_split(char *line, char delimiter)
 {
@@ -74,12 +74,4 @@ static int ft_count_parts(char *line, char delimiter)
 		line++;
 	}
 	return (parts);
-}
-
-static void ft_comma_check(char *comma, char line_char)
-{
-	if (*comma == 0 && (line_char == SIMPLE_COMMA || line_char == DOUBLE_COMMA))
-		*comma = line_char;
-	else if (line_char == *comma)
-		*comma = 0;
 }

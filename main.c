@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:39:55 by isastre-          #+#    #+#             */
-/*   Updated: 2025/07/15 18:56:08 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/07/15 19:20:41 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,46 +34,10 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		parsed = ft_parse(line);
-		/*int k = 0;
-		printf("Number of commands: %d\n", parsed->cmd_number);
-		int ki = 0;
-		while (parsed->splited[ki] != NULL)
-		{
-			printf("Command %d: %s\n", k, parsed->splited[ki]);
-			printf("Args:\n");
-			int k2 = 0;
-			while (parsed->cmds[k].args[k2])
-			{
-				printf("%s\n", parsed->cmds[k].args[k2]);
-				k2++;
-			}
-			if (parsed->cmds[k].infile != NULL)
-				printf("Infile: %s\n", parsed->cmds[k].infile);
-			if (parsed->cmds[k].outfile != NULL)
-				printf("Outfile: %s\n", parsed->cmds[k].outfile);
-			k++;
-			ki++;
-		}*/
+		
 		add_history(line);
 		free(line);
 		ft_free_tline(parsed);
 	}
 }
 
-/**
- * @brief checks if the given string is empty
- *			(has content which is not any type of space)
- * @param string the string to check
- * @returns true if the string is considered empty, false if not
- */
-bool	ft_is_empty(char *string)
-{
-	size_t		start;
-
-	if (string == NULL)
-		return (true);
-	start = 0;
-	while (ft_isspace(string[start]) && string[start])
-		start++;
-	return (start == ft_strlen(string));
-}
