@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:39:55 by isastre-          #+#    #+#             */
-/*   Updated: 2025/07/09 19:00:04 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:56:08 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ bool	ft_is_empty(char *string);
 
 int	main(int argc, char **argv, char **envp)
 {
+	(void) argc, (void) argv, (void) envp;
 	char	*line;
 	t_line	*parsed;
 
@@ -67,7 +68,7 @@ int	main(int argc, char **argv, char **envp)
  */
 bool	ft_is_empty(char *string)
 {
-	int		start;
+	size_t		start;
 
 	if (string == NULL)
 		return (true);
