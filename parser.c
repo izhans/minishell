@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:29:06 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/07/15 19:20:47 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/07/21 20:53:28 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,10 @@ char	**ft_command_args(char **split)
 		}
 		else if (redirection)
 			redirection = false;
-		else
+		else if (!ft_is_empty(split[i]))
 		{
 			split_arg[j] = ft_strdup(split[i]);
+			printf("real arg %d: [%s]\n", j, split_arg[j]);
 			j++;
 		}
 		i++;
@@ -142,7 +143,7 @@ int		ft_count_args(char **split)
 	redirection = false;
 	while (split[i] != NULL)
 	{
-		printf("i: %d %s\n", i, split[i]);
+		printf("i: %d [%s]\n", i, split[i]);
 		if (split[i][0] == '<' || split[i][0] == '>')
 		{
 			if (ft_strlen(split[i]) == 1)
@@ -150,10 +151,11 @@ int		ft_count_args(char **split)
 		}
 		else if (redirection)
 			redirection = false;
-		else
+		else if (!ft_is_empty(split[i]))
 			count++;
 		i++;
 	}
+	printf("args %d\n", count);
 	return (count);
 }
 
