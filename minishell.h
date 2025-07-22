@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:42:27 by isastre-          #+#    #+#             */
-/*   Updated: 2025/07/15 19:47:56 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/07/22 14:42:02 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct s_command
 	char	***env; // enviroment vars // ? might not use?
 	char	*infile;
 	char	*outfile;
+	char	*here_doc;
+	char	*outfile_append;
 }	t_commmand;
 
 typedef struct s_line

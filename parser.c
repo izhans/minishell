@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 17:29:06 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/07/21 20:53:28 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/07/22 14:52:29 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@ void		ft_process_command(char *split, t_commmand **command);
 t_commmand	**ft_command_parser(char **split);
 char		**ft_command_args(char **split);
 int			ft_count_args(char **split);
-char		*ft_command_redirection(char **split, char redirection);
+char		*ft_command_redirection(char **split, char *redirection);
+
+bool	ft_has_redirection(char *str, size_t *length);
+bool	ft_has_simple_redirection(char *str);
+bool	ft_has_double_redirection(char *str);
 
 /**
  *	@brief parses the received line.
@@ -82,8 +86,12 @@ void ft_process_command(char *split, t_commmand **command)
 		return;
 	(*command)->args = ft_command_args(splitcmd);
 	(*command)->path = NULL;
-	(*command)->infile = ft_command_redirection(splitcmd, '<');
-	(*command)->outfile = ft_command_redirection(splitcmd, '>');
+	(*command)->infile = ft_command_redirection(splitcmd, "<");
+	(*command)->outfile = ft_command_redirection(splitcmd, ">");
+	(*command)->here_doc = ft_command_redirection(splitcmd, "<<");
+	(*command)->outfile_append = ft_command_redirection(splitcmd, ">>");
+
+	printf("<:%s >:%s <<:%s >>:%s\n", (*command)->infile, (*command)->outfile, (*command)->here_doc, (*command)->outfile_append);
 	
 	ft_free_str_array(splitcmd);
 }
@@ -97,6 +105,7 @@ char	**ft_command_args(char **split)
 {
 	int		i;
 	int		j;
+	size_t	redirection_length;
 	bool	redirection;
 	char	**split_arg;
 
@@ -105,12 +114,13 @@ char	**ft_command_args(char **split)
 		return (NULL);
 	i = 0;
 	j = 0;
+	redirection_length = 0;
 	redirection = false;
 	while (split[i] != NULL)
 	{
-		if (split[i][0] == '<' || split[i][0] == '>')
+		if (ft_has_redirection(split[i], &redirection_length))
 		{
-			if (ft_strlen(split[i]) == 1)
+			if (ft_strlen(split[i]) == redirection_length)
 				redirection = true;
 		}
 		else if (redirection)
@@ -136,17 +146,19 @@ int		ft_count_args(char **split)
 {
 	int		i;
 	int		count;
+	size_t	redirection_length;
 	bool	redirection;
 
 	i = 0;
 	count = 0;
 	redirection = false;
+	redirection_length = 0;
 	while (split[i] != NULL)
 	{
 		printf("i: %d [%s]\n", i, split[i]);
-		if (split[i][0] == '<' || split[i][0] == '>')
+		if (ft_has_redirection(split[i], &redirection_length))
 		{
-			if (ft_strlen(split[i]) == 1)
+			if (ft_strlen(split[i]) == redirection_length)
 				redirection = true;
 		}
 		else if (redirection)
@@ -161,28 +173,49 @@ int		ft_count_args(char **split)
 
 /**
  * @brief founds the file next to the given redirection
- * @param redirection oufile (>) or infile (<)
+ * @param redirection oufile (>), outfile append mode (>>), infile (<) or heredoc (<<)
  * @returns an allocated string with the filename or NULL if the filename isnt found
  */
-char	*ft_command_redirection(char **split, char redirection)
+char	*ft_command_redirection(char **split, char *redirection)
 {
 	int		i;
 	bool	found;
+	size_t	redirection_len;
 	
 	i = 0;
 	found = false;
+	redirection_len = ft_strlen(redirection);
 	while(split[i] != NULL)
 	{
-		if (split[i][0] == redirection)
+		if (ft_strncmp(split[i], redirection, redirection_len) == 0)
 		{
-			if (ft_strlen(split[i]) == 1)
+			if (ft_strlen(split[i]) != redirection_len && split[i][redirection_len] != redirection[0])
+				return (ft_strdup(&split[i][redirection_len]));
+			else if (ft_strlen(split[i]) == redirection_len)
 				found = true;
-			else
-				return (ft_strdup(&split[i][1]));
 		}
 		else if (found)
 			return (ft_strdup(split[i]));
 		i++;
 	}
 	return (NULL);
+}
+
+bool	ft_has_redirection(char *str, size_t *length)
+{
+	if (ft_has_double_redirection(str))
+		return (*length = 2, true);
+	if (ft_has_simple_redirection(str))
+		return (*length = 1, true);
+	return (*length = 0, false);
+}
+
+bool	ft_has_simple_redirection(char *str)
+{
+	return (str[0] == '<' || str[0] == '>');
+}
+
+bool	ft_has_double_redirection(char *str)
+{
+	return (ft_strncmp(str, "<<", 2) == 0 || ft_strncmp(str, ">>", 2) == 0);
 }

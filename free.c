@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 18:20:57 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/07/09 20:31:39 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/07/22 16:42:20 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ static void ft_free_tcommand(t_commmand **cmd, int cmd_number)
 			free(cmd[i]->infile);
 		if (cmd[i]->outfile != NULL)
 			free(cmd[i]->outfile);
+		if (cmd[i]->outfile_append != NULL)
+			free(cmd[i]->outfile_append);
+		if (cmd[i]->here_doc != NULL)
+			free(cmd[i]->here_doc);
 		if (cmd[i]->path != NULL)
 			free(cmd[i]->path);
 		free(cmd[i]);
