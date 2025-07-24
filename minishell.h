@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 16:42:27 by isastre-          #+#    #+#             */
-/*   Updated: 2025/07/22 14:42:02 by ralba-ji         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -37,32 +26,49 @@
 # define DOUBLE_COMMA '"'
 # define PIPE '|'
 
+typedef enum e_redir
+{
+	INFILE=0,
+	OUTFILE=1,
+	OUTFILE_APPEND=2,
+	HERE_DOC=3
+}	t_redir;
+
+typedef struct s_list_str
+{
+	char				*content;
+	struct s_list_str	*next;
+}	t_list_str;
+
+typedef struct s_list_redir
+{
+	t_redir				type;
+	char				*filename;
+	struct s_list_redir	*next;
+}	t_list_redir;
+
+
 typedef struct s_command
 {
-	char	*path; // binary route
-	char	**args; // cmd args (includes cmd name)
-	char	***env; // enviroment vars // ? might not use?
-	char	*infile;
-	char	*outfile;
-	char	*here_doc;
-	char	*outfile_append;
-}	t_commmand;
+	char					*path;
+	t_list_str				*args;
+	t_list_redir			*redir;
+	struct s_command		*next;
+}	t_command;
+
 
 typedef struct s_line
 {
 	char		*line;
-	char		**splited;
 	int			cmd_number;
-	t_commmand	**cmds;
+	t_command	*cmds;
 }	t_line;
 
-char	**ft_minishell_split(char *line, char delimiter);
-t_line	*ft_parse(char *line);
-void	ft_free_tline(t_line *line);
-bool	ft_validator(t_line *parsed);
-
-//Utils:
-void	ft_comma_check(char *comma, char line_char);
-bool	ft_is_empty(char *string);
+typedef struct s_minishell
+{
+	char	**envp;
+	int		exit_status; // last exit status
+	t_line	*line;
+}	t_minishell;
 
 #endif

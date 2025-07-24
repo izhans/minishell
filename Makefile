@@ -5,12 +5,7 @@ CFLAGS = -Wall -Wextra -Werror -g3
 
 VPATH = /:src/:
 
-SRC	=	free.c \
-		main.c \
-		parser.c \
-		split.c \
-		validator.c \
-		utils.c
+SRC	=
 
 OBJ_DIR = objects
 OBJ =	$(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
