@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/07/25 02:41:06 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/07/25 04:12:01 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,14 @@
 typedef struct s_line		t_line;
 typedef struct s_command	t_command;
 typedef struct s_redir		t_redir;
-typedef enum e_redir_type	t_redir_type;
+
+typedef enum e_redir_type
+{
+	INFILE=0,
+	OUTFILE=1,
+	OUTFILE_APPEND=2,
+	HERE_DOC=3
+}	t_redir_type;
 
 typedef struct s_minishell
 {
@@ -69,12 +76,22 @@ typedef struct s_redir // is contained into a t_list
 	char			*filename;
 }	t_redir;
 
-typedef enum e_redir_type
-{
-	INFILE=0,
-	OUTFILE=1,
-	OUTFILE_APPEND=2,
-	HERE_DOC=3
-}	t_redir_type;
+//Struct t_minishell
 
+t_minishell	*ft_create_t_minishell(char *envp[]);
+void		ft_free_t_minishell(t_minishell *mini);
+t_list		*ft_str_array_to_str_lst(char *envp[]);
+
+//Struct t_line
+t_line		*ft_create_t_line(t_minishell *mini, char *str);
+void		ft_free_line(t_line *line);
+//Struct t_command
+void		ft_free_command(void *content);
+
+//Utils
+void		ft_minishell_exit(t_minishell *mini);
+void		ft_comma_check(char *comma, char line_char);
+
+//Parser
+t_line		*ft_parser(t_minishell *mini, char	*line);
 #endif
