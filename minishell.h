@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/07/25 04:12:01 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/07/29 19:22:30 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,16 @@ typedef enum e_redir_type
 	HERE_DOC=3
 }	t_redir_type;
 
+typedef enum e_type_arg
+{
+	NONE = 0,
+	ARG=1,
+	IN=2,
+	OUT=3,
+	OUT_APPEND=4,
+	HERE=5,
+}	t_type_arg;
+
 typedef struct s_minishell
 {
 	t_list	*envp;
@@ -77,7 +87,6 @@ typedef struct s_redir // is contained into a t_list
 }	t_redir;
 
 //Struct t_minishell
-
 t_minishell	*ft_create_t_minishell(char *envp[]);
 void		ft_free_t_minishell(t_minishell *mini);
 t_list		*ft_str_array_to_str_lst(char *envp[]);
@@ -85,13 +94,25 @@ t_list		*ft_str_array_to_str_lst(char *envp[]);
 //Struct t_line
 t_line		*ft_create_t_line(t_minishell *mini, char *str);
 void		ft_free_line(t_line *line);
+
 //Struct t_command
+t_command	*ft_create_t_command(t_minishell *mini);
 void		ft_free_command(void *content);
+
+//Struct t_redir
+t_redir		*ft_create_t_redir(char *line, int len, t_type_arg type);
+void		ft_free_redir(void *content);
 
 //Utils
 void		ft_minishell_exit(t_minishell *mini);
-void		ft_comma_check(char *comma, char line_char);
 
 //Parser
 t_line		*ft_parser(t_minishell *mini, char	*line);
+t_list		*ft_add_to_list(t_command **cmd, char *line, int len, t_type_arg *type);
+void		ft_next_checker(t_type_arg *type, char comma, char line_char);
+void		ft_comma_check(char *comma, char line_char);
+bool		ft_is_redir(int c);
+
+
+
 #endif
