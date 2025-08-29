@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:07:48 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/08/21 14:23:38 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/08/14 19:05:39 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static t_list	*ft_command_parser(t_minishell *mini, char *line);
 static void	ft_lst_add_cmd(t_minishell *mini, t_list **lst, char *line, int len);
 static void	ft_args_parser(t_minishell *mini, char *line, t_command **cmd);
 static bool	ft_word_recognition(char *line, char *comma, int len);
-t_list	*ft_add_to_list(t_command **cmd, char *line, int len, t_type_arg *type);
 
 /**
  * @brief parser that returns a t_line struct with 
@@ -85,11 +84,11 @@ static void	ft_lst_add_cmd(t_minishell *mini, t_list **lst, char *line,
 		ft_minishell_exit(mini);
 	cmd = ft_create_t_command(mini);
 	ft_args_parser(mini, substr, &cmd);
-	free(substr);
 	new = ft_lstnew(cmd);
 	if (!new)
 		ft_minishell_exit(mini);
 	ft_lstadd_back(lst, new);
+	free(substr);
 }
 
 /**
@@ -142,8 +141,8 @@ static bool	ft_word_recognition(char *line, char *comma, int len)
 
 	found = false;
 	ft_comma_check(comma, line[len]);
-	if (len > 0 && *comma == 0 && (line[len] == '\0' || ft_isspace(line[len])
-		|| ft_is_redir(line[len])))
+	if ((ft_isspace(line[len]) || ft_is_redir(line[len]) || line[len] == 0)
+		&& *comma == 0 && len > 0)
 		found = true;
 	return (found);
 }
