@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   t_line_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:08:41 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/07/25 23:58:15 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/08/30 18:30:54 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /**
  * @brief allocates a t_line struct and assigns a duplicated str as line
@@ -39,7 +39,7 @@ void	ft_free_line(t_line *line)
 	if (line)
 	{
 		if (line->cmds)
-			ft_lstclear(&line->cmds, &ft_free_command);
+			ft_lstclear(&(line->cmds), &ft_free_command);
 		if (line->line)
 			free(line->line);
 		free(line);
