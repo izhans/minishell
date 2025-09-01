@@ -6,16 +6,17 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:07:48 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/08/14 19:05:39 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/01 20:50:55 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static t_list	*ft_command_parser(t_minishell *mini, char *line);
-static void	ft_lst_add_cmd(t_minishell *mini, t_list **lst, char *line, int len);
-static void	ft_args_parser(t_minishell *mini, char *line, t_command **cmd);
-static bool	ft_word_recognition(char *line, char *comma, int len);
+static void		ft_lst_add_cmd(t_minishell *mini, t_list **lst, char *line,
+					int len);
+static void		ft_args_parser(t_minishell *mini, char *line, t_command **cmd);
+static bool		ft_word_recognition(char *line, char *comma, int len);
 
 /**
  * @brief parser that returns a t_line struct with 

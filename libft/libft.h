@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:48:03 by isastre-          #+#    #+#             */
-/*   Updated: 2025/07/09 17:22:04 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/08/30 20:37:13 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ char			*ft_substr(char const *s, unsigned int start, size_t len);
 
 // math
 unsigned int	ft_abs(int n);
+int				ft_max(int num1, int num2);
 
 // parse
 int				ft_atoi(const char *nptr);
