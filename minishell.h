@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/01 19:04:00 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/02 19:19:23 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,15 @@
 # include <term.h>
 
 # include <stdbool.h>
+# include <sysexits.h>
 
 # include "libft/libft.h"
 
 # define SIMPLE_COMMA '\''
 # define DOUBLE_COMMA '"'
 # define PIPE '|'
+
+# define BUILT_INS {"echo", "cd", "pwd", "export", "unset", "env", "exit"}
 
 typedef struct s_line		t_line;
 typedef struct s_command	t_command;
@@ -90,6 +93,7 @@ typedef struct s_redir // is contained into a t_list
 t_minishell	*ft_create_t_minishell(char *envp[]);
 void		ft_free_t_minishell(t_minishell *mini);
 t_list		*ft_str_array_to_str_lst(char *envp[]);
+char		**ft_str_list_to_str_array(t_list *list);
 
 //Struct t_line
 t_line		*ft_create_t_line(t_minishell *mini, char *str);
@@ -124,5 +128,9 @@ char		*ft_clear_var(t_minishell *mini, char **str);
 char		*ft_word(t_minishell *mini, char *str);
 int			ft_word_name_len(char *str);
 int			ft_word_len(t_minishell *mini, char *str);
+// exec
+int			ft_process(t_minishell *mini, t_list *cmds);
+void		ft_exec_cmd(t_command *cmd, char **envp, int *exit_status);
+char		*ft_get_cmd_executable(char **envp, t_command *cmd);
 
 #endif
