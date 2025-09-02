@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:07:48 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/01 20:50:55 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:59:27 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_line	*ft_parser(t_minishell *mini, char *line)
 
 	parsed = ft_create_t_line(mini, line);
 	parsed->cmds = ft_command_parser(mini, line);
+	parsed->cmd_number = ft_lstsize(parsed->cmds);
 	return (parsed);
 }
 
