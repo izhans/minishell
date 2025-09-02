@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_minishell_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:09:02 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/08/29 21:25:06 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/02 21:05:56 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,32 @@ t_list	*ft_str_array_to_str_lst(char *strs[])
 		i++;
 	}
 	return (list);
+}
+
+/**
+ * @brief transforms a dynamic allocated str list into an array of strings
+ * @param list a str list
+ * @returns a str array with the list contents, NULL if error
+ */
+char	**ft_str_list_to_str_array(t_list *list)
+{
+	int		size;
+	char	**array;
+	int		i;
+
+	size = ft_lstsize(list);
+	array = malloc((size +1) * sizeof(char *));
+	if (array == NULL)
+		return (NULL);
+	i = 0;
+	while (list != NULL)
+	{
+		array[i] = ft_strdup(list->content);
+		list = list->next;
+		i++;
+	}
+	array[i] = NULL;
+	return (array);
 }
 
 /**
