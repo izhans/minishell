@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   t_command_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:08:22 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/07/26 00:05:56 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/01 20:51:27 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 /**
  * @brief allocates a t_command struct
@@ -21,7 +21,7 @@ t_command	*ft_create_t_command(t_minishell *mini)
 {
 	t_command	*cmd;
 
-	cmd = calloc(sizeof(t_command), 1);
+	cmd = ft_calloc(sizeof(t_command), 1);
 	if (!cmd)
 		ft_minishell_exit(mini);
 	return (cmd);

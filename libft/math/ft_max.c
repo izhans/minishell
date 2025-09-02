@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_max.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/16 20:10:29 by isastre-          #+#    #+#             */
-/*   Updated: 2025/08/30 20:29:01 by ralba-ji         ###   ########.fr       */
+/*   Created: 2025/08/30 20:37:24 by ralba-ji          #+#    #+#             */
+/*   Updated: 2025/08/30 20:37:56 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
-
-size_t	ft_strlen(const char *s)
+int	ft_max(int num1, int num2)
 {
-	int	i;
-
-	i = 0;
-	if (s == NULL)
-		return (0);
-	while (s[i])
-		i++;
-	return (i);
+	if (num1 >= num2)
+		return (num1);
+	else
+		return (num2);
 }

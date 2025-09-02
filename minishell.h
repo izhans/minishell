@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/02 18:11:49 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/02 19:19:23 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,12 +112,22 @@ void		ft_minishell_exit(t_minishell *mini);
 
 //Parser
 t_line		*ft_parser(t_minishell *mini, char	*line);
-t_list		*ft_add_to_list(t_command **cmd, char *line, int len, t_type_arg *type);
+t_list		*ft_add_to_list(t_command **cmd, char *line,
+				int len, t_type_arg *type);
 void		ft_next_checker(t_type_arg *type, char comma, char line_char);
 void		ft_comma_check(char *comma, char line_char);
 bool		ft_is_redir(int c);
 
+//Expand and clear
+void		ft_expand_clear(t_minishell *mini, t_line **line);
+void		ft_expand_clear_var(t_minishell *mini, void *content, bool is_arg);
+char		*ft_expand_var(t_minishell *mini, char **str, bool is_heredoc);
+char		*ft_clear_var(t_minishell *mini, char **str);
 
+//Env utils
+char		*ft_word(t_minishell *mini, char *str);
+int			ft_word_name_len(char *str);
+int			ft_word_len(t_minishell *mini, char *str);
 // exec
 int			ft_process(t_minishell *mini, t_list *cmds);
 void		ft_exec_cmd(t_command *cmd, char **envp, int *exit_status);

@@ -6,7 +6,9 @@ FLAGS = -Wall -Werror -Wextra
 # Math
 MATH_FOLDER = math/
 MATH_SRCS = \
-			ft_abs.c
+			ft_abs.c \
+			ft_max.c
+
 MATH_OBJS = $(MATH_SRCS:.c=.o)
 
 # Lists
