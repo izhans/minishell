@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 18:24:33 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/01 20:46:46 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:47:31 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	ft_expand_len(t_minishell *mini, char *str, bool is_heredoc);
  * 			status.
  * @param mini t_minishell struct to exit in case of error.
  * @param str pointer to a not cleared string, must be freed before returning.
- * @param is_heredoc set if the variable is a redirection heredoc.
+ * @param is_heredoc set if the variable is a heredoc line.
  * @return the new expanded string.
  * @details  a expanded string is a string with the $(NAME) expanded to the
  * 			content of the environmental variable NAME=content, can also expand

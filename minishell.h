@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/01 19:04:00 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:48:21 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,8 @@ char		*ft_clear_var(t_minishell *mini, char **str);
 char		*ft_word(t_minishell *mini, char *str);
 int			ft_word_name_len(char *str);
 int			ft_word_len(t_minishell *mini, char *str);
+
+//Validator
+bool		ft_validate(char *str);
 
 #endif
