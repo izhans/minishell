@@ -6,11 +6,10 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:09:02 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/02 19:19:24 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/02 21:05:56 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
 #include "../minishell.h"
 
 /**
@@ -71,7 +70,7 @@ char	**ft_str_list_to_str_array(t_list *list)
 	int		i;
 
 	size = ft_lstsize(list);
-	array = malloc(size * sizeof(char *) +1);
+	array = malloc((size +1) * sizeof(char *));
 	if (array == NULL)
 		return (NULL);
 	i = 0;
