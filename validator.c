@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 18:54:51 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/02 20:50:17 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/03 18:36:45 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,33 @@ static bool	ft_check_redir_parse(char *str, int *i)
 }
 
 /**
- * @brief checks if a string is valid for parsing.
- * @param str string to check
+ * @brief checks whether an identified valid representation of a redirecion
+ * 			has a specified name. This means 'echo < | grep' is NOT valid.
+ * 			its not valid to not give a name before the string ends or another
+ * 			command is started (with '|'), or before another redirection
+ * 			metacharacter.
+ * @param str string to check after the valid representation of redirection.
+ * @return true if the filename has been found (can be empty with "" or ''),
+ * 			false otherwise.
+ */
+static bool	ft_check_redir_file(char *str)
+{
+	int	j;
+
+	j = 0;
+	while (ft_isspace(str[j]))
+		j++;
+	return (str[j] != '\0' && str[j] != '|' && !ft_is_redir(str[j]));
+}
+
+/**
+ * @brief checks if a string has all valid redirectons, checking if is a valid
+ * 			representation of a redirection and also if there is no 
+ * 			empty redirection.
+ * @param str string to check.
  * @return true if its valid, false if not.
  */
-bool	ft_validate(char *str)
+static bool	ft_validate_redirections(char *str)
 {
 	int		i;
 	char	comma;
@@ -51,9 +73,59 @@ bool	ft_validate(char *str)
 	{
 		ft_comma_check(&comma, str[i]);
 		if (comma == 0 && ft_is_redir(str[i])
-			&& !ft_check_redir_parse(&str[i], &i))
+			&& (!ft_check_redir_parse(&str[i], &i)
+				|| !ft_check_redir_file(&str[i])))
 			return (false);
-		i++;
+		else
+			i++;
 	}
 	return (true);
+}
+
+/**
+ * @brief validates if all of the commands are valid. This checks if the
+ * 			commands have at least one argument and their redirections have
+ * 			at least one character after cleaning the SIMPLE_COMMA
+ * 			and DOUBLE_COMMA.
+ * @param line t_line struct to check args of every cmd.
+ * @return true if its valid, false if there is one command without arguments.
+ */
+static bool	ft_validate_cmds(t_minishell *mini, t_line *line)
+{
+	t_list	*cmd;
+	t_list	*redir;
+	char	*str;
+
+	cmd = line->cmds;
+	while (cmd)
+	{
+		if (ft_lstsize(((t_command *)cmd->content)->args) == 0)
+			return (false);
+		redir = ((t_command *)cmd->content)->redir;
+		while (redir)
+		{
+			str = ft_strdup(((t_redir *)redir->content)->filename);
+			if (((t_redir *)redir->content)->type != HERE_DOC)
+				ft_expand_clear_var(mini, &str, true);
+			if (ft_strlen(str) == 0)
+				return (free(str), false);
+			free(str);
+			redir = redir->next;
+		}
+		cmd = cmd->next;
+	}
+	return (true);
+}
+
+/**
+ * @brief validates whether a t_line struct is valid after parsing. Errors
+ * 			with bad specification of redirections and empty commands are
+ * 			checked.
+ * @param line t_line struct to check parsing.
+ * @return true if its a valid parse and no errors are found, false otherwise.
+ */
+bool	ft_validate(t_minishell *mini, t_line *line)
+{
+	return (ft_validate_redirections(line->line)
+		&& ft_validate_cmds(mini, line));
 }

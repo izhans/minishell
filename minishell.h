@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/02 21:16:30 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/03 18:37:58 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,6 @@ void		ft_exec_cmd(t_command *cmd, char **envp, int *exit_status);
 char		*ft_get_cmd_executable(char **envp, t_command *cmd);
 
 //Validator
-bool		ft_validate(char *str);
+bool		ft_validate(t_minishell *mini, t_line *line);
 
 #endif
