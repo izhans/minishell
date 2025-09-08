@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/08 20:34:50 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/08 21:25:45 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@
 # define SIMPLE_COMMA '\''
 # define DOUBLE_COMMA '"'
 # define PIPE '|'
-
-# define BUILT_INS {"echo", "cd", "pwd", "export", "unset", "env", "exit"}
 
 typedef struct s_line		t_line;
 typedef struct s_command	t_command;
@@ -132,6 +130,7 @@ int			ft_word_len(t_minishell *mini, char *str);
 int			ft_process(t_minishell *mini, t_list *cmds);
 void		ft_exec_cmd(t_command *cmd, char **envp, int *exit_status);
 char		*ft_get_cmd_executable(char **envp, t_command *cmd);
+bool		ft_is_built_in(char *cmd);
 
 //Validator
 bool		ft_validate(char *str);

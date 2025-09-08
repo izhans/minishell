@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 19:20:23 by isastre-          #+#    #+#             */
-/*   Updated: 2025/08/29 21:34:33 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/08 20:48:51 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,25 @@ static char	**ft_get_path(char **envp)
 		envp++;
 	}
 	return (NULL);
+}
+
+/**
+ * @brief checks if a cmd is built-in or not
+ * @param cmd the cmd name (t_command.args[0])
+ * @returns true if the cmd is built-in, false if not
+ */
+bool	ft_is_built_in(char *cmd)
+{
+	int			i;
+	const char	*built_ins[] = {"echo", "cd", "pwd", "export", "unset",
+		"env", "exit", NULL};
+
+	i = 0;
+	while (built_ins[i])
+	{
+		if (ft_strcmp(cmd, (char *) built_ins[i]) == 0)
+			return (true);
+		i++;
+	}
+	return (false);
 }
