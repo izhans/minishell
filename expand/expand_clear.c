@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 17:36:05 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/01 20:48:17 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/02 20:48:47 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ void	ft_expand_clear_var(t_minishell *mini, void *content, bool is_arg)
 		str = content;
 	else
 		str = &((t_redir *)content)->filename;
-	*str = ft_expand_var(mini, str, false);
 	if (is_arg || ((t_redir *)content)->type != HERE_DOC)
+	{
+		*str = ft_expand_var(mini, str, false);
 		*str = ft_clear_var(mini, str);
+	}
 }
 
 /**
