@@ -6,11 +6,54 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 18:54:51 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/10 19:56:05 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/10 22:35:34 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief validates whether a t_line struct is valid after parsing. Errors
+ * 			with bad specification of redirections and empty commands are
+ * 			checked.
+ * @param line t_line struct to check parsing.
+ * @return true if its a valid parse and no errors are found, false otherwise.
+ */
+bool	ft_validate(t_minishell *mini, t_line *line)
+{
+	if (!ft_validate_redirections(line->line))
+		return (printf(ERROR_MSG_REDIRECTION), false);
+	if (!ft_validate_cmds(mini, line))
+		return (printf(ERROR_MSG_PIPES), false);
+	return (true);
+}
+
+/**
+ * @brief checks if a string has all valid redirectons, checking if is a valid
+ * 			representation of a redirection and also if there is no 
+ * 			empty redirection.
+ * @param str string to check.
+ * @return true if its valid, false if not.
+ */
+static bool	ft_validate_redirections(char *str)
+{
+	int		i;
+	char	comma;
+
+	i = 0;
+	comma = 0;
+	while (str[i])
+	{
+		ft_comma_check(&comma, str[i]);
+		if (comma == 0 && ft_is_redir(str[i])
+			&& (!ft_check_redir_parse(&str[i], &i)
+				|| !ft_check_redir_file(&str[i])))
+			return (false);
+		else
+			i++;
+	}
+	return (true);
+}
 
 /**
  * @brief checks whether a string has a valid redirection characters. '<<<'
@@ -42,8 +85,8 @@ static bool	ft_check_redir_parse(char *str, int *i)
  * 			command is started (with '|'), or before another redirection
  * 			metacharacter.
  * @param str string to check after the valid representation of redirection.
- * @return true if the filename has been found (can be empty with "" or ''),
- * 			false otherwise.
+ * @return true if the filename has been found,
+ * 			false if no name or empty name (is empty if it is "" or '').
  */
 static bool	ft_check_redir_file(char *str)
 {
@@ -53,33 +96,6 @@ static bool	ft_check_redir_file(char *str)
 	while (ft_isspace(str[j]))
 		j++;
 	return (str[j] != '\0' && str[j] != '|' && !ft_is_redir(str[j]));
-}
-
-/**
- * @brief checks if a string has all valid redirectons, checking if is a valid
- * 			representation of a redirection and also if there is no 
- * 			empty redirection.
- * @param str string to check.
- * @return true if its valid, false if not.
- */
-static bool	ft_validate_redirections(char *str)
-{
-	int		i;
-	char	comma;
-
-	i = 0;
-	comma = 0;
-	while (str[i])
-	{
-		ft_comma_check(&comma, str[i]);
-		if (comma == 0 && ft_is_redir(str[i])
-			&& (!ft_check_redir_parse(&str[i], &i)
-				|| !ft_check_redir_file(&str[i])))
-			return (false);
-		else
-			i++;
-	}
-	return (true);
 }
 
 /**
@@ -116,21 +132,5 @@ static bool	ft_validate_cmds(t_minishell *mini, t_line *line)
 		}
 		cmd = cmd->next;
 	}
-	return (true);
-}
-
-/**
- * @brief validates whether a t_line struct is valid after parsing. Errors
- * 			with bad specification of redirections and empty commands are
- * 			checked.
- * @param line t_line struct to check parsing.
- * @return true if its a valid parse and no errors are found, false otherwise.
- */
-bool	ft_validate(t_minishell *mini, t_line *line)
-{
-	if (!ft_validate_redirections(line->line))
-		return (printf(ERROR_MSG_REDIRECTION), false);
-	if (!ft_validate_cmds(mini, line))
-		return (printf(ERROR_MSG_PIPES), false);
 	return (true);
 }

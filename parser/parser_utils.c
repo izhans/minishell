@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:21:12 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/10 19:47:04 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/10 22:36:17 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,42 @@ t_list	*ft_add_to_list(t_command **cmd, char *line, int len, t_type_arg *type)
 	else
 		ft_lstadd_back(&(*cmd)->redir, new);
 	*type = NONE;
+	return (new);
+}
+
+/**
+ * @brief creates the t_list node with needed information depending on the type
+ * 		(if it is an ARGument creates a str, if its a redirection creates 
+ * 		content with t_redir).
+ * @param line start of the word at the command line.
+ * @param len length of the word.
+ * @param type pointer type of word (argument or redirection).
+ * @return the t_list struct with needed information (str/t_redir pointer).
+ */
+static t_list *ft_list_create(char *line, int len, t_type_arg *type)
+{
+	char	*temp;
+	t_redir	*redir;
+	t_list	*new;
+
+	if (*type == ARG)
+	{
+		temp = ft_substr(line, 0, len);
+		if (!temp)
+			return (NULL);
+		new = ft_lstnew(temp);
+		if (!new)
+			return (free(temp), NULL);
+	}
+	else
+	{
+		redir = ft_create_t_redir(line, len, *type);
+		if (!redir)
+			return (NULL);
+		new = ft_lstnew(redir);
+		if (!new)
+			return (ft_free_redir(redir), NULL);
+	}
 	return (new);
 }
 
@@ -93,38 +129,3 @@ void	ft_comma_check(char *comma, char line_char)
 		*comma = 0;
 }
 
-/**
- * @brief creates the t_list node with needed information depending on the type
- * 		(if it is an ARGument creates a str, if its a redirection creates 
- * 		content with t_redir).
- * @param line start of the word at the command line.
- * @param len length of the word.
- * @param type pointer type of word (argument or redirection).
- * @return the t_list struct with needed information (str/t_redir pointer).
- */
-static t_list *ft_list_create(char *line, int len, t_type_arg *type)
-{
-	char	*temp;
-	t_redir	*redir;
-	t_list	*new;
-
-	if (*type == ARG)
-	{
-		temp = ft_substr(line, 0, len);
-		if (!temp)
-			return (NULL);
-		new = ft_lstnew(temp);
-		if (!new)
-			return (free(temp), NULL);
-	}
-	else
-	{
-		redir = ft_create_t_redir(line, len, *type);
-		if (!redir)
-			return (NULL);
-		new = ft_lstnew(redir);
-		if (!new)
-			return (ft_free_redir(redir), NULL);
-	}
-	return (new);
-}
