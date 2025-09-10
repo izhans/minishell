@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 18:54:51 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/03 18:36:45 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/10 19:56:05 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ static bool	ft_validate_cmds(t_minishell *mini, t_line *line)
 		while (redir)
 		{
 			str = ft_strdup(((t_redir *)redir->content)->filename);
+			if (str == NULL)
+				ft_minishell_exit(mini);
 			if (((t_redir *)redir->content)->type != HERE_DOC)
 				ft_expand_clear_var(mini, &str, true);
 			if (ft_strlen(str) == 0)
@@ -126,6 +128,9 @@ static bool	ft_validate_cmds(t_minishell *mini, t_line *line)
  */
 bool	ft_validate(t_minishell *mini, t_line *line)
 {
-	return (ft_validate_redirections(line->line)
-		&& ft_validate_cmds(mini, line));
+	if (!ft_validate_redirections(line->line))
+		return (printf(ERROR_MSG_REDIRECTION), false);
+	if (!ft_validate_cmds(mini, line))
+		return (printf(ERROR_MSG_PIPES), false);
+	return (true);
 }

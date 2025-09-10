@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 18:39:53 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/01 20:47:56 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/10 19:36:53 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_word_name_len(char *str)
 }
 
 /**
- * @brief returns a malloc string with the content of the expansion name
+ * @brief returns a non-malloc string with the content of the expansion name
  * 			(not the name neither '='), doesnt work for status.
  * @param mini t_minishell struct, to loop the env attribute to find the word
  * @param str env variable name.

@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:07:48 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/02 20:59:27 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/10 19:31:37 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static t_list	*ft_command_parser(t_minishell *mini, char *line);
 static void		ft_lst_add_cmd(t_minishell *mini, t_list **lst, char *line,
 					int len);
-static void		ft_args_parser(t_minishell *mini, char *line, t_command **cmd);
+static bool		ft_args_parser(char *line, t_command **cmd);
 static bool		ft_word_recognition(char *line, char *comma, int len);
 
 /**
@@ -30,7 +30,9 @@ t_line	*ft_parser(t_minishell *mini, char *line)
 	t_line	*parsed;
 
 	parsed = ft_create_t_line(mini, line);
-	parsed->cmds = ft_command_parser(mini, line);
+	mini->line = parsed;
+	free(line);
+	parsed->cmds = ft_command_parser(mini, parsed->line);
 	parsed->cmd_number = ft_lstsize(parsed->cmds);
 	return (parsed);
 }
@@ -77,20 +79,27 @@ static t_list	*ft_command_parser(t_minishell *mini, char *line)
 static void	ft_lst_add_cmd(t_minishell *mini, t_list **lst, char *line,
 	int len)
 {
-	char		*substr;
 	t_command	*cmd;
 	t_list		*new;
 
-	substr = ft_substr(line, 0, len);
-	if (!substr)
-		ft_minishell_exit(mini);
 	cmd = ft_create_t_command(mini);
-	ft_args_parser(mini, substr, &cmd);
+	cmd->cmd_str = ft_substr(line, 0, len);
+	if (!cmd->cmd_str)
+		ft_minishell_exit(mini);
+	if (!ft_args_parser(cmd->cmd_str, &cmd))
+	{
+		ft_lstclear(lst, ft_free_command);
+		ft_free_command(cmd);
+		ft_minishell_exit(mini);
+	}
 	new = ft_lstnew(cmd);
 	if (!new)
+	{
+		ft_lstclear(lst, ft_free_command);
+		ft_free_command(cmd);
 		ft_minishell_exit(mini);
+	}
 	ft_lstadd_back(lst, new);
-	free(substr);
 }
 
 /**
@@ -100,7 +109,7 @@ static void	ft_lst_add_cmd(t_minishell *mini, t_list **lst, char *line,
  * @param line string that holds the command line
  * @param cmd pointer to the t_command structure, to add args and redirections
  */
-static void	ft_args_parser(t_minishell *mini, char *line, t_command **cmd)
+static bool	ft_args_parser(char *line, t_command **cmd)
 {
 	int			i;
 	char		comma;
@@ -115,7 +124,7 @@ static void	ft_args_parser(t_minishell *mini, char *line, t_command **cmd)
 	{
 		if (ft_word_recognition(&line[start], &comma, i - start)
 			&& !ft_add_to_list(cmd, &line[start], i - start, &type))
-			ft_minishell_exit(mini);
+				return (false);
 		ft_next_checker(&type, comma, line[i]);
 		if ((ft_isspace(line[i]) || ft_is_redir(line[i])) && comma == 0)
 			start = i + 1;
@@ -123,7 +132,8 @@ static void	ft_args_parser(t_minishell *mini, char *line, t_command **cmd)
 	}
 	if (ft_word_recognition(&line[start], &comma, i - start)
 		&& !ft_add_to_list(cmd, &line[start], i - start, &type))
-		ft_minishell_exit(mini);
+		return (false);
+	return (true);
 }
 
 /**
