@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/02 21:16:30 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/10 19:56:08 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 # define SIMPLE_COMMA '\''
 # define DOUBLE_COMMA '"'
 # define PIPE '|'
+# define ERROR_MSG_REDIRECTION "Invalid input: invalid redirection or filename for redirection\n"
+# define ERROR_MSG_PIPES "Invalid input: missing command.\n"
 
 # define BUILT_INS {"echo", "cd", "pwd", "export", "unset", "env", "exit"}
 
@@ -81,6 +83,7 @@ typedef struct s_command // is contained into a t_list
 	char	*path;
 	t_list	*args;
 	t_list	*redir; // list of t_redir wrappers
+	char	*cmd_str;
 }	t_command;
 
 typedef struct s_redir // is contained into a t_list
@@ -134,6 +137,6 @@ void		ft_exec_cmd(t_command *cmd, char **envp, int *exit_status);
 char		*ft_get_cmd_executable(char **envp, t_command *cmd);
 
 //Validator
-bool		ft_validate(char *str);
+bool		ft_validate(t_minishell *mini, t_line *line);
 
 #endif

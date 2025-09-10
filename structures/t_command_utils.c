@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:08:22 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/01 20:51:27 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/10 18:25:52 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	ft_free_command(void *content)
 			free(cmd->path);
 		if (cmd->redir)
 			ft_lstclear(&cmd->redir, &ft_free_redir);
+		if (cmd->cmd_str)
+			free(cmd->cmd_str);
 		free(cmd);
 	}
 }
