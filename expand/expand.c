@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 18:24:33 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/02 20:47:31 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/10 19:38:41 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	*ft_expand_var(t_minishell *mini, char **str, bool is_heredoc)
 	int		j;
 
 	new = ft_calloc(ft_expand_len(mini, *str, is_heredoc) + 1, sizeof(char));
+	if (!new)
+		ft_minishell_exit(mini);
 	i = 0;
 	comma = 0;
 	j = 0;
@@ -62,6 +64,7 @@ char	*ft_expand_var(t_minishell *mini, char **str, bool is_heredoc)
  * @param str string starts at the name of the environmental variable to
  * 			expand (or last exit status).
  * @param j must be incremented as many letters have been written in new.
+ * @return the length of the name to increment index of original string.
  */
 static int	ft_copy_exp(t_minishell *mini, char *new, char *str, int *j)
 {
@@ -73,7 +76,7 @@ static int	ft_copy_exp(t_minishell *mini, char *new, char *str, int *j)
 	else
 	{
 		word = ft_itoa(mini->exit_status);
-		if (word == NULL)
+		if (!word)
 		{
 			free(new);
 			ft_minishell_exit(mini);
