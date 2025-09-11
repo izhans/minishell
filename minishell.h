@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/08 21:25:45 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/11 14:19:13 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,11 +126,10 @@ char		*ft_clear_var(t_minishell *mini, char **str);
 char		*ft_word(t_minishell *mini, char *str);
 int			ft_word_name_len(char *str);
 int			ft_word_len(t_minishell *mini, char *str);
-// exec
-int			ft_process(t_minishell *mini, t_list *cmds);
-void		ft_exec_cmd(t_command *cmd, char **envp, int *exit_status);
+// exec + exec utils
+void		ft_process(t_minishell *mini);
 char		*ft_get_cmd_executable(char **envp, t_command *cmd);
-bool		ft_is_built_in(char *cmd);
+bool		ft_is_built_in(t_command *cmd);
 
 //Validator
 bool		ft_validate(char *str);

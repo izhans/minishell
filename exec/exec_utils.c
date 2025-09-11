@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 19:20:23 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/08 20:48:51 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/11 14:18:28 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ char	*ft_get_cmd_executable(char **envp, t_command *cmd)
 	return (NULL);
 }
 
+/**
+ * @brief gets the PATH variable from the envp
+ * @param envp the minishell env
+ */
 static char	**ft_get_path(char **envp)
 {
 	while (*envp)
@@ -62,11 +66,12 @@ static char	**ft_get_path(char **envp)
 
 /**
  * @brief checks if a cmd is built-in or not
- * @param cmd the cmd name (t_command.args[0])
+ * @param cmd the cmd data
  * @returns true if the cmd is built-in, false if not
  */
-bool	ft_is_built_in(char *cmd)
+bool	ft_is_built_in(t_command *cmd)
 {
+	const char	*cmd_name = cmd->args->content;
 	int			i;
 	const char	*built_ins[] = {"echo", "cd", "pwd", "export", "unset",
 		"env", "exit", NULL};
@@ -74,7 +79,7 @@ bool	ft_is_built_in(char *cmd)
 	i = 0;
 	while (built_ins[i])
 	{
-		if (ft_strcmp(cmd, (char *) built_ins[i]) == 0)
+		if (ft_strcmp((char *) cmd_name, (char *) built_ins[i]) == 0)
 			return (true);
 		i++;
 	}
