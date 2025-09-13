@@ -6,11 +6,16 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 18:54:51 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/10 22:35:34 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/13 13:32:56 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static bool	ft_validate_redirections(char *str);
+static bool	ft_check_redir_parse(char *str, int *i);
+static bool	ft_check_redir_file(char *str);
+static bool	ft_validate_cmds(t_minishell *mini, t_line *line);
 
 /**
  * @brief validates whether a t_line struct is valid after parsing. Errors
