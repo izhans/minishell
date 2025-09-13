@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/13 13:33:46 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/13 13:36:39 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void		ft_free_redir(void *content);
 
 //Utils
 void		ft_minishell_exit(t_minishell *mini);
+bool		ft_is_empty(char *string);
 
 //Parser
 t_line		*ft_parser(t_minishell *mini, char	*line);

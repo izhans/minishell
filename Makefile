@@ -5,7 +5,21 @@ CFLAGS = -Wall -Wextra -Werror -g3
 
 VPATH = /:src/:
 
-SRC	=
+SRC	= 	exec/exec_utils.c \
+		exec/exec.c \
+		expand/clear.c \
+		expand/env_utils.c \
+		expand/expand_clear.c \
+		expand/expand.c \
+		parser/parser_utils.c \
+		parser/parser.c \
+		structures/t_command_utils.c \
+		structures/t_line_utils.c \
+		structures/t_minishell_utils.c \
+		structures/t_redir_utils.c \
+		minishell.c \
+		utils.c \
+		validator.c
 
 OBJ_DIR = objects
 OBJ =	$(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))

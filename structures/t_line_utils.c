@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:08:41 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/08/30 18:30:54 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/10 21:40:17 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,5 @@ void	ft_free_line(t_line *line)
 			free(line->line);
 		free(line);
 	}
+	line = NULL;
 }
