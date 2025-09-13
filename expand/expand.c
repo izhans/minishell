@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 18:24:33 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/10 19:38:41 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:18:59 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_expand_var(t_minishell *mini, char **str, bool is_heredoc)
 
 	new = ft_calloc(ft_expand_len(mini, *str, is_heredoc) + 1, sizeof(char));
 	if (!new)
-		ft_minishell_exit(mini);
+		ft_minishell_exit(mini, EXIT_FAILURE);
 	i = 0;
 	comma = 0;
 	j = 0;
@@ -79,7 +79,7 @@ static int	ft_copy_exp(t_minishell *mini, char *new, char *str, int *j)
 		if (!word)
 		{
 			free(new);
-			ft_minishell_exit(mini);
+			ft_minishell_exit(mini, EXIT_FAILURE);
 		}
 	}
 	if (word != NULL)

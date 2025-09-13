@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:07:48 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/10 19:31:37 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:21:00 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,19 +85,19 @@ static void	ft_lst_add_cmd(t_minishell *mini, t_list **lst, char *line,
 	cmd = ft_create_t_command(mini);
 	cmd->cmd_str = ft_substr(line, 0, len);
 	if (!cmd->cmd_str)
-		ft_minishell_exit(mini);
+		ft_minishell_exit(mini, EXIT_FAILURE);
 	if (!ft_args_parser(cmd->cmd_str, &cmd))
 	{
 		ft_lstclear(lst, ft_free_command);
 		ft_free_command(cmd);
-		ft_minishell_exit(mini);
+		ft_minishell_exit(mini, EXIT_FAILURE);
 	}
 	new = ft_lstnew(cmd);
 	if (!new)
 	{
 		ft_lstclear(lst, ft_free_command);
 		ft_free_command(cmd);
-		ft_minishell_exit(mini);
+		ft_minishell_exit(mini, EXIT_FAILURE);
 	}
 	ft_lstadd_back(lst, new);
 }
@@ -108,6 +108,7 @@ static void	ft_lst_add_cmd(t_minishell *mini, t_list **lst, char *line,
  * @param mini t_minishell struct to free in case of error
  * @param line string that holds the command line
  * @param cmd pointer to the t_command structure, to add args and redirections
+ * @returns false if malloc error, true if can execute correctly
  */
 static bool	ft_args_parser(char *line, t_command **cmd)
 {

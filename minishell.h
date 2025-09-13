@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/13 13:36:39 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:27:46 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_redir		*ft_create_t_redir(char *line, int len, t_type_arg type);
 void		ft_free_redir(void *content);
 
 //Utils
-void		ft_minishell_exit(t_minishell *mini);
+void		ft_minishell_exit(t_minishell *mini, int exit_status);
 bool		ft_is_empty(char *string);
 
 //Parser
