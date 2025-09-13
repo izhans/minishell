@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 21:24:39 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/13 15:15:33 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/13 21:12:46 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,13 @@ int main(int argc, char *argv[], char *envp[])
     signal_setup();
 	while (true)
 	{
-        str = readline("minishell> ");
+        str = readline(PROMPT);
         if (str == NULL)
             break ;
 		mini->line = ft_parser(mini, str);
+        ft_expand_clear(mini, &mini->line);
         if (!ft_is_empty(mini->line->line) && ft_validate(mini, mini->line))
-            ft_process(mini);
+            //ft_process(mini);
         if (mini->line->line[0] != 0)
             add_history(mini->line->line);
         ft_free_line(mini->line);
