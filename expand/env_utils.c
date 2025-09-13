@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 18:39:53 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/10 19:36:53 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:18:44 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*ft_word(t_minishell *mini, char *str)
 		content = (char *)env_node->content;
 		word_name = ft_substr(content, 0, ft_word_name_len(content));
 		if (word_name == NULL)
-			ft_minishell_exit(mini);
+			ft_minishell_exit(mini, EXIT_FAILURE);
 		if (ft_strncmp(word_name, str,
 				ft_max(ft_strlen(word_name), word_len)) == 0)
 		{
@@ -90,7 +90,7 @@ int	ft_word_len(t_minishell *mini, char *str)
 		content = (char *)env_node->content;
 		word_name = ft_substr(content, 0, ft_word_name_len(content));
 		if (word_name == NULL)
-			ft_minishell_exit(mini);
+			ft_minishell_exit(mini, EXIT_FAILURE);
 		if (ft_strncmp(word_name, str,
 				ft_max(ft_strlen(word_name), word_len)) == 0)
 			return (free(word_name), ft_strlen(ft_strchr(content, '=') + 1));

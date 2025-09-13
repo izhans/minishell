@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:09:55 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/10 21:06:56 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:11:22 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
  * @brief exits the minishell after liberating the memory allocated.
  * @param mini struct with access to allocated variables
  */
-void	ft_minishell_exit(t_minishell *mini)
+void	ft_minishell_exit(t_minishell *mini, int exit_status)
 {
 	if (mini)
 		ft_free_t_minishell(mini);
-	exit(1);
+	exit(exit_status);
 }
 
 /**

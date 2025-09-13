@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 18:54:51 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/10 22:49:39 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:18:10 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ static bool	ft_validate_cmds(t_minishell *mini, t_line *line)
 		{
 			str = ft_strdup(((t_redir *)redir->content)->filename);
 			if (str == NULL)
-				ft_minishell_exit(mini);
+				ft_minishell_exit(mini, EXIT_FAILURE);
 			if (((t_redir *)redir->content)->type != HERE_DOC)
 				ft_expand_clear_var(mini, &str, true);
 			if (ft_strlen(str) == 0)
