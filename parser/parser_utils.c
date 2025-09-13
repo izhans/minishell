@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:21:12 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/10 22:36:17 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/10 22:44:35 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static t_list *ft_list_create(char *line, int len, t_type_arg *type);
  */
 t_list	*ft_add_to_list(t_command **cmd, char *line, int len, t_type_arg *type)
 {
-	char	*temp;
 	t_list	*new;
 
 	new = ft_list_create(line, len, type);
