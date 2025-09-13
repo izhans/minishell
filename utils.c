@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:09:55 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/13 20:38:08 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:38:38 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_minishell_exit(t_minishell *mini, int exit_status)
 {
 	if (mini)
 		ft_free_t_minishell(mini);
-	exit(1);
+	exit(exit_status);
 }
 
 /**
