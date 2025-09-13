@@ -45,6 +45,7 @@ STRING_SRCS = \
 			ft_split.c \
 			ft_str_array_len.c \
 			ft_strchr.c \
+			ft_strcmp.c \
 			ft_strdup.c \
 			ft_striteri.c \
 			ft_strjoin.c \
