@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 21:27:43 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/02 17:09:19 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:18:24 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_clear_var(t_minishell *mini, char **str)
 
 	new = ft_calloc(ft_clear_len(*str) + 1, sizeof(char));
 	if (new == NULL)
-		ft_minishell_exit(mini);
+		ft_minishell_exit(mini, EXIT_FAILURE);
 	comma = 0;
 	i = 0;
 	j = 0;

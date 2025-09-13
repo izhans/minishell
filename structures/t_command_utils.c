@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_command_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:08:22 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/10 18:25:52 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:21:20 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_command	*ft_create_t_command(t_minishell *mini)
 
 	cmd = ft_calloc(sizeof(t_command), 1);
 	if (!cmd)
-		ft_minishell_exit(mini);
+		ft_minishell_exit(mini, EXIT_FAILURE);
 	return (cmd);
 }
 

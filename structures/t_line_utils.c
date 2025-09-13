@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:08:41 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/10 21:40:17 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:36:15 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ t_line	*ft_create_t_line(t_minishell *mini, char *str)
 
 	line = ft_calloc(sizeof(t_line), 1);
 	if (!line)
-		ft_minishell_exit(mini);
+		ft_minishell_exit(mini, EXIT_FAILURE);
 	line->line = ft_strdup(str);
 	if (!line->line)
-		ft_minishell_exit(mini);
+		ft_minishell_exit(mini, EXIT_FAILURE);
 	return (line);
 }
 

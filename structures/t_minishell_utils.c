@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:09:02 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/10 21:38:52 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/13 20:36:54 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ t_minishell	*ft_create_t_minishell(char *envp[])
 
 	mini = ft_calloc(sizeof(t_minishell), 1);
 	if (!mini)
-		ft_minishell_exit(NULL);
+		ft_minishell_exit(NULL, EXIT_FAILURE);
 	mini->envp = ft_str_array_to_str_lst(envp);
 	if (!mini->envp)
-		ft_minishell_exit(mini);
+		ft_minishell_exit(mini, EXIT_FAILURE);
 	return (mini);
 }
 
