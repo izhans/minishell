@@ -7,6 +7,7 @@ VPATH = /:src/:
 
 SRC	= 	exec/exec_utils.c \
 		exec/exec.c \
+		exec/pipeline.c \
 		expand/clear.c \
 		expand/env_utils.c \
 		expand/expand_clear.c \

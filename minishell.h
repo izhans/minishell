@@ -6,13 +6,14 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/13 20:27:46 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/18 17:35:19 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+extern void rl_replace_line (const char *, int); // TODO delete
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -39,6 +40,9 @@
 # define PIPE '|'
 # define ERROR_MSG_REDIRECTION "Invalid input: invalid redirection or filename for redirection\n"
 # define ERROR_MSG_PIPES "Invalid input: missing command.\n"
+
+# define READ_END STDIN_FILENO
+# define WRITE_END STDOUT_FILENO
 
 typedef struct s_line		t_line;
 typedef struct s_command	t_command;
@@ -134,6 +138,11 @@ int			ft_word_len(t_minishell *mini, char *str);
 void		ft_process(t_minishell *mini);
 char		*ft_get_cmd_executable(char **envp, t_command *cmd);
 bool		ft_is_built_in(t_command *cmd);
+// pipes
+void		ft_create_pipes(int (**pipes)[2], int n);
+void		ft_connect_pipes(int (*pipe_fd)[2], int i, int n);
+void		ft_close_pipes(int (*pipes)[2], int n);
+void		ft_free_pipes(int (*pipes)[2]);
 
 //Validator
 bool		ft_validate(t_minishell *mini, t_line *line);
