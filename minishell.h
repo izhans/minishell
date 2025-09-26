@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/13 20:58:21 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/26 13:59:29 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@
 # define DOUBLE_COMMA '"'
 # define PIPE '|'
 # define PROMPT "minishell> "
-# define WARNING_HD_EOF "Warning: here-doc delimited by EOF (CTRL-D)(wanted: '%s')"
-# define ERROR_MSG_REDIRECTION "Invalid input: invalid redirection or filename for redirection\n"
+# define WARNING_HD_EOF "Warning: here-doc delimited by EOF (CTRL-D)\
+(wanted: '%s')"
+# define ERROR_MSG_REDIRECTION "Invalid input: invalid redirection or \
+filename for redirection\n"
 # define ERROR_MSG_PIPES "Invalid input: missing command.\n"
 # define TMP_FILE_PREFIX "/tmp/sh-thd-"
 
@@ -142,7 +144,8 @@ bool		ft_is_built_in(t_command *cmd);
 bool		ft_validate(t_minishell *mini, t_line *line);
 
 //Heredoc
-void		ft_register_heredoc(t_minishell *mini, char **filename, bool expand);
+void		ft_register_heredoc(t_minishell *mini, char **filename,
+				bool expand);
 bool		ft_must_expand(char *str);
 
 #endif

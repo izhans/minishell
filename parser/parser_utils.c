@@ -6,13 +6,13 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:21:12 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/10 22:44:35 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/26 13:56:42 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static t_list *ft_list_create(char *line, int len, t_type_arg *type);
+static t_list	*ft_list_create(char *line, int len, t_type_arg *type);
 
 /**
  * @brief adds to the corresponding list of the t_command struct the word
@@ -48,7 +48,7 @@ t_list	*ft_add_to_list(t_command **cmd, char *line, int len, t_type_arg *type)
  * @param type pointer type of word (argument or redirection).
  * @return the t_list struct with needed information (str/t_redir pointer).
  */
-static t_list *ft_list_create(char *line, int len, t_type_arg *type)
+static t_list	*ft_list_create(char *line, int len, t_type_arg *type)
 {
 	char	*temp;
 	t_redir	*redir;
@@ -127,4 +127,3 @@ void	ft_comma_check(char *comma, char line_char)
 	else if (line_char == *comma)
 		*comma = 0;
 }
-

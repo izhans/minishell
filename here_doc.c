@@ -6,16 +6,22 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:41:51 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/13 21:18:40 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/26 14:26:14 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_register_heredoc(t_minishell *mini, char **filename, bool expand);
-bool	ft_must_expand(char *str);
 static char	*ft_get_tmp_name(t_minishell *mini, int i);
 
+/**
+ * @brief registers a heredoc, creating a file and reading the input from
+ * 			standard input and cleaning and expanding (expand only if
+ * 			heredoc filename doesnt have any double or simple quote).
+ * @param mini to call clear and expand functions.
+ * @param filename  pointer to the string holding the filename
+ * @param expand bool that shows wheter it must be expanded or not.
+ */
 void	ft_register_heredoc(t_minishell *mini, char **filename, bool expand)
 {
 	static int	i = 1;
@@ -45,6 +51,12 @@ void	ft_register_heredoc(t_minishell *mini, char **filename, bool expand)
 	*filename = name;
 }
 
+/**
+ * @brief checks whether a filename str must be expanded or not, checking
+ * 			if there is any double or simple quotes.
+ * @param str string to check quotes.
+ * @return false if there is any quote and it must not expand, true otherwise.
+ */
 bool	ft_must_expand(char *str)
 {
 	char	comma;
@@ -62,6 +74,13 @@ bool	ft_must_expand(char *str)
 	return (true);
 }
 
+/**
+ * @brief creates the name for the heredoc temporary file, adding the
+ * 			corresponding number.
+ * @param mini t_minishell struct to call exit in case of error.
+ * @param i number of heredoc.
+ * @returns malloc string with the name of the heredoc file.
+ */
 static char	*ft_get_tmp_name(t_minishell *mini, int i)
 {
 	char	*str;
