@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 01:08:21 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/13 20:51:09 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/11 14:07:32 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ static void	ft_run_built_in(t_command *cmd, int *exit_status)
  */
 static void	ft_exec_cmd(t_command *cmd, char **envp, int *exit_status)
 {
-	(void)exit_status;
 	char	**cmd_args_array;
 
 	cmd_args_array = ft_str_list_to_str_array(cmd->args);
