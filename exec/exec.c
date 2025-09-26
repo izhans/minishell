@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 01:08:21 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/26 13:27:52 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/26 15:29:33 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,18 @@ void	ft_process(t_minishell *mini)
 	if (mini->line->cmd_number == 1)
 		ft_process_one_cmd(mini, cmds->content);
 	else
+	{
+		mini->pids = malloc(sizeof(pid_t) * mini->line->cmd_number);
+		if (mini->pids == NULL)
+		{
+			perror(PERROR_MALLOC);
+			ft_minishell_exit(mini, EXIT_FAILURE);
+		}
+		ft_create_pipes(mini);
 		ft_process_pipeline(mini, cmds);
+		ft_close_pipes(mini);
+		ft_wait_pids(mini->pids, mini);
+	}
 }
 
 /**
@@ -64,28 +75,22 @@ static void	ft_process_one_cmd(t_minishell *mini, t_command *cmd)
 static void	ft_process_pipeline(t_minishell *mini, t_list *cmds)
 {
 	t_command	*cmd;
-	pid_t		*pids;
-	int			(*pipes)[2];
 	int			i;
 
-	pipes = NULL;
-	pids = malloc(sizeof(pid_t) * mini->line->cmd_number);//TODO error
-	ft_create_pipes(mini, &pipes, mini->line->cmd_number);
 	i = 0;
 	while (cmds)
 	{
-		// TODO redirections
 		cmd = cmds->content;
-		pids[i] = fork();
-		if (pids[i] == FORK_ERROR)
+		mini->pids[i] = fork();
+		if (mini->pids[i] == FORK_ERROR)
 		{
 			perror(PERROR_FORK);
 			mini->exit_status = EXIT_FAILURE;
 		}
-		else if (pids[i] == FORK_CHILD)
+		else if (mini->pids[i] == FORK_CHILD)
 		{
-			ft_connect_pipes(pipes, i, mini->line->cmd_number);
-			ft_close_pipes(pipes, mini->line->cmd_number);
+			ft_connect_pipes_and_redirections(mini, i);
+			ft_close_pipes(mini);
 			if (ft_is_built_in(cmd))
 				ft_run_built_in(mini, cmd);
 			else
@@ -94,11 +99,6 @@ static void	ft_process_pipeline(t_minishell *mini, t_list *cmds)
 		cmds = cmds->next;
 		i++;
 	}
-	
-	ft_close_pipes(pipes, mini->line->cmd_number);
-	ft_wait_pids(pids, mini);
-	ft_free_pipes(pipes, mini->line->cmd_number);
-	free(pids);
 }
 
 /**
@@ -138,6 +138,5 @@ static void	ft_exec_cmd(t_minishell *mini, t_command *cmd)
 		exit_status = EX_CANNOT_INVOKE_CMD;
 	}
 	ft_free_str_array(cmd_args_array);
-	ft_free_t_minishell(mini);
-	exit(exit_status);
+	ft_minishell_exit(mini, exit_status);
 }

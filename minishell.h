@@ -6,14 +6,13 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/26 11:24:54 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/26 16:54:03 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-extern void rl_replace_line (const char *, int); // TODO delete
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -49,6 +48,7 @@ extern void rl_replace_line (const char *, int); // TODO delete
 # define WRITE_END STDOUT_FILENO
 # define FORK_CHILD 0
 # define FORK_ERROR -1
+# define DUP2_ERROR -1
 # define EX_CANNOT_INVOKE_CMD 126
 # define EX_CMD_NOT_FOUND 127
 
@@ -80,6 +80,8 @@ typedef struct s_minishell
 	int		exit_status; // last exit status
 	t_line	*line;
 	char	**envp_array;
+	pid_t	*pids;
+	int		(*pipes)[2];
 }	t_minishell;
 
 typedef struct s_line
@@ -106,6 +108,7 @@ typedef struct s_redir // is contained into a t_list
 //Struct t_minishell
 t_minishell	*ft_create_t_minishell(char *envp[]);
 void		ft_free_t_minishell(t_minishell *mini);
+void		ft_free_t_minishell_execution(t_minishell *mini);
 t_list		*ft_str_array_to_str_lst(char *envp[]);
 char		**ft_str_list_to_str_array(t_list *list);
 
@@ -149,10 +152,9 @@ char		*ft_get_cmd_executable(char **envp, t_command *cmd);
 bool		ft_is_built_in(t_command *cmd);
 void		ft_wait_pids(pid_t *pids, t_minishell *mini);
 // pipes
-void		ft_create_pipes(t_minishell *mini, int (**pipes)[2], int n);
-void		ft_connect_pipes(int (*pipe_fd)[2], int i, int n);
-void		ft_close_pipes(int (*pipes)[2], int n);
-void		ft_free_pipes(int (*pipes)[2], int n);
+void		ft_create_pipes(t_minishell *mini);
+void		ft_connect_pipes_and_redirections(t_minishell *mini, int i);
+void		ft_close_pipes(t_minishell *mini);
 
 //Validator
 bool		ft_validate(t_minishell *mini, t_line *line);
