@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:09:02 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/13 20:22:05 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/24 09:29:04 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,11 @@ void	ft_free_t_minishell(t_minishell *mini)
 		{
 			ft_free_line(mini->line);
 			mini->line = NULL;
+		}
+		if (mini->envp_array)
+		{
+			ft_free_str_array(mini->envp_array);
+			mini->envp_array = NULL;
 		}
 		free(mini);
 		mini = NULL;

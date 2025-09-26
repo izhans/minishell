@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/18 17:35:19 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/26 11:24:54 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,17 @@ extern void rl_replace_line (const char *, int); // TODO delete
 # define PIPE '|'
 # define ERROR_MSG_REDIRECTION "Invalid input: invalid redirection or filename for redirection\n"
 # define ERROR_MSG_PIPES "Invalid input: missing command.\n"
+# define PERROR_MALLOC "Error malloc: "
+# define PERROR_DUP2 "Error dup2: "
+# define PERROR_PIPE "Error pipe: "
+# define PERROR_FORK "Error fork: "
 
 # define READ_END STDIN_FILENO
 # define WRITE_END STDOUT_FILENO
+# define FORK_CHILD 0
+# define FORK_ERROR -1
+# define EX_CANNOT_INVOKE_CMD 126
+# define EX_CMD_NOT_FOUND 127
 
 typedef struct s_line		t_line;
 typedef struct s_command	t_command;
@@ -71,6 +79,7 @@ typedef struct s_minishell
 	t_list	*envp;
 	int		exit_status; // last exit status
 	t_line	*line;
+	char	**envp_array;
 }	t_minishell;
 
 typedef struct s_line
@@ -138,11 +147,12 @@ int			ft_word_len(t_minishell *mini, char *str);
 void		ft_process(t_minishell *mini);
 char		*ft_get_cmd_executable(char **envp, t_command *cmd);
 bool		ft_is_built_in(t_command *cmd);
+void		ft_wait_pids(pid_t *pids, t_minishell *mini);
 // pipes
-void		ft_create_pipes(int (**pipes)[2], int n);
+void		ft_create_pipes(t_minishell *mini, int (**pipes)[2], int n);
 void		ft_connect_pipes(int (*pipe_fd)[2], int i, int n);
 void		ft_close_pipes(int (*pipes)[2], int n);
-void		ft_free_pipes(int (*pipes)[2]);
+void		ft_free_pipes(int (*pipes)[2], int n);
 
 //Validator
 bool		ft_validate(t_minishell *mini, t_line *line);
