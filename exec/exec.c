@@ -6,127 +6,137 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 01:08:21 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/11 14:07:32 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/26 15:29:33 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	ft_process_one_cmd(t_command *cmd, char **envp, int *exit_status);
-static void	ft_process_pipeline(t_list *cmds, char **envp, int *exit_status);
-static void	ft_run_built_in(t_command *cmd, int *exit_status);
-static void	ft_exec_cmd(t_command *cmd, char **envp, int *exit_status);
+static void	ft_process_one_cmd(t_minishell *mini, t_command *cmd);
+static void	ft_process_pipeline(t_minishell *mini, t_list *cmds);
+static void	ft_run_built_in(t_minishell *mini, t_command *cmd);
+static void	ft_exec_cmd(t_minishell *mini, t_command *cmd);
 
 /**
  * @brief evaluates and chooses the one cmd or the pipeline flow
  * @param mini current execution data
- * @param cmds list of the cmds to execute
  */
 void	ft_process(t_minishell *mini)
 {
-	char		**envp;
 	t_list		*cmds;
 
 	cmds = mini->line->cmds;
-	envp = ft_str_list_to_str_array(mini->envp); // update envp
+	mini->envp_array = ft_str_list_to_str_array(mini->envp);
 	if (mini->line->cmd_number == 1)
-		ft_process_one_cmd(cmds->content, envp, &(mini->exit_status));
+		ft_process_one_cmd(mini, cmds->content);
 	else
-		ft_process_pipeline(cmds, envp, &(mini->exit_status));
-	ft_free_str_array(envp);
-}
-
-/**
- * @brief chooses how to execute the cmd depending if its a built-in or not
- * @param cmd the cmd to execute
- * @param envp the envp (for execve)
- * @param exit_status a pointer to the exit status code
- */
-static void	ft_process_one_cmd(t_command *cmd, char **envp, int *exit_status)
-{
-	pid_t	pid;
-
-	if (ft_is_built_in(cmd))
-		return ft_run_built_in(cmd, exit_status);
-	pid = fork();
-	if (pid < 0) // error
-		*exit_status = EX_OSERR;
-	else if (pid == 0) // child
-		ft_exec_cmd(cmd, envp, exit_status);
-	else // parent
 	{
-		waitpid(pid, exit_status, 0);
-		if (WIFEXITED(*exit_status))
-			*exit_status = WEXITSTATUS(*exit_status); // transform the exit status code
+		mini->pids = malloc(sizeof(pid_t) * mini->line->cmd_number);
+		if (mini->pids == NULL)
+		{
+			perror(PERROR_MALLOC);
+			ft_minishell_exit(mini, EXIT_FAILURE);
+		}
+		ft_create_pipes(mini);
+		ft_process_pipeline(mini, cmds);
+		ft_close_pipes(mini);
+		ft_wait_pids(mini->pids, mini);
 	}
 }
 
 /**
- * @brief processes a cmd pipeline
- * @param cmds a list with all the cmds at the pipeline
- * @param envp the envp (for execve)
- * @param exit_status a pointer to the exit status code
+ * @brief chooses how to execute the cmd depending if its a built-in or not
+ * @param mini current execution data
+ * @param cmd the cmd to execute
  */
-static void	ft_process_pipeline(t_list *cmds, char **envp, int *exit_status)
+static void	ft_process_one_cmd(t_minishell *mini, t_command *cmd)
+{
+	pid_t	pid;
+
+	if (ft_is_built_in(cmd))
+		return (ft_run_built_in(mini, cmd));
+	pid = fork();
+	if (pid == FORK_ERROR)
+	{
+		perror(PERROR_FORK);
+		mini->exit_status = EXIT_FAILURE;
+	}
+	else if (pid == FORK_CHILD)
+		ft_exec_cmd(mini, cmd);
+	else
+		ft_wait_pids(&pid, mini);
+}
+
+/**
+ * @brief processes a cmd pipeline
+ * @param mini current execution data
+ * @param cmds a list with all the cmds at the pipeline
+ */
+static void	ft_process_pipeline(t_minishell *mini, t_list *cmds)
 {
 	t_command	*cmd;
-	pid_t		pid;
+	int			i;
 
+	i = 0;
 	while (cmds)
 	{
-		// TODO pipes + redirections
 		cmd = cmds->content;
-		pid = fork();
-		if (pid < 0) // error
-			*exit_status = EX_OSERR;
-		else if (pid == 0) // child
+		mini->pids[i] = fork();
+		if (mini->pids[i] == FORK_ERROR)
 		{
-			// check built-in
-			if (ft_is_built_in(cmd)) // true
-				ft_run_built_in(cmd, exit_status); // call built-in
-			else // false
-				ft_exec_cmd(cmd, envp, exit_status); // exec cmd
+			perror(PERROR_FORK);
+			mini->exit_status = EXIT_FAILURE;
 		}
-		else // parent
+		else if (mini->pids[i] == FORK_CHILD)
 		{
-			waitpid(pid, exit_status, 0);
-			if (WIFEXITED(*exit_status))
-				*exit_status = WEXITSTATUS(*exit_status); // transform the exit status code
+			ft_connect_pipes_and_redirections(mini, i);
+			ft_close_pipes(mini);
+			if (ft_is_built_in(cmd))
+				ft_run_built_in(mini, cmd);
+			else
+				ft_exec_cmd(mini, cmd);
 		}
-		cmds = cmds->next; // next cmd
+		cmds = cmds->next;
+		i++;
 	}
 }
 
 /**
  * @brief TODO: redirects a built-in to its own function execution
+ * @param mini current execution data
  * @param cmd the built-in cmd data
- * @param exit_status a pointer to the exit status code
  */
-static void	ft_run_built_in(t_command *cmd, int *exit_status)
+static void	ft_run_built_in(t_minishell *mini, t_command *cmd)
 {
-	(void) exit_status;
+	(void) mini;
 	// TODO pseudo-switch with built-in options
 	printf("running built-in %s\n", (char *) cmd->args->content);
 }
 
 /**
  * @brief execs one cmd and updates the exit status code
+ * @param mini current execution data
  * @param cmd the cmd to execute
- * @param envp the envp (for execve)
- * @param exit_status a pointer to the exit status code
  */
-static void	ft_exec_cmd(t_command *cmd, char **envp, int *exit_status)
+static void	ft_exec_cmd(t_minishell *mini, t_command *cmd)
 {
+	int		exit_status;
 	char	**cmd_args_array;
 
 	cmd_args_array = ft_str_list_to_str_array(cmd->args);
-	// TODO check ft_str_list_to_str_array error
-
-	cmd->path = ft_get_cmd_executable(envp, cmd); // search path
+	if (cmd_args_array == NULL)
+	{
+		perror(PERROR_MALLOC);
+		ft_minishell_exit(mini, EXIT_FAILURE);
+	}
+	cmd->path = ft_get_cmd_executable(mini->envp_array, cmd);
 	if (cmd->path == NULL)
-		exit(127); // cmd not found // TODO free all before exit
-	execve(cmd->path, cmd_args_array, envp);
-	exit(126); // cmd invoked cannot execute // TODO free all before exit
-	
+		exit_status = EX_CMD_NOT_FOUND;
+	else
+	{
+		execve(cmd->path, cmd_args_array, mini->envp_array);
+		exit_status = EX_CANNOT_INVOKE_CMD;
+	}
 	ft_free_str_array(cmd_args_array);
+	ft_minishell_exit(mini, exit_status);
 }
