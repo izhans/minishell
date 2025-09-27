@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/26 13:59:29 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/27 17:14:44 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,18 @@
 # define ERROR_MSG_REDIRECTION "Invalid input: invalid redirection or \
 filename for redirection\n"
 # define ERROR_MSG_PIPES "Invalid input: missing command.\n"
+# define PERROR_MALLOC "Error malloc: "
+# define PERROR_DUP2 "Error dup2: "
+# define PERROR_PIPE "Error pipe: "
+# define PERROR_FORK "Error fork: "
+
+# define READ_END STDIN_FILENO
+# define WRITE_END STDOUT_FILENO
+# define FORK_CHILD 0
+# define FORK_ERROR -1
+# define DUP2_ERROR -1
+# define EX_CANNOT_INVOKE_CMD 126
+# define EX_CMD_NOT_FOUND 127
 # define TMP_FILE_PREFIX "/tmp/sh-thd-"
 
 typedef struct s_line		t_line;
@@ -72,6 +84,9 @@ typedef struct s_minishell
 	t_list	*envp;
 	int		exit_status; // last exit status
 	t_line	*line;
+	char	**envp_array;
+	pid_t	*pids;
+	int		(*pipes)[2];
 }	t_minishell;
 
 typedef struct s_line
@@ -98,6 +113,7 @@ typedef struct s_redir // is contained into a t_list
 //Struct t_minishell
 t_minishell	*ft_create_t_minishell(char *envp[]);
 void		ft_free_t_minishell(t_minishell *mini);
+void		ft_free_t_minishell_execution(t_minishell *mini);
 t_list		*ft_str_array_to_str_lst(char *envp[]);
 char		**ft_str_list_to_str_array(t_list *list);
 
@@ -139,6 +155,11 @@ int			ft_word_len(t_minishell *mini, char *str);
 void		ft_process(t_minishell *mini);
 char		*ft_get_cmd_executable(char **envp, t_command *cmd);
 bool		ft_is_built_in(t_command *cmd);
+void		ft_wait_pids(pid_t *pids, t_minishell *mini);
+// pipes
+void		ft_create_pipes(t_minishell *mini);
+void		ft_connect_pipes_and_redirections(t_minishell *mini, int i);
+void		ft_close_pipes(t_minishell *mini);
 
 //Validator
 bool		ft_validate(t_minishell *mini, t_line *line);

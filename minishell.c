@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 21:24:39 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/26 14:18:29 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/09/27 17:13:41 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int main(int argc, char *argv[], char *envp[])
             ft_process(mini);
         if (mini->line->line[0] != 0)
             add_history(mini->line->line);
-        ft_free_line(mini->line);
-        mini->line = NULL;
+	    
+        ft_free_t_minishell_execution(mini);
 	}
     ft_free_t_minishell(mini);
 }

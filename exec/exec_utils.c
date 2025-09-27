@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 19:20:23 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/11 14:18:28 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/26 13:28:35 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,23 @@ bool	ft_is_built_in(t_command *cmd)
 		i++;
 	}
 	return (false);
+}
+
+/**
+ * @brief wait for all the processes with the pids and
+ */
+void	ft_wait_pids(pid_t *pids, t_minishell *mini)
+{
+	int	i;
+
+	i = 0;
+	while (i < mini->line->cmd_number)
+	{
+		waitpid(pids[i], &mini->exit_status, 0);
+		if (WIFEXITED(mini->exit_status))
+			mini->exit_status = WEXITSTATUS(mini->exit_status);
+		else if (WIFSIGNALED(mini->exit_status))
+			mini->exit_status = 128 + WTERMSIG(mini->exit_status);
+		i++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:09:02 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/13 20:22:05 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/26 16:34:40 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,17 +92,43 @@ void	ft_free_t_minishell(t_minishell *mini)
 {
 	if (mini)
 	{
+		ft_free_t_minishell_execution(mini);
 		if (mini->envp)
 		{
 			ft_lstclear(&(mini->envp), &free);
 			mini->envp = NULL;
 		}
-		if (mini->line)
-		{
-			ft_free_line(mini->line);
-			mini->line = NULL;
-		}
 		free(mini);
 		mini = NULL;
+	}
+}
+
+/**
+ * @brief frees the allocated t_minishell data during execution
+ * @param mini struct t_minishell to free
+ */
+void	ft_free_t_minishell_execution(t_minishell *mini)
+{
+	if (!mini)
+		return ;
+	if (mini->pipes)
+	{
+		free(mini->pipes);
+		mini->pipes = NULL;
+	}
+	if (mini->line)
+	{
+		ft_free_line(mini->line);
+		mini->line = NULL;
+	}
+	if (mini->envp_array)
+	{
+		ft_free_str_array(mini->envp_array);
+		mini->envp_array = NULL;
+	}
+	if (mini->pids)
+	{
+		free(mini->pids);
+		mini->pids = NULL;
 	}
 }
