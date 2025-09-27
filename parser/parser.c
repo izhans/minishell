@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:07:48 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/13 20:21:00 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/26 14:27:43 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ static bool	ft_args_parser(char *line, t_command **cmd)
 	{
 		if (ft_word_recognition(&line[start], &comma, i - start)
 			&& !ft_add_to_list(cmd, &line[start], i - start, &type))
-				return (false);
+			return (false);
 		ft_next_checker(&type, comma, line[i]);
 		if ((ft_isspace(line[i]) || ft_is_redir(line[i])) && comma == 0)
 			start = i + 1;

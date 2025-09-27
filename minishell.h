@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/26 16:54:03 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/27 17:14:44 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@
 # define SIMPLE_COMMA '\''
 # define DOUBLE_COMMA '"'
 # define PIPE '|'
-# define ERROR_MSG_REDIRECTION "Invalid input: invalid redirection or filename for redirection\n"
+# define PROMPT "minishell> "
+# define WARNING_HD_EOF "Warning: here-doc delimited by EOF (CTRL-D)\
+(wanted: '%s')"
+# define ERROR_MSG_REDIRECTION "Invalid input: invalid redirection or \
+filename for redirection\n"
 # define ERROR_MSG_PIPES "Invalid input: missing command.\n"
 # define PERROR_MALLOC "Error malloc: "
 # define PERROR_DUP2 "Error dup2: "
@@ -51,6 +55,7 @@
 # define DUP2_ERROR -1
 # define EX_CANNOT_INVOKE_CMD 126
 # define EX_CMD_NOT_FOUND 127
+# define TMP_FILE_PREFIX "/tmp/sh-thd-"
 
 typedef struct s_line		t_line;
 typedef struct s_command	t_command;
@@ -158,5 +163,10 @@ void		ft_close_pipes(t_minishell *mini);
 
 //Validator
 bool		ft_validate(t_minishell *mini, t_line *line);
+
+//Heredoc
+void		ft_register_heredoc(t_minishell *mini, char **filename,
+				bool expand);
+bool		ft_must_expand(char *str);
 
 #endif

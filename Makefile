@@ -20,6 +20,7 @@ SRC	= 	exec/exec_utils.c \
 		structures/t_redir_utils.c \
 		minishell.c \
 		utils.c \
+		here_doc.c \
 		validator.c
 
 OBJ_DIR = objects
