@@ -5,7 +5,8 @@ CFLAGS = -Wall -Wextra -Werror -g3
 
 VPATH = /:src/:
 
-SRC	= 	exec/exec_utils.c \
+SRC	= 	built-ins/ft_env.c \
+		exec/exec_utils.c \
 		exec/exec.c \
 		exec/pipeline.c \
 		expand/clear.c \

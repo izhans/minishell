@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/27 17:14:44 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:50:22 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,14 @@ filename for redirection\n"
 # define EX_CANNOT_INVOKE_CMD 126
 # define EX_CMD_NOT_FOUND 127
 # define TMP_FILE_PREFIX "/tmp/sh-thd-"
+
+# define CMD_ECHO "echo"
+# define CMD_CD "cd"
+# define CMD_PWD "pwd"
+# define CMD_EXPORT "export"
+# define CMD_UNSET "unset"
+# define CMD_ENV "env"
+# define CMD_EXIT "exit"
 
 typedef struct s_line		t_line;
 typedef struct s_command	t_command;
@@ -168,5 +176,8 @@ bool		ft_validate(t_minishell *mini, t_line *line);
 void		ft_register_heredoc(t_minishell *mini, char **filename,
 				bool expand);
 bool		ft_must_expand(char *str);
+
+// built-ins
+void		ft_env(t_minishell *mini);
 
 #endif
