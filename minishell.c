@@ -6,66 +6,65 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 21:24:39 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/02 13:10:57 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:21:18 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    signal_setup();
+void	signal_setup(void);
 
-volatile sig_atomic_t sig_num = 0;
+volatile sig_atomic_t	g_sig_num = 0;
 
 /**
  * @brief signal handler function point of entry.
  * @param signal number of signal.
  */
-void    signal_handler(int signal)
+void	signal_handler(int signal)
 {
-    sig_num = signal;
-    if (sig_num == SIGINT)
-    {
+	g_sig_num = signal;
+	if (g_sig_num == SIGINT)
+	{
 		ft_putstr_fd("\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-    }
+	}
 }
 
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
-	(void)argc;
-	(void)argv;
-	t_minishell *mini;
+	t_minishell	*mini;
 	char		*str;
 
+	(void)argc;
+	(void)argv;
 	mini = ft_create_t_minishell(envp);
-    signal_setup();
+	signal_setup();
 	while (true)
 	{
-        str = readline(PROMPT);
-        if (str == NULL)
-            break ;
+		str = readline(PROMPT);
+		if (str == NULL)
+			break ;
 		mini->line = ft_parser(mini, str);
-        ft_expand_clear(mini, &mini->line);
-        if (!ft_is_empty(mini->line->line) && ft_validate(mini, mini->line))
-            ft_process(mini);
-        if (mini->line->line[0] != 0)
-            add_history(mini->line->line);
-	    
-        ft_free_t_minishell_execution(mini);
+		if (ft_expand_clear(mini, &mini->line)
+			&& !ft_is_empty(mini->line->line) && ft_validate(mini, mini->line))
+			ft_process(mini);
+		if (mini->line->line[0] != 0)
+			add_history(mini->line->line);
+		ft_free_t_minishell_execution(mini);
 	}
-    ft_free_t_minishell(mini);
+	ft_free_t_minishell(mini);
 }
 
 /**
  * @brief sets up all signals to catch or ignore.
  */
-void    signal_setup()
+void	signal_setup(void)
 {
-    if (isatty(0))
-    {
-        signal(SIGINT, signal_handler);
-        signal(SIGQUIT, SIG_IGN);
-    }
+	if (isatty(0))
+	{
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, SIG_IGN);
+	}
 }

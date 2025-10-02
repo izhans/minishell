@@ -6,11 +6,14 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 17:36:05 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/26 14:29:10 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:13:12 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	ft_expand_args(t_minishell *mini, t_list *lst_arg);
+static bool	ft_expand_redir(t_minishell *mini, t_list *lst_redir);
 
 /**
  * @brief expands and clears a specific variable, argument or redirection.
@@ -22,7 +25,7 @@
  * @details HEREDOC must not be cleared in order to differentiate "HERE" 
  * 			and HERE.
  */
-void	ft_expand_clear_var(t_minishell *mini, void *content, bool is_arg)
+bool	ft_expand_clear_var(t_minishell *mini, void *content, bool is_arg)
 {
 	char	**str;
 
@@ -37,9 +40,11 @@ void	ft_expand_clear_var(t_minishell *mini, void *content, bool is_arg)
 	}
 	else if (((t_redir *)content)->type == HERE_DOC)
 	{
-		ft_register_heredoc(mini, &((t_redir *)content)->filename,
-			ft_must_expand(((t_redir *)content)->filename));
+		if (ft_register_heredoc(mini, &((t_redir *)content)->filename,
+				ft_must_expand(((t_redir *)content)->filename)) == false)
+			return (false);
 	}
+	return (true);
 }
 
 /**
@@ -48,30 +53,41 @@ void	ft_expand_clear_var(t_minishell *mini, void *content, bool is_arg)
  * @param mini t_minishell struct to exit in case of error, needed for expansion.
  * @param line pointer to t_line struct in order to change its contents.
  */
-void	ft_expand_clear(t_minishell *mini, t_line **line)
+bool	ft_expand_clear(t_minishell *mini, t_line **line)
 {
 	t_list	*cmd;
-	t_list	*lst_arg;
-	t_list	*lst_redir;
-	t_redir	*redir;
 
 	cmd = (*line)->cmds;
 	while (cmd)
 	{
-		lst_arg = ((t_command *)cmd->content)->args;
-		while (lst_arg)
-		{
-			ft_expand_clear_var(mini,
-				(char **)(&lst_arg->content), true);
-			lst_arg = lst_arg->next;
-		}
-		lst_redir = ((t_command *)cmd->content)->redir;
-		while (lst_redir)
-		{
-			redir = lst_redir->content;
-			ft_expand_clear_var(mini, redir, false);
-			lst_redir = lst_redir->next;
-		}
+		ft_expand_args(mini, ((t_command *)cmd->content)->args);
+		if (ft_expand_redir(mini, ((t_command *)cmd->content)->redir) == false)
+			return (false);
 		cmd = cmd->next;
 	}
+	return (true);
+}
+
+static void	ft_expand_args(t_minishell *mini, t_list *lst_arg)
+{
+	while (lst_arg)
+	{
+		ft_expand_clear_var(mini,
+			(char **)(&lst_arg->content), true);
+		lst_arg = lst_arg->next;
+	}
+}
+
+static bool	ft_expand_redir(t_minishell *mini, t_list *lst_redir)
+{
+	t_redir	*redir;
+
+	while (lst_redir)
+	{
+		redir = lst_redir->content;
+		if (ft_expand_clear_var(mini, redir, false) == false)
+			return (false);
+		lst_redir = lst_redir->next;
+	}
+	return (true);
 }

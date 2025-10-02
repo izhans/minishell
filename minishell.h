@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/02 13:09:45 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:41:41 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,15 @@
 # define PIPE '|'
 # define PROMPT "minishell> "
 # define WARNING_HD_EOF "Warning: here-doc delimited by EOF (CTRL-D)\
-(wanted: '%s')"
+(wanted: '%s')\n"
 # define ERROR_MSG_REDIRECTION "Invalid input: invalid redirection or \
 filename for redirection\n"
 # define ERROR_MSG_PIPES "Invalid input: missing command.\n"
-# define PERROR_MALLOC "Error malloc: "
-# define PERROR_DUP2 "Error dup2: "
-# define PERROR_PIPE "Error pipe: "
-# define PERROR_FORK "Error fork: "
+# define PERROR_MALLOC "Error malloc"
+# define PERROR_DUP2 "Error dup2"
+# define PERROR_PIPE "Error pipe"
+# define PERROR_FORK "Error fork"
+# define PERROR_OPEN "Error open"
 
 # define READ_END STDIN_FILENO
 # define WRITE_END STDOUT_FILENO
@@ -58,9 +59,10 @@ filename for redirection\n"
 # define TMP_FILE_PREFIX "/tmp/sh-thd-"
 # define TMP_FILE_PREFIX "/tmp/sh-thd-"
 
-typedef struct s_line		t_line;
-typedef struct s_command	t_command;
-typedef struct s_redir		t_redir;
+extern volatile sig_atomic_t	g_sig_num;
+typedef struct s_line			t_line;
+typedef struct s_command		t_command;
+typedef struct s_redir			t_redir;
 
 typedef enum e_redir_type
 {
@@ -143,8 +145,8 @@ void		ft_comma_check(char *comma, char line_char);
 bool		ft_is_redir(int c);
 
 //Expand and clear
-void		ft_expand_clear(t_minishell *mini, t_line **line);
-void		ft_expand_clear_var(t_minishell *mini, void *content, bool is_arg);
+bool		ft_expand_clear(t_minishell *mini, t_line **line);
+bool		ft_expand_clear_var(t_minishell *mini, void *content, bool is_arg);
 char		*ft_expand_var(t_minishell *mini, char **str, bool is_heredoc);
 char		*ft_clear_var(t_minishell *mini, char **str);
 
@@ -159,15 +161,24 @@ bool		ft_is_built_in(t_command *cmd);
 void		ft_wait_pids(pid_t *pids, t_minishell *mini);
 // pipes
 void		ft_create_pipes(t_minishell *mini);
-void		ft_connect_pipes_and_redirections(t_minishell *mini, int i);
+void		ft_connect_pipes_and_redirections(t_minishell *mini,
+				t_command *cmd, int i);
 void		ft_close_pipes(t_minishell *mini);
 
 //Validator
 bool		ft_validate(t_minishell *mini, t_line *line);
 
 //Heredoc
-void		ft_register_heredoc(t_minishell *mini, char **filename,
+bool		ft_register_heredoc(t_minishell *mini, char **filename,
 				bool expand);
 bool		ft_must_expand(char *str);
 
+//Redirections
+bool		ft_equals_type(bool input, t_redir_type type);
+int			ft_open_options(t_redir_type type);
+void		ft_dup2_redir(t_minishell *mini, t_command *cmd, bool input);
+bool		ft_cmd_has_redirection(t_command *cmd, bool input);
+
+//Signal handler
+void		signal_handler(int signal);
 #endif
