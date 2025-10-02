@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:52:01 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/02 14:59:33 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/02 18:57:41 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,10 @@ static int	ft_transform_exit_status(char *n);
  * exits with the specified exit_status
  * exits with the last exit_status if no exit_status is passed
  */
-void	ft_exit(t_minishell *mini)
+void	ft_exit(t_minishell *mini, t_command *cmd)
 {
-	t_command	*cmd;
 	int			exit_status;
 
-	cmd = mini->line->cmds->content;
 	exit_status = mini->exit_status;
 	if (ft_lstsize(cmd->args) > 2)
 	{

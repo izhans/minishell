@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/02 18:21:00 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/02 18:57:33 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,9 +180,9 @@ void		ft_register_heredoc(t_minishell *mini, char **filename,
 bool		ft_must_expand(char *str);
 
 // built-ins
-void		ft_env(t_minishell *mini);
-void		ft_exit(t_minishell *mini);
-void		ft_pwd(t_minishell *mini);
 void		ft_echo(t_minishell *mini, t_command *cmd);
+void		ft_env(t_minishell *mini);
+void		ft_exit(t_minishell *mini, t_command *cmd);
+void		ft_pwd(t_minishell *mini);
 
 #endif
