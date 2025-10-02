@@ -9,6 +9,7 @@ SRC	= 	\
 		built-ins/ft_echo.c \
 		built-ins/ft_env.c \
 		built-ins/ft_exit.c \
+		built-ins/ft_export.c \
 		built-ins/ft_pwd.c \
 		exec/exec_utils.c \
 		exec/exec.c \

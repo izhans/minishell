@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/02 18:57:33 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:48:39 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ filename for redirection\n"
 # define EX_CMD_NOT_FOUND 127
 # define MAX_EXIT_STATUS 255
 # define TMP_FILE_PREFIX "/tmp/sh-thd-"
+# define EXPORT_PRINT_PREFIX "declare -x"
 
 # define CMD_ECHO "echo"
 # define CMD_CD "cd"
@@ -158,7 +159,7 @@ char		*ft_expand_var(t_minishell *mini, char **str, bool is_heredoc);
 char		*ft_clear_var(t_minishell *mini, char **str);
 
 //Env utils
-char		*ft_word(t_minishell *mini, char *str);
+char		*ft_get_env_var_content(t_minishell *mini, char *str);
 int			ft_word_name_len(char *str);
 int			ft_word_len(t_minishell *mini, char *str);
 // exec + exec utils
@@ -183,6 +184,7 @@ bool		ft_must_expand(char *str);
 void		ft_echo(t_minishell *mini, t_command *cmd);
 void		ft_env(t_minishell *mini);
 void		ft_exit(t_minishell *mini, t_command *cmd);
+void		ft_export(t_minishell *mini, t_command *cmd);
 void		ft_pwd(t_minishell *mini);
 
 #endif
