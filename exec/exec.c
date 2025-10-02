@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 01:08:21 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/02 15:02:50 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/02 18:21:06 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,7 @@ static void	ft_run_built_in(t_minishell *mini, t_command *cmd)
 	// TODO pseudo-switch with built-in options
 	printf("running built-in %s\n", cmd_name);
 	if (ft_equals(CMD_ECHO, cmd_name))
-	{
-		// TODO
-	}
+		ft_echo(mini, cmd);
 	else if (ft_equals(CMD_CD, cmd_name))
 	{
 		// TODO
