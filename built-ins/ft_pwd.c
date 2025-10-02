@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/30 15:29:37 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/02 14:59:51 by isastre-         ###   ########.fr       */
+/*   Created: 2025/10/02 14:53:05 by isastre-          #+#    #+#             */
+/*   Updated: 2025/10/02 15:02:21 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_env(t_minishell *mini)
+void	ft_pwd(t_minishell *mini)
 {
-	t_list	*current;
+	char	*pwd;
 
-	current = mini->envp;
-	while (current)
-	{
-		ft_putendl(current->content);
-		current = current->next;
-	}
+	pwd = getcwd(NULL, 0);
+	ft_putendl(pwd);
 	mini->exit_status = 0;
 }

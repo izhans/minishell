@@ -6,13 +6,13 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:52:01 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/02 13:18:35 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:59:33 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static	int ft_transform_exit_status(char *n);
+static int	ft_transform_exit_status(char *n);
 
 /**
  * @brief exit built-in
@@ -36,7 +36,7 @@ void	ft_exit(t_minishell *mini)
 	ft_minishell_exit(mini, exit_status);
 }
 
-static	int ft_transform_exit_status(char *n)
+static int	ft_transform_exit_status(char *n)
 {
 	int	i;
 

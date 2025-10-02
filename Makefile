@@ -7,6 +7,7 @@ VPATH = /:src/:
 
 SRC	= 	built-ins/ft_env.c \
 		built-ins/ft_exit.c \
+		built-ins/ft_pwd.c \
 		exec/exec_utils.c \
 		exec/exec.c \
 		exec/pipeline.c \
