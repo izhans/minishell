@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 01:08:21 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/30 16:03:58 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:53:01 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,9 +136,7 @@ static void	ft_run_built_in(t_minishell *mini, t_command *cmd)
 	else if (ft_equals(CMD_ENV, cmd_name))
 		ft_env(mini);
 	else if (ft_equals(CMD_EXIT, cmd_name))
-	{
-		// TODO
-	}
+		ft_exit(mini);
 }
 
 /**
