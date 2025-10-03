@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/03 13:45:46 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/04 01:22:17 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ filename for redirection\n"
 # define PERROR_PIPE "Error pipe"
 # define PERROR_FORK "Error fork"
 # define PERROR_OPEN "Error open"
+# define BUILTIN_ERROR_ARGS_EXIT "minishell: exit: too many arguments\n"
 
 # define READ_END STDIN_FILENO
 # define WRITE_END STDOUT_FILENO
@@ -56,7 +57,17 @@ filename for redirection\n"
 # define DUP2_ERROR -1
 # define EX_CANNOT_INVOKE_CMD 126
 # define EX_CMD_NOT_FOUND 127
+# define MAX_EXIT_STATUS 255
 # define TMP_FILE_PREFIX "/tmp/sh-thd-"
+# define EXPORT_PRINT_PREFIX "declare -x"
+
+# define CMD_ECHO "echo"
+# define CMD_CD "cd"
+# define CMD_PWD "pwd"
+# define CMD_EXPORT "export"
+# define CMD_UNSET "unset"
+# define CMD_ENV "env"
+# define CMD_EXIT "exit"
 
 extern volatile sig_atomic_t	g_sig_num;
 typedef struct s_line			t_line;
@@ -151,7 +162,7 @@ char		*ft_expand_var(t_minishell *mini, char **str, bool is_heredoc);
 char		*ft_clear_var(t_minishell *mini, char **str);
 
 //Env utils
-char		*ft_word(t_minishell *mini, char *str);
+char		*ft_get_env_var_content(t_minishell *mini, char *str);
 int			ft_word_name_len(char *str);
 int			ft_word_len(t_minishell *mini, char *str);
 // exec + exec utils
@@ -183,5 +194,12 @@ bool		ft_cmd_has_redirection(t_command *cmd, bool input);
 void		signal_handler(int signal);
 bool		signal_check(int status);
 void		signal_setup_child(void);
+
+// built-ins
+void		ft_echo(t_minishell *mini, t_command *cmd);
+void		ft_env(t_minishell *mini);
+void		ft_exit(t_minishell *mini, t_command *cmd);
+void		ft_export(t_minishell *mini, t_command *cmd);
+void		ft_pwd(t_minishell *mini);
 
 #endif

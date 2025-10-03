@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:48:03 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/03 13:26:40 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/04 01:19:07 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 typedef struct s_list
 {
@@ -46,6 +47,7 @@ void			*ft_memmove(void *dest, const void *src, size_t n);
 void			*ft_memset(void *dest, int c, size_t count);
 
 // string
+bool			ft_equals(char *s1, char *s2);
 char			*ft_joinstrs(char const **strs);
 char			**ft_split(char const *s, char c);
 int				ft_str_array_len(char **strs);

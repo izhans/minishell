@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 19:20:23 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/03 12:33:54 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/04 01:18:32 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ bool	ft_is_built_in(t_command *cmd)
 	i = 0;
 	while (built_ins[i])
 	{
-		if (ft_strcmp((char *) cmd_name, (char *) built_ins[i]) == 0)
+		if (ft_equals((char *) cmd_name, (char *) built_ins[i]))
 			return (true);
 		i++;
 	}
