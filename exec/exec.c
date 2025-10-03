@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 01:08:21 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/26 15:29:33 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/26 18:25:44 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,11 @@ static void	ft_process_one_cmd(t_minishell *mini, t_command *cmd)
 		mini->exit_status = EXIT_FAILURE;
 	}
 	else if (pid == FORK_CHILD)
+	{
+		ft_dup2_redir(mini, cmd, true);
+		ft_dup2_redir(mini, cmd, false);
 		ft_exec_cmd(mini, cmd);
+	}
 	else
 		ft_wait_pids(&pid, mini);
 }
@@ -89,7 +93,7 @@ static void	ft_process_pipeline(t_minishell *mini, t_list *cmds)
 		}
 		else if (mini->pids[i] == FORK_CHILD)
 		{
-			ft_connect_pipes_and_redirections(mini, i);
+			ft_connect_pipes_and_redirections(mini, cmd, i);
 			ft_close_pipes(mini);
 			if (ft_is_built_in(cmd))
 				ft_run_built_in(mini, cmd);
