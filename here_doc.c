@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:41:51 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/02 20:38:53 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:46:07 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,20 @@ bool	ft_register_heredoc(t_minishell *mini, char **filename, bool expand)
 	pid = fork();
 	if (pid == FORK_ERROR)
 		return (perror("fork"), false);
-	else if (pid == 0)
+	else if (pid == FORK_CHILD)
 	{
 		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		ft_collect_heredoc_input(mini, *filename, name, expand);
+		free(name);
 		ft_minishell_exit(mini, EXIT_SUCCESS);
 	}
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);
-	signal(SIGINT, signal_handler);
 	free(*filename);
 	*filename = name;
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		return (ft_putendl(""), unlink(name), false);
+	if (!signal_check(status))
+		return(unlink(name) ,false);
 	return (true);
 }
 
@@ -72,14 +73,14 @@ void	ft_collect_heredoc_input(t_minishell *mini, char *delim,
 		perror(PERROR_OPEN);
 		ft_minishell_exit(mini, EXIT_FAILURE);
 	}
-	str = readline("> ");
+	str = ft_readline_mini(mini, "> ");
 	while (str != NULL && ft_strcmp(str, delim) != 0)
 	{
 		if (expand)
 			str = ft_expand_var(mini, &str, true);
 		ft_putendl_fd(str, fd);
 		free(str);
-		str = readline("> ");
+		str = ft_readline_mini(mini, "> ");
 	}
 	if (str == NULL)
 		printf(WARNING_HD_EOF, delim);

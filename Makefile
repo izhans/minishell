@@ -21,6 +21,7 @@ SRC	= 	exec/exec_utils.c \
 		structures/t_minishell_utils.c \
 		structures/t_redir_utils.c \
 		minishell.c \
+		signals.c \
 		utils.c \
 		here_doc.c \
 		validator.c

@@ -3,6 +3,13 @@ NAME = libft.a
 CC = cc
 FLAGS = -Wall -Werror -Wextra
 
+# GNL: get next line
+GNL_FOLDER = get_next_line/
+GNL_SRCS = \
+			get_next_line.c \
+			get_next_line_utils.c
+GNL_OBJS = $(GNL_SRCS:.c=.o)
+
 # Math
 MATH_FOLDER = math/
 MATH_SRCS = \
@@ -93,7 +100,7 @@ WRITE_SRCS = \
 			ft_putstr.c
 WRITE_OBJS = $(WRITE_SRCS:.c=.o)
 
-OBJ = $(MATH_OBJS) $(LISTS_OBJS) $(CHAR_OBJS) $(STRING_OBJS) $(MEMORY_OBJS) $(PARSE_OBJS) $(WRITE_OBJS)
+OBJ = $(GNL_OBJS) $(MATH_OBJS) $(LISTS_OBJS) $(CHAR_OBJS) $(STRING_OBJS) $(MEMORY_OBJS) $(PARSE_OBJS) $(WRITE_OBJS)
 
 # Rules
 .PHONY: all clean fclean re bonus
@@ -106,6 +113,9 @@ $(NAME): libft.h $(OBJ)
 	ar -r $(NAME) $(OBJ)
 
 # Compiles .c files into .o files
+$(GNL_OBJS): $(addprefix $(GNL_FOLDER), $(GNL_SRCS))
+	$(CC) $(FLAGS) -c $(addprefix $(GNL_FOLDER), $(GNL_SRCS))
+
 $(MATH_OBJS): $(addprefix $(MATH_FOLDER), $(MATH_SRCS))
 	$(CC) $(FLAGS) -c $(addprefix $(MATH_FOLDER), $(MATH_SRCS))
 

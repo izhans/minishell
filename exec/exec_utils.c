@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 19:20:23 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/26 13:28:35 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:33:54 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	ft_wait_pids(pid_t *pids, t_minishell *mini)
 	int	i;
 
 	i = 0;
+	signal(SIGINT, SIG_IGN);
 	while (i < mini->line->cmd_number)
 	{
 		waitpid(pids[i], &mini->exit_status, 0);
@@ -103,4 +104,5 @@ void	ft_wait_pids(pid_t *pids, t_minishell *mini)
 			mini->exit_status = 128 + WTERMSIG(mini->exit_status);
 		i++;
 	}
+	signal_check(mini->exit_status);
 }

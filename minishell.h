@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/03 12:12:03 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:45:46 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ void		ft_free_redir(void *content);
 //Utils
 void		ft_minishell_exit(t_minishell *mini, int exit_status);
 bool		ft_is_empty(char *string);
+char		*ft_readline_mini(t_minishell *mini, char *prompt);
 
 //Parser
 t_line		*ft_parser(t_minishell *mini, char	*line);
@@ -180,4 +181,7 @@ bool		ft_cmd_has_redirection(t_command *cmd, bool input);
 
 //Signal handler
 void		signal_handler(int signal);
+bool		signal_check(int status);
+void		signal_setup_child(void);
+
 #endif
