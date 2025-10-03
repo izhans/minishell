@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:09:55 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/03 13:50:15 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/04 01:46:15 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ char	*ft_readline_mini(t_minishell *mini, char *prompt)
 		if (str == NULL)
 			return (NULL);
 		trim = ft_strtrim(str, "\n");
+		free(str);
 		if (trim == NULL)
 			ft_minishell_exit(mini, EXIT_FAILURE);
-		free(str);
 		return (trim);
 	}
 }

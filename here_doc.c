@@ -6,16 +6,15 @@
 /*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:41:51 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/03 13:46:07 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/04 01:47:14 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*ft_get_tmp_name(t_minishell *mini, int i);
-
-void		ft_collect_heredoc_input(t_minishell *mini, char *delim,
-				char *tmp_name, bool expand);
+static char		*ft_get_tmp_name(t_minishell *mini, int i);
+static void		ft_collect_heredoc_input(t_minishell *mini, char *delim,
+					char *tmp_name, bool expand);
 
 /**
  * @brief creates a child and registers a specific heredoc, handles Ctrl-C
@@ -50,7 +49,7 @@ bool	ft_register_heredoc(t_minishell *mini, char **filename, bool expand)
 	free(*filename);
 	*filename = name;
 	if (!signal_check(status))
-		return(unlink(name) ,false);
+		return (unlink(name), false);
 	return (true);
 }
 
@@ -61,7 +60,7 @@ bool	ft_register_heredoc(t_minishell *mini, char **filename, bool expand)
  * @param tmp_name temporary file name for heredoc.
  * @param expand true if it must expand, false otherwise.
  */
-void	ft_collect_heredoc_input(t_minishell *mini, char *delim,
+static void	ft_collect_heredoc_input(t_minishell *mini, char *delim,
 			char *tmp_name, bool expand)
 {
 	char	*str;
