@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 01:08:21 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/26 18:25:44 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:31:50 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,31 @@ static void	ft_process_pipeline(t_minishell *mini, t_list *cmds)
  */
 static void	ft_run_built_in(t_minishell *mini, t_command *cmd)
 {
-	(void) mini;
+	char	*cmd_name;
+
+	cmd_name = (char *) cmd->args->content;
 	// TODO pseudo-switch with built-in options
-	printf("running built-in %s\n", (char *) cmd->args->content);
+	printf("running built-in %s\n", cmd_name);
+	if (ft_equals(CMD_ECHO, cmd_name))
+		ft_echo(mini, cmd);
+	else if (ft_equals(CMD_CD, cmd_name))
+	{
+		// TODO
+	}
+	else if (ft_equals(CMD_PWD, cmd_name))
+		ft_pwd(mini);
+	else if (ft_equals(CMD_EXPORT, cmd_name))
+		ft_export(mini, cmd);
+	else if (ft_equals(CMD_UNSET, cmd_name))
+	{
+		// TODO
+	}
+	else if (ft_equals(CMD_ENV, cmd_name))
+		ft_env(mini);
+	else if (ft_equals(CMD_EXIT, cmd_name))
+		ft_exit(mini, cmd);
+	if (mini->line->cmd_number > 1)
+		ft_minishell_exit(mini, mini->exit_status);
 }
 
 /**

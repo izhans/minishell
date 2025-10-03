@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 18:24:33 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/13 20:18:59 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:28:43 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int	ft_copy_exp(t_minishell *mini, char *new, char *str, int *j)
 	char	*word;
 
 	if (str[0] != '?')
-		word = ft_word(mini, str);
+		word = ft_get_env_var_content(mini, str);
 	else
 	{
 		word = ft_itoa(mini->exit_status);

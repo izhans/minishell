@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 19:20:23 by isastre-          #+#    #+#             */
-/*   Updated: 2025/09/26 13:28:35 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/09/30 15:23:25 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ bool	ft_is_built_in(t_command *cmd)
 	i = 0;
 	while (built_ins[i])
 	{
-		if (ft_strcmp((char *) cmd_name, (char *) built_ins[i]) == 0)
+		if (ft_equals((char *) cmd_name, (char *) built_ins[i]))
 			return (true);
 		i++;
 	}

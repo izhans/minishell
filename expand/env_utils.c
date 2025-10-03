@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 18:39:53 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/13 20:18:44 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/02 19:28:43 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_word_name_len(char *str)
  * @param str env variable name.
  * @return the content of the env variable.
 */
-char	*ft_word(t_minishell *mini, char *str)
+char	*ft_get_env_var_content(t_minishell *mini, char *str)
 {
 	int		word_len;
 	char	*word_name;
