@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/03 12:34:58 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/04 00:53:52 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ filename for redirection\n"
 # define CMD_EXIT "exit"
 
 extern volatile sig_atomic_t	g_sig_num;
+typedef struct s_envp			t_envp;
 typedef struct s_line			t_line;
 typedef struct s_command		t_command;
 typedef struct s_redir			t_redir;
@@ -95,12 +96,22 @@ typedef enum e_type_arg
 typedef struct s_minishell
 {
 	t_list	*envp;
+	t_envp	*tenvp;
 	int		exit_status; // last exit status
 	t_line	*line;
 	char	**envp_array;
 	pid_t	*pids;
 	int		(*pipes)[2];
 }	t_minishell;
+
+typedef struct s_envp
+{
+	char			*key;
+	char			*value;
+	struct s_envp	*next;
+	struct s_envp	*prev;
+} t_envp;
+
 
 typedef struct s_line
 {
@@ -122,6 +133,12 @@ typedef struct s_redir // is contained into a t_list
 	t_redir_type	type;
 	char			*filename;
 }	t_redir;
+
+// struct t_envp
+t_envp		*ft_init_envp(char **envp);
+t_envp		*ft_envp_new(char *key, char *value);
+void		ft_envp_add_back(t_envp **lst, t_envp *new);
+void		ft_envp_clear(t_envp **lst);
 
 //Struct t_minishell
 t_minishell	*ft_create_t_minishell(char *envp[]);

@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:09:02 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/26 16:34:40 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/04 00:54:29 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ t_minishell	*ft_create_t_minishell(char *envp[])
 		ft_minishell_exit(NULL, EXIT_FAILURE);
 	mini->envp = ft_str_array_to_str_lst(envp);
 	if (!mini->envp)
+		ft_minishell_exit(mini, EXIT_FAILURE);
+	mini->tenvp = ft_init_envp(envp);
+	if (!mini->tenvp)
 		ft_minishell_exit(mini, EXIT_FAILURE);
 	return (mini);
 }
@@ -97,6 +100,11 @@ void	ft_free_t_minishell(t_minishell *mini)
 		{
 			ft_lstclear(&(mini->envp), &free);
 			mini->envp = NULL;
+		}
+		if (mini->tenvp)
+		{
+			ft_envp_clear(mini->tenvp);
+			mini->tenvp = NULL;
 		}
 		free(mini);
 		mini = NULL;
