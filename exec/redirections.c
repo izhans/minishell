@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 17:40:16 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/02 14:54:49 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:06:41 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,8 @@ bool	ft_cmd_has_redirection(t_command *cmd, bool input)
 	while (node)
 	{
 		redir = node->content;
-		if (input)
-		{
-			if (redir->type == INFILE || redir->type == HERE_DOC)
-				return (true);
-		}
-		else
-		{
-			if (redir->type == OUTFILE || redir->type == OUTFILE_APPEND)
-				return (true);
-		}
+		if (ft_equals_type(input, redir->type))
+			return (true);
 		node = node->next;
 	}
 	return (false);

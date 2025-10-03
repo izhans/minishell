@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/02 20:41:41 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:12:03 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ filename for redirection\n"
 # define DUP2_ERROR -1
 # define EX_CANNOT_INVOKE_CMD 126
 # define EX_CMD_NOT_FOUND 127
-# define TMP_FILE_PREFIX "/tmp/sh-thd-"
 # define TMP_FILE_PREFIX "/tmp/sh-thd-"
 
 extern volatile sig_atomic_t	g_sig_num;

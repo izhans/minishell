@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_clear.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/01 17:36:05 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/02 20:13:12 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:11:10 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ bool	ft_expand_clear_var(t_minishell *mini, void *content, bool is_arg)
 	}
 	else if (((t_redir *)content)->type == HERE_DOC)
 	{
-		if (ft_register_heredoc(mini, &((t_redir *)content)->filename,
-				ft_must_expand(((t_redir *)content)->filename)) == false)
+		if (!ft_register_heredoc(mini, &((t_redir *)content)->filename,
+				ft_must_expand(((t_redir *)content)->filename)))
 			return (false);
 	}
 	return (true);
@@ -61,7 +61,7 @@ bool	ft_expand_clear(t_minishell *mini, t_line **line)
 	while (cmd)
 	{
 		ft_expand_args(mini, ((t_command *)cmd->content)->args);
-		if (ft_expand_redir(mini, ((t_command *)cmd->content)->redir) == false)
+		if (!ft_expand_redir(mini, ((t_command *)cmd->content)->redir))
 			return (false);
 		cmd = cmd->next;
 	}
@@ -85,7 +85,7 @@ static bool	ft_expand_redir(t_minishell *mini, t_list *lst_redir)
 	while (lst_redir)
 	{
 		redir = lst_redir->content;
-		if (ft_expand_clear_var(mini, redir, false) == false)
+		if (!ft_expand_clear_var(mini, redir, false))
 			return (false);
 		lst_redir = lst_redir->next;
 	}
