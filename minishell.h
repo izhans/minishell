@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/03 12:34:58 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/04 01:22:17 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ void		ft_free_redir(void *content);
 //Utils
 void		ft_minishell_exit(t_minishell *mini, int exit_status);
 bool		ft_is_empty(char *string);
+char		*ft_readline_mini(t_minishell *mini, char *prompt);
 
 //Parser
 t_line		*ft_parser(t_minishell *mini, char	*line);
@@ -183,13 +184,6 @@ bool		ft_register_heredoc(t_minishell *mini, char **filename,
 				bool expand);
 bool		ft_must_expand(char *str);
 
-// built-ins
-void		ft_echo(t_minishell *mini, t_command *cmd);
-void		ft_env(t_minishell *mini);
-void		ft_exit(t_minishell *mini, t_command *cmd);
-void		ft_export(t_minishell *mini, t_command *cmd);
-void		ft_pwd(t_minishell *mini);
-
 //Redirections
 bool		ft_equals_type(bool input, t_redir_type type);
 int			ft_open_options(t_redir_type type);
@@ -198,4 +192,14 @@ bool		ft_cmd_has_redirection(t_command *cmd, bool input);
 
 //Signal handler
 void		signal_handler(int signal);
+bool		signal_check(int status);
+void		signal_setup_child(void);
+
+// built-ins
+void		ft_echo(t_minishell *mini, t_command *cmd);
+void		ft_env(t_minishell *mini);
+void		ft_exit(t_minishell *mini, t_command *cmd);
+void		ft_export(t_minishell *mini, t_command *cmd);
+void		ft_pwd(t_minishell *mini);
+
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:09:55 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/13 20:11:22 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/04 01:46:15 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
  */
 void	ft_minishell_exit(t_minishell *mini, int exit_status)
 {
+	rl_clear_history();
 	if (mini)
 		ft_free_t_minishell(mini);
 	exit(exit_status);
@@ -39,4 +40,28 @@ bool	ft_is_empty(char *string)
 	while (ft_isspace(string[start]) && string[start])
 		start++;
 	return (start == ft_strlen(string));
+}
+
+/**
+ * @brief returns the line using readline or gnl depending on the mode.
+ * @return string with the read line.
+ */
+char	*ft_readline_mini(t_minishell *mini, char *prompt)
+{
+	char	*str;
+	char	*trim;
+
+	if (isatty(STDIN_FILENO))
+		return (readline(prompt));		
+	else
+	{
+		str = get_next_line(STDIN_FILENO);
+		if (str == NULL)
+			return (NULL);
+		trim = ft_strtrim(str, "\n");
+		free(str);
+		if (trim == NULL)
+			ft_minishell_exit(mini, EXIT_FAILURE);
+		return (trim);
+	}
 }
