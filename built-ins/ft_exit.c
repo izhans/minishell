@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:52:01 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/02 18:57:41 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:24:22 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static int	ft_transform_exit_status(char *n)
 	int	i;
 
 	i = 0;
+	if (n[i] == '-' || n[i] == '+')
+		i++;
 	while (n[i])
 	{
 		if (!ft_isdigit(n[i]))
