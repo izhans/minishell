@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 21:24:39 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/02 20:21:18 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:52:53 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,18 @@ int	main(int argc, char *argv[], char *envp[])
 	signal_setup();
 	while (true)
 	{
-		str = readline(PROMPT);
+		str = ft_readline_mini(mini, PROMPT);
 		if (str == NULL)
 			break ;
 		mini->line = ft_parser(mini, str);
 		if (ft_expand_clear(mini, &mini->line)
 			&& !ft_is_empty(mini->line->line) && ft_validate(mini, mini->line))
 			ft_process(mini);
-		if (mini->line->line[0] != 0)
+		if (mini->line->line[0] != 0 && isatty(STDIN_FILENO))
 			add_history(mini->line->line);
 		ft_free_t_minishell_execution(mini);
 	}
+	rl_clear_history();
 	ft_free_t_minishell(mini);
 }
 
@@ -62,7 +63,7 @@ int	main(int argc, char *argv[], char *envp[])
  */
 void	signal_setup(void)
 {
-	if (isatty(0))
+	if (isatty(STDIN_FILENO))
 	{
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, SIG_IGN);

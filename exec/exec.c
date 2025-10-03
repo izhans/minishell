@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 01:08:21 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/03 12:31:50 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/04 01:18:45 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ static void	ft_exec_cmd(t_minishell *mini, t_command *cmd)
 	int		exit_status;
 	char	**cmd_args_array;
 
+	signal_setup_child();
 	cmd_args_array = ft_str_list_to_str_array(cmd->args);
 	if (cmd_args_array == NULL)
 	{
