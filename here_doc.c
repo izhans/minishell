@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:41:51 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/26 14:26:14 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/02 20:38:53 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,66 @@
 
 static char	*ft_get_tmp_name(t_minishell *mini, int i);
 
+void		ft_collect_heredoc_input(t_minishell *mini, char *delim,
+				char *tmp_name, bool expand);
+
 /**
- * @brief registers a heredoc, creating a file and reading the input from
- * 			standard input and cleaning and expanding (expand only if
- * 			heredoc filename doesnt have any double or simple quote).
- * @param mini to call clear and expand functions.
- * @param filename  pointer to the string holding the filename
- * @param expand bool that shows wheter it must be expanded or not.
+ * @brief creates a child and registers a specific heredoc, handles Ctrl-C
+ * 			killing the child.
+ * @param mini to expand env variables and handle errors.
+ * @param filename pointer to position where the temporary filename must be.
+ * @param expand true if it must expand the input or not.
+ * @return true if child was NOT killed, false otherwise.
  */
-void	ft_register_heredoc(t_minishell *mini, char **filename, bool expand)
+bool	ft_register_heredoc(t_minishell *mini, char **filename, bool expand)
 {
 	static int	i = 1;
-	char		*str;
 	char		*name;
-	int			fd;
+	pid_t		pid;
+	int			status;
 
 	*filename = ft_clear_var(mini, filename);
 	name = ft_get_tmp_name(mini, i++);
-	fd = open(name, O_CREAT | O_WRONLY, 0644);
+	pid = fork();
+	if (pid == FORK_ERROR)
+		return (perror("fork"), false);
+	else if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		ft_collect_heredoc_input(mini, *filename, name, expand);
+		ft_minishell_exit(mini, EXIT_SUCCESS);
+	}
+	signal(SIGINT, SIG_IGN);
+	waitpid(pid, &status, 0);
+	signal(SIGINT, signal_handler);
+	free(*filename);
+	*filename = name;
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		return (ft_putendl(""), unlink(name), false);
+	return (true);
+}
+
+/**
+ * @brief handles input collection for heredoc.
+ * @param mini t_minishell struct to free and expand env variables.
+ * @param delim delimiter of heredoc.
+ * @param tmp_name temporary file name for heredoc.
+ * @param expand true if it must expand, false otherwise.
+ */
+void	ft_collect_heredoc_input(t_minishell *mini, char *delim,
+			char *tmp_name, bool expand)
+{
+	char	*str;
+	int		fd;
+
+	fd = open(tmp_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
-		return ;
+	{
+		perror(PERROR_OPEN);
+		ft_minishell_exit(mini, EXIT_FAILURE);
+	}
 	str = readline("> ");
-	while (str != NULL && ft_strcmp(str, *filename) != 0)
+	while (str != NULL && ft_strcmp(str, delim) != 0)
 	{
 		if (expand)
 			str = ft_expand_var(mini, &str, true);
@@ -44,11 +82,10 @@ void	ft_register_heredoc(t_minishell *mini, char **filename, bool expand)
 		str = readline("> ");
 	}
 	if (str == NULL)
-		printf(WARNING_HD_EOF, *filename);
+		printf(WARNING_HD_EOF, delim);
 	else
 		free(str);
-	free(*filename);
-	*filename = name;
+	close(fd);
 }
 
 /**
