@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/04 20:37:52 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/04 22:47:53 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 # include <stdbool.h>
 # include <sysexits.h>
+# include <linux/limits.h>
 
 # include "libft/libft.h"
 
@@ -43,13 +44,18 @@
 # define ERROR_MSG_REDIRECTION "Invalid input: invalid redirection or \
 filename for redirection\n"
 # define ERROR_MSG_PIPES "Invalid input: missing command.\n"
+# define ERROR_MSG_UNCLOSED_QUOTES "Invalid input: unclosed quotes\n"
 # define PERROR_MALLOC "Error malloc"
 # define PERROR_DUP2 "Error dup2"
 # define PERROR_PIPE "Error pipe"
 # define PERROR_FORK "Error fork"
 # define PERROR_OPEN "Error open"
+# define PERROR_CD "Error cd"
 # define BUILTIN_ERROR_ARGS_EXIT "minishell: exit: too many arguments\n"
+# define BUILTIN_ERROR_ARGS_CD "minishell: cd: too many arguments\n"
+# define BUILTIN_ERROR_HOME_CD "minishell: cd: HOME not set\n"
 # define BUILTIN_ERROR_IDENTIFIER_EXPORT "minishell: export: '%s': not a valid identifier\n"
+# define BUILTIN_ERROR_GETCWD "minishell: cd: error retrieving current directory\n"
 
 # define READ_END STDIN_FILENO
 # define WRITE_END STDOUT_FILENO
@@ -103,6 +109,7 @@ typedef struct s_minishell
 	char	**envp_array;
 	pid_t	*pids;
 	int		(*pipes)[2];
+	char	*pwd;
 }	t_minishell;
 
 typedef struct s_envp
@@ -198,6 +205,7 @@ void		ft_close_pipes(t_minishell *mini);
 
 //Validator
 bool		ft_validate(t_minishell *mini, t_line *line);
+bool		ft_check_redir_file(char *str);
 
 //Heredoc
 bool		ft_register_heredoc(t_minishell *mini, char **filename,
@@ -216,6 +224,7 @@ bool		signal_check(int status);
 void		signal_setup_child(void);
 
 // built-ins
+void		ft_cd(t_minishell *mini, t_command *cmd);
 void		ft_echo(t_minishell *mini, t_command *cmd);
 void		ft_env(t_minishell *mini);
 void		ft_exit(t_minishell *mini, t_command *cmd);
