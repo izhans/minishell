@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 01:08:21 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/04 17:05:34 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/04 21:08:23 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,9 +133,7 @@ static void	ft_run_built_in(t_minishell *mini, t_command *cmd)
 	else if (ft_equals(CMD_EXPORT, cmd_name))
 		ft_export(mini, cmd);
 	else if (ft_equals(CMD_UNSET, cmd_name))
-	{
-		// TODO
-	}
+		ft_unset(mini, cmd);
 	else if (ft_equals(CMD_ENV, cmd_name))
 		ft_env(mini);
 	else if (ft_equals(CMD_EXIT, cmd_name))
