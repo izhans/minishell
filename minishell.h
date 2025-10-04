@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/04 17:03:00 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/04 20:29:21 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ filename for redirection\n"
 # define PERROR_FORK "Error fork"
 # define PERROR_OPEN "Error open"
 # define BUILTIN_ERROR_ARGS_EXIT "minishell: exit: too many arguments\n"
+# define BUILTIN_ERROR_IDENTIFIER_EXPORT "minishell: export: '%s': not a valid identifier\n"
 
 # define READ_END STDIN_FILENO
 # define WRITE_END STDOUT_FILENO
@@ -112,7 +113,6 @@ typedef struct s_envp
 	struct s_envp	*prev;
 } t_envp;
 
-
 typedef struct s_line
 {
 	char	*line;
@@ -136,6 +136,7 @@ typedef struct s_redir // is contained into a t_list
 
 // struct t_envp
 t_envp		*ft_init_envp(char **envp);
+void		ft_split_key_value(char *var, char **key, char **value);
 t_envp		*ft_envp_new(char *key, char *value);
 void		ft_envp_add_back(t_envp **lst, t_envp *new);
 void		ft_envp_clear(t_envp **lst);
@@ -220,5 +221,9 @@ void		ft_env(t_minishell *mini);
 void		ft_exit(t_minishell *mini, t_command *cmd);
 void		ft_export(t_minishell *mini, t_command *cmd);
 void		ft_pwd(t_minishell *mini);
+// built-ins utils
+t_envp		*ft_get_envp_var(t_envp *envp, char *key);
+bool		ft_is_valid_identifier(char *key);
+
 
 #endif

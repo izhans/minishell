@@ -6,13 +6,11 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 12:50:49 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/04 00:40:21 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/04 19:21:04 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static void	ft_split_key_value(char *var, char **key, char **value);
 
 t_envp	*ft_init_envp(char **envp)
 {
@@ -39,7 +37,7 @@ t_envp	*ft_init_envp(char **envp)
 	return (lst);
 }
 
-static void	ft_split_key_value(char *var, char **key, char **value)
+void	ft_split_key_value(char *var, char **key, char **value)
 {
 	// TODO malloc errors
 	char	*split;

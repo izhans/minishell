@@ -6,6 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -g3
 VPATH = /:src/:
 
 SRC	= 	\
+		built-ins/envp_utils.c \
 		built-ins/ft_echo.c \
 		built-ins/ft_env.c \
 		built-ins/ft_exit.c \
