@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 18:39:53 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/04 17:19:48 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/04 20:47:21 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,6 @@ char **ft_envp_list_to_str_array(t_envp *list)
         array[i][ft_strlen(list->key)] = '=';
 		
         ft_strlcpy(&array[i][ft_strlen(list->key) + 1], list->value, ft_strlen(list->value) + 1);
-		printf("%s\n", array[i]);
         list = list->next;
         i++;
     }
