@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 18:39:53 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/04 02:18:17 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/04 17:19:48 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,55 @@ int	ft_word_len(t_minishell *mini, char *str)
 		env_node = env_node->next;
 	}
 	return (0);
+}
+
+/**
+ * @brief calculates the size of an t_envp list.
+ * @param list
+ * @returns the size of the list.
+ */
+int ft_envp_lstsize(t_envp *list)
+{
+    int size;
+
+    size = 0;
+    while (list)
+    {
+        size++;
+        list = list->next;
+    }
+    return (size);
+}
+
+/**
+ * @brief transforms t_envp to char **
+ * @param list t_envp list
+ * @return the transformed list or NULL if malloc fails.
+ */
+char **ft_envp_list_to_str_array(t_envp *list)
+{
+    int size;
+    char **array;
+    int i;
+
+    size = ft_envp_lstsize(list);
+    array = ft_calloc(size + 1, sizeof(char *));
+    if (!array)
+        return (NULL);
+    i = 0;
+    while (list)
+    {
+        array[i] = ft_calloc(ft_strlen(list->key) + ft_strlen(list->value) + 2, 1);
+        if (!array[i])
+            return (ft_free_str_array(array), NULL);
+        ft_strlcpy(array[i], list->key, ft_strlen(list->key) + 1);
+        array[i][ft_strlen(list->key)] = '=';
+		
+        ft_strlcpy(&array[i][ft_strlen(list->key) + 1], list->value, ft_strlen(list->value) + 1);
+		printf("%s\n", array[i]);
+        list = list->next;
+        i++;
+    }
+    array[i] = NULL;
+    return (array);
 }

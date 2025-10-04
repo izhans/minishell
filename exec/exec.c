@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 01:08:21 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/04 01:18:45 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/04 17:05:34 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,12 @@ void	ft_process(t_minishell *mini)
 	t_list		*cmds;
 
 	cmds = mini->line->cmds;
-	mini->envp_array = ft_str_list_to_str_array(mini->envp);
+	mini->envp_array = ft_envp_list_to_str_array(mini->tenvp);
+	if (mini->envp_array == NULL)
+	{
+		perror(PERROR_MALLOC);
+		ft_minishell_exit(mini, EXIT_FAILURE);
+	}
 	if (mini->line->cmd_number == 1)
 		ft_process_one_cmd(mini, cmds->content);
 	else

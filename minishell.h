@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/04 01:51:38 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/04 17:03:00 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ t_envp		*ft_init_envp(char **envp);
 t_envp		*ft_envp_new(char *key, char *value);
 void		ft_envp_add_back(t_envp **lst, t_envp *new);
 void		ft_envp_clear(t_envp **lst);
+int			ft_env_lstsize(t_envp *list);
+char 		**ft_envp_list_to_str_array(t_envp *list);
 
 //Struct t_minishell
 t_minishell	*ft_create_t_minishell(char *envp[]);

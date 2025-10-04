@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:53:05 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/02 15:02:21 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/04 17:09:22 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,5 @@ void	ft_pwd(t_minishell *mini)
 	pwd = getcwd(NULL, 0);
 	ft_putendl(pwd);
 	mini->exit_status = 0;
+	free(pwd);
 }
