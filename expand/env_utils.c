@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 18:39:53 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/02 19:28:43 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/04 02:18:17 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,28 +42,18 @@ int	ft_word_name_len(char *str)
 char	*ft_get_env_var_content(t_minishell *mini, char *str)
 {
 	int		word_len;
-	char	*word_name;
-	t_list	*env_node;
-	char	*content;
+	t_envp	*env_node;
 
 	word_len = ft_word_name_len(str);
-	env_node = mini->envp;
+	env_node = mini->tenvp;
 	while (env_node)
 	{
-		content = (char *)env_node->content;
-		word_name = ft_substr(content, 0, ft_word_name_len(content));
-		if (word_name == NULL)
-			ft_minishell_exit(mini, EXIT_FAILURE);
-		if (ft_strncmp(word_name, str,
-				ft_max(ft_strlen(word_name), word_len)) == 0)
-		{
-			free(word_name);
-			return (ft_strchr(content, '=') + 1);
-		}
-		free(word_name);
+		if (ft_strncmp(env_node->key, str,
+				ft_max(ft_strlen(env_node->key), word_len)) == 0)
+			return (env_node->value);
 		env_node = env_node->next;
 	}
-	return (0);
+	return (NULL);
 }
 
 /**
@@ -75,26 +65,19 @@ char	*ft_get_env_var_content(t_minishell *mini, char *str)
 int	ft_word_len(t_minishell *mini, char *str)
 {
 	int		word_len;
-	char	*word_name;
-	t_list	*env_node;
-	char	*content;
+	t_envp	*env_node;
 
 	word_len = ft_word_name_len(str);
-	env_node = mini->envp;
+	env_node = mini->tenvp;
 	if (str[0] == '?')
 		return (ft_number_len(mini->exit_status));
 	else if (word_len == 0)
 		return (1);
 	while (env_node)
 	{
-		content = (char *)env_node->content;
-		word_name = ft_substr(content, 0, ft_word_name_len(content));
-		if (word_name == NULL)
-			ft_minishell_exit(mini, EXIT_FAILURE);
-		if (ft_strncmp(word_name, str,
-				ft_max(ft_strlen(word_name), word_len)) == 0)
-			return (free(word_name), ft_strlen(ft_strchr(content, '=') + 1));
-		free(word_name);
+		if (ft_strncmp(env_node->key, str,
+				ft_max(ft_strlen(env_node->key), word_len)) == 0)
+			return (ft_strlen(env_node->value));
 		env_node = env_node->next;
 	}
 	return (0);
