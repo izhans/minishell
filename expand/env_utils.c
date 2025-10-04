@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 18:39:53 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/04 19:44:07 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/04 20:37:10 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,22 @@ char	*ft_get_env_var_content(t_minishell *mini, char *str)
 {
 	int		word_len;
 	t_envp	*env_node;
+	t_envp	*env_node;
 
 	word_len = ft_word_name_len(str);
+	env_node = mini->tenvp;
 	env_node = mini->tenvp;
 	while (env_node)
 	{
 		if (ft_strncmp(env_node->key, str,
 				ft_max(ft_strlen(env_node->key), word_len)) == 0)
 			return (env_node->value);
+		if (ft_strncmp(env_node->key, str,
+				ft_max(ft_strlen(env_node->key), word_len)) == 0)
+			return (env_node->value);
 		env_node = env_node->next;
 	}
+	return (NULL);
 	return (NULL);
 }
 
@@ -66,8 +72,10 @@ int	ft_word_len(t_minishell *mini, char *str)
 {
 	int		word_len;
 	t_envp	*env_node;
+	t_envp	*env_node;
 
 	word_len = ft_word_name_len(str);
+	env_node = mini->tenvp;
 	env_node = mini->tenvp;
 	if (str[0] == '?')
 		return (ft_number_len(mini->exit_status));
@@ -75,6 +83,9 @@ int	ft_word_len(t_minishell *mini, char *str)
 		return (1);
 	while (env_node)
 	{
+		if (ft_strncmp(env_node->key, str,
+				ft_max(ft_strlen(env_node->key), word_len)) == 0)
+			return (ft_strlen(env_node->value));
 		if (ft_strncmp(env_node->key, str,
 				ft_max(ft_strlen(env_node->key), word_len)) == 0)
 			return (ft_strlen(env_node->value));
