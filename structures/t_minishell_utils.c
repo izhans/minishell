@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_minishell_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:09:02 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/04 00:54:29 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/04 02:03:24 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	ft_free_t_minishell(t_minishell *mini)
 		}
 		if (mini->tenvp)
 		{
-			ft_envp_clear(mini->tenvp);
+			ft_envp_clear(&mini->tenvp);
 			mini->tenvp = NULL;
 		}
 		free(mini);
