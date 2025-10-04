@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/04 20:37:52 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/04 21:07:59 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ filename for redirection\n"
 # define PERROR_OPEN "Error open"
 # define BUILTIN_ERROR_ARGS_EXIT "minishell: exit: too many arguments\n"
 # define BUILTIN_ERROR_IDENTIFIER_EXPORT "minishell: export: '%s': not a valid identifier\n"
+# define BUILTIN_ERROR_IDENTIFIER_UNSET "minishell: unset: '%s': not a valid identifier\n"
 
 # define READ_END STDIN_FILENO
 # define WRITE_END STDOUT_FILENO
@@ -221,9 +222,11 @@ void		ft_env(t_minishell *mini);
 void		ft_exit(t_minishell *mini, t_command *cmd);
 void		ft_export(t_minishell *mini, t_command *cmd);
 void		ft_pwd(t_minishell *mini);
+void		ft_unset(t_minishell *mini, t_command *cmd);
 // built-ins utils
 t_envp		*ft_get_envp_var(t_envp *envp, char *key);
 bool		ft_is_valid_identifier(char *key);
+void		ft_remove_envp_var(t_envp **envp, t_envp *var);
 
 
 #endif

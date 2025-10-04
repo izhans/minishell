@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 18:33:40 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/04 19:25:43 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/04 21:04:38 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,22 @@ bool	ft_is_valid_identifier(char *key)
 		i++;
 	}
 	return (true);
+}
+
+/**
+ * @brief removes the given node from the envp
+ */
+void	ft_remove_envp_var(t_envp **envp, t_envp *var)
+{
+	if (!envp || !*envp || !var)
+		return ;
+	if (var->prev)
+		var->prev->next = var->next;
+	else
+		*envp = var->next;
+	if (var->next)
+		var->next->prev = var->prev;
+	free(var->key);
+	free(var->value);
+	free(var);
 }
