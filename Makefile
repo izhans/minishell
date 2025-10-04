@@ -23,6 +23,7 @@ SRC	= 	\
 		parser/parser_utils.c \
 		parser/parser.c \
 		structures/t_command_utils.c \
+		structures/t_envp_utils.c \
 		structures/t_line_utils.c \
 		structures/t_minishell_utils.c \
 		structures/t_redir_utils.c \
