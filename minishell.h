@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/05 19:57:29 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/05 20:42:51 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@
 # define DOUBLE_COMMA '"'
 # define PIPE '|'
 # define PROMPT "minishell> "
-# define WARNING_HD_EOF "Warning: here-doc delimited by EOF (CTRL-D)\
-(wanted: '%s')\n"
+# define WARNING_HD_EOF "Warning: here-doc last line delimited by CTRL-D"
 # define ERROR_MSG_REDIRECTION "Invalid input: invalid redirection or \
 filename for redirection\n"
 # define ERROR_MSG_PIPES "Invalid input: missing command.\n"
