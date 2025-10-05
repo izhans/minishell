@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 01:08:21 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/04 21:08:23 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/05 19:41:12 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,6 @@ static void	ft_run_built_in(t_minishell *mini, t_command *cmd)
 	char	*cmd_name;
 
 	cmd_name = (char *) cmd->args->content;
-	// TODO pseudo-switch with built-in options
-	printf("running built-in %s\n", cmd_name);
 	if (ft_equals(CMD_ECHO, cmd_name))
 		ft_echo(mini, cmd);
 	else if (ft_equals(CMD_CD, cmd_name))
@@ -149,7 +147,6 @@ static void	ft_run_built_in(t_minishell *mini, t_command *cmd)
  */
 static void	ft_exec_cmd(t_minishell *mini, t_command *cmd)
 {
-	int		exit_status;
 	char	**cmd_args_array;
 
 	signal_setup_child();
@@ -160,13 +157,17 @@ static void	ft_exec_cmd(t_minishell *mini, t_command *cmd)
 		ft_minishell_exit(mini, EXIT_FAILURE);
 	}
 	cmd->path = ft_get_cmd_executable(mini->envp_array, cmd);
+	execve(cmd->path, cmd_args_array, mini->envp_array);
 	if (cmd->path == NULL)
-		exit_status = EX_CMD_NOT_FOUND;
+	{
+		mini->exit_status = EX_CMD_NOT_FOUND;
+		ft_putendl_fd(ERROR_CMD_NOT_FOUND, STDERR_FILENO);
+	}
 	else
 	{
-		execve(cmd->path, cmd_args_array, mini->envp_array);
-		exit_status = EX_CANNOT_INVOKE_CMD;
+		mini->exit_status = EX_CANNOT_INVOKE_CMD;
+		ft_putendl_fd(ERROR_CMD_PERMISSION_DENIED, STDERR_FILENO);
 	}
 	ft_free_str_array(cmd_args_array);
-	ft_minishell_exit(mini, exit_status);
+	ft_minishell_exit(mini, mini->exit_status);
 }
