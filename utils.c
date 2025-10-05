@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:09:55 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/04 01:46:15 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/05 21:59:58 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*ft_readline_mini(t_minishell *mini, char *prompt)
 	char	*trim;
 
 	if (isatty(STDIN_FILENO))
-		return (readline(prompt));		
+		return (readline(prompt));
 	else
 	{
 		str = get_next_line(STDIN_FILENO);

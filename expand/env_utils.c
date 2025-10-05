@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 18:39:53 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/04 20:47:21 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/05 22:03:00 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,17 +88,17 @@ int	ft_word_len(t_minishell *mini, char *str)
  * @param list
  * @returns the size of the list.
  */
-int ft_envp_lstsize(t_envp *list)
+int	ft_envp_lstsize(t_envp *list)
 {
-    int size;
+	int	size;
 
-    size = 0;
-    while (list)
-    {
-        size++;
-        list = list->next;
-    }
-    return (size);
+	size = 0;
+	while (list)
+	{
+		size++;
+		list = list->next;
+	}
+	return (size);
 }
 
 /**
@@ -106,29 +106,30 @@ int ft_envp_lstsize(t_envp *list)
  * @param list t_envp list
  * @return the transformed list or NULL if malloc fails.
  */
-char **ft_envp_list_to_str_array(t_envp *list)
+char	**ft_envp_list_to_str_array(t_envp *list)
 {
-    int size;
-    char **array;
-    int i;
+	int		size;
+	char	**array;
+	int		i;
 
-    size = ft_envp_lstsize(list);
-    array = ft_calloc(size + 1, sizeof(char *));
-    if (!array)
-        return (NULL);
-    i = 0;
-    while (list)
-    {
-        array[i] = ft_calloc(ft_strlen(list->key) + ft_strlen(list->value) + 2, 1);
-        if (!array[i])
-            return (ft_free_str_array(array), NULL);
-        ft_strlcpy(array[i], list->key, ft_strlen(list->key) + 1);
-        array[i][ft_strlen(list->key)] = '=';
-		
-        ft_strlcpy(&array[i][ft_strlen(list->key) + 1], list->value, ft_strlen(list->value) + 1);
-        list = list->next;
-        i++;
-    }
-    array[i] = NULL;
-    return (array);
+	size = ft_envp_lstsize(list);
+	array = ft_calloc(size + 1, sizeof(char *));
+	if (!array)
+		return (NULL);
+	i = 0;
+	while (list)
+	{
+		array[i] = ft_calloc(
+				ft_strlen(list->key) + ft_strlen(list->value) + 2, 1);
+		if (!array[i])
+			return (ft_free_str_array(array), NULL);
+		ft_strlcpy(array[i], list->key, ft_strlen(list->key) + 1);
+		array[i][ft_strlen(list->key)] = '=';
+		ft_strlcpy(&array[i][ft_strlen(list->key) + 1], list->value,
+			ft_strlen(list->value) + 1);
+		list = list->next;
+		i++;
+	}
+	array[i] = NULL;
+	return (array);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/05 21:54:11 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/05 21:59:28 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ required"
 # define BUILTIN_ERROR_HOME_CD "minishell: cd: HOME not set"
 # define BUILTIN_ERROR_IDENTIFIER_EXPORT "minishell: export: not a valid \
 identifier"
-# define BUILTIN_ERROR_GETCWD "minishell: cd: error retrieving current directory"
+# define BUILTIN_ERROR_GETCWD "minishell: cd: error retrieving current \
+directory"
 # define BUILTIN_ERROR_PWD "minishell: pwd: error retrieving current directory"
 # define BUILTIN_ERROR_IDENTIFIER_UNSET "minishell: unset: not a valid \
 identifier"
