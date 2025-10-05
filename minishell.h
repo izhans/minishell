@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/05 21:49:01 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/05 21:53:13 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,27 +44,36 @@
 filename for redirection"
 # define ERROR_MSG_PIPES "Invalid input: missing command"
 # define ERROR_MSG_UNCLOSED_QUOTES "Invalid input: unclosed quotes"
-# define PERROR_MALLOC "Error malloc"
-# define PERROR_DUP2 "Error dup2"
-# define PERROR_PIPE "Error pipe"
-# define PERROR_FORK "Error fork"
-# define PERROR_OPEN "Error open"
+# define ERROR_CMD_NOT_FOUND "minishell: command not found"
+# define ERROR_CMD_PERMISSION_DENIED "minishell: permission denied or is a \
+directory"
+# define PERROR_MALLOC "minishell: malloc"
+# define PERROR_DUP2 "minishell: dup2"
+# define PERROR_PIPE "minishell: pipe"
+# define PERROR_FORK "minishell: fork"
+# define PERROR_OPEN "minishell: open"
 # define PERROR_CD "Error cd"
-# define BUILTIN_ERROR_ARGS_EXIT "minishell: exit: too many arguments\n"
+# define BUILTIN_ERROR_ARGS_EXIT "minishell: exit: too many arguments"
+# define BUILTIN_ERROR_NUMERIC_ARG_ONLY_EXIT "minishell: exit: numeric argument \
+required"
 # define BUILTIN_ERROR_ARGS_CD "minishell: cd: too many arguments"
 # define BUILTIN_ERROR_HOME_CD "minishell: cd: HOME not set"
-# define BUILTIN_ERROR_IDENTIFIER_EXPORT "minishell: export: '%s': not a valid identifier\n"
+# define BUILTIN_ERROR_IDENTIFIER_EXPORT "minishell: export: not a valid \
+identifier"
 # define BUILTIN_ERROR_GETCWD "minishell: cd: error retrieving current directory\n"
 # define BUILTIN_ERROR_PWD "minishell: pwd: error retrieving current directory"
-# define BUILTIN_ERROR_IDENTIFIER_UNSET "minishell: unset: '%s': not a valid identifier\n"
+# define BUILTIN_ERROR_IDENTIFIER_UNSET "minishell: unset: not a valid \
+identifier"
 
 # define READ_END STDIN_FILENO
 # define WRITE_END STDOUT_FILENO
 # define FORK_CHILD 0
 # define FORK_ERROR -1
 # define DUP2_ERROR -1
+# define EX_CMD_MISUSE_ERROR 2
 # define EX_CANNOT_INVOKE_CMD 126
 # define EX_CMD_NOT_FOUND 127
+# define EX_SIGNAL_BASE 128
 # define MAX_EXIT_STATUS 255
 # define TMP_FILE_PREFIX "/tmp/sh-thd-"
 # define EXPORT_PRINT_PREFIX "declare -x"
@@ -119,7 +128,7 @@ typedef struct s_envp
 	char			*value;
 	struct s_envp	*next;
 	struct s_envp	*prev;
-} t_envp;
+}	t_envp;
 
 typedef struct s_line
 {
@@ -149,7 +158,7 @@ t_envp		*ft_envp_new(char *key, char *value);
 void		ft_envp_add_back(t_envp **lst, t_envp *new);
 void		ft_envp_clear(t_envp **lst);
 int			ft_env_lstsize(t_envp *list);
-char 		**ft_envp_list_to_str_array(t_envp *list);
+char		**ft_envp_list_to_str_array(t_envp *list);
 
 //Struct t_minishell
 t_minishell	*ft_create_t_minishell(char *envp[]);
@@ -236,6 +245,5 @@ void		ft_unset(t_minishell *mini, t_command *cmd);
 t_envp		*ft_get_envp_var(t_envp *envp, char *key);
 bool		ft_is_valid_identifier(char *key);
 void		ft_remove_envp_var(t_envp **envp, t_envp *var);
-
 
 #endif

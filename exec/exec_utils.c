@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 19:20:23 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/04 01:18:32 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/05 21:24:57 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,12 @@ char	*ft_get_cmd_executable(char **envp, t_command *cmd)
 	char		*cmd_executable;
 	char const	*cmd_parts[] = {NULL, "/", cmd->args[0].content, NULL};
 
-	if (access(cmd->args[0].content, F_OK) == 0)
-		return (ft_strdup(cmd->args[0].content));
+	if (ft_strchr(cmd->args[0].content, '/'))
+	{
+		if (access(cmd->args[0].content, F_OK) == 0)
+			return (ft_strdup(cmd->args[0].content));
+		return (NULL);
+	}
 	path = ft_get_path(envp);
 	if (path == NULL)
 		return (NULL);
@@ -38,15 +42,11 @@ char	*ft_get_cmd_executable(char **envp, t_command *cmd)
 		cmd_parts[0] = path[i];
 		cmd_executable = ft_joinstrs(cmd_parts);
 		if (access(cmd_executable, F_OK) == 0)
-		{
-			ft_free_str_array(path);
-			return (cmd_executable);
-		}
+			return (ft_free_str_array(path), cmd_executable);
 		free(cmd_executable);
 		i++;
 	}
-	ft_free_str_array(path);
-	return (NULL);
+	return (ft_free_str_array(path), NULL);
 }
 
 /**
@@ -73,8 +73,8 @@ bool	ft_is_built_in(t_command *cmd)
 {
 	const char	*cmd_name = cmd->args->content;
 	int			i;
-	const char	*built_ins[] = {"echo", "cd", "pwd", "export", "unset",
-		"env", "exit", NULL};
+	const char	*built_ins[] = {CMD_ECHO, CMD_CD, CMD_PWD, CMD_EXPORT,
+		CMD_UNSET, CMD_ENV, CMD_EXIT, NULL};
 
 	i = 0;
 	while (built_ins[i])
@@ -101,7 +101,7 @@ void	ft_wait_pids(pid_t *pids, t_minishell *mini)
 		if (WIFEXITED(mini->exit_status))
 			mini->exit_status = WEXITSTATUS(mini->exit_status);
 		else if (WIFSIGNALED(mini->exit_status))
-			mini->exit_status = 128 + WTERMSIG(mini->exit_status);
+			mini->exit_status = EX_SIGNAL_BASE + WTERMSIG(mini->exit_status);
 		i++;
 	}
 	signal_check(mini->exit_status);
