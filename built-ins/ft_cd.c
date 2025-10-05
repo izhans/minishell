@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 18:11:32 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/05 19:35:17 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/05 21:47:58 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	ft_cd(t_minishell *mini, t_command *cmd)
 	if (getcwd(new_wd, PATH_MAX) == NULL)
 	{
 		mini->exit_status = EXIT_FAILURE;
+		ft_putendl_fd(BUILTIN_ERROR_GETCWD, STDERR_FILENO);
 		cd_parts[0] = last_wd;
 		mini->pwd = ft_joinstrs(cd_parts);
 	}
@@ -74,6 +75,11 @@ static void	ft_update_env_cd(t_minishell *mini, char *last_wd, char	*to_set)
 	t_envp	*pwd_node;
 	t_envp	*oldpwd_node;
 
+	if (!mini->pwd)
+	{
+		perror(PERROR_MALLOC);
+		ft_minishell_exit(mini, EXIT_FAILURE);
+	}
 	pwd_node = ft_get_envp_var(mini->tenvp, "PWD");
 	oldpwd_node = ft_get_envp_var(mini->tenvp, "OLDPWD");
 	if (pwd_node)
@@ -90,7 +96,6 @@ static void	ft_envp_modify_value(t_minishell *mini, t_envp *envp, char *to_set)
 {
 	if (envp->value)
 		free(envp->value);
-	envp->value = NULL;
 	envp->value = ft_strdup(to_set);
 	if (!envp->value)
 		ft_minishell_exit(mini, EXIT_FAILURE);
