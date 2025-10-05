@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/05 20:42:51 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/05 21:49:01 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@
 # define PROMPT "minishell> "
 # define WARNING_HD_EOF "Warning: here-doc last line delimited by CTRL-D"
 # define ERROR_MSG_REDIRECTION "Invalid input: invalid redirection or \
-filename for redirection\n"
-# define ERROR_MSG_PIPES "Invalid input: missing command.\n"
-# define ERROR_MSG_UNCLOSED_QUOTES "Invalid input: unclosed quotes\n"
+filename for redirection"
+# define ERROR_MSG_PIPES "Invalid input: missing command"
+# define ERROR_MSG_UNCLOSED_QUOTES "Invalid input: unclosed quotes"
 # define PERROR_MALLOC "Error malloc"
 # define PERROR_DUP2 "Error dup2"
 # define PERROR_PIPE "Error pipe"
@@ -51,11 +51,11 @@ filename for redirection\n"
 # define PERROR_OPEN "Error open"
 # define PERROR_CD "Error cd"
 # define BUILTIN_ERROR_ARGS_EXIT "minishell: exit: too many arguments\n"
-# define BUILTIN_ERROR_ARGS_CD "minishell: cd: too many arguments\n"
-# define BUILTIN_ERROR_HOME_CD "minishell: cd: HOME not set\n"
+# define BUILTIN_ERROR_ARGS_CD "minishell: cd: too many arguments"
+# define BUILTIN_ERROR_HOME_CD "minishell: cd: HOME not set"
 # define BUILTIN_ERROR_IDENTIFIER_EXPORT "minishell: export: '%s': not a valid identifier\n"
 # define BUILTIN_ERROR_GETCWD "minishell: cd: error retrieving current directory\n"
-# define BUILTIN_ERROR_PWD "minishell: pwd: error retrieving current directory\n"
+# define BUILTIN_ERROR_PWD "minishell: pwd: error retrieving current directory"
 # define BUILTIN_ERROR_IDENTIFIER_UNSET "minishell: unset: '%s': not a valid identifier\n"
 
 # define READ_END STDIN_FILENO
@@ -216,7 +216,7 @@ bool		ft_must_expand(char *str);
 //Redirections
 bool		ft_equals_type(bool input, t_redir_type type);
 int			ft_open_options(t_redir_type type);
-void		ft_dup2_redir(t_minishell *mini, t_command *cmd, bool input);
+void		ft_dup2_redir(t_minishell *mini, t_command *cmd);
 bool		ft_cmd_has_redirection(t_command *cmd, bool input);
 
 //Signal handler
