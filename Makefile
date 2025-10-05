@@ -13,6 +13,7 @@ SRC	= 	\
 		built-ins/ft_exit.c \
 		built-ins/ft_export.c \
 		built-ins/ft_pwd.c \
+		built-ins/ft_unset.c \
 		exec/exec_utils.c \
 		exec/exec.c \
 		exec/pipeline.c \
