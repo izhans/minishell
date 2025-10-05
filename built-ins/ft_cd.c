@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 18:11:32 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/04 23:15:30 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/05 19:35:17 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,40 +19,35 @@ static void	ft_envp_modify_value(t_minishell *mini,
 
 void	ft_cd(t_minishell *mini, t_command *cmd)
 {
-	char	*new_cd;
-	char	last_wd[PATH_MAX];
-	char	new_wd[PATH_MAX];
+	char		last_wd[PATH_MAX];
+	char		new_wd[PATH_MAX];
 	char const	*cd_parts[] = {NULL, "/", cmd->args->next->content, NULL};
 
 	if (ft_lstsize(cmd->args->next) > 1)
-	{
-		mini->exit_status = EXIT_FAILURE;
-		return (ft_putendl_fd(BUILTIN_ERROR_ARGS_CD, STDERR_FILENO));
-	}
+		return (mini->exit_status = EXIT_FAILURE,
+			ft_putendl_fd(BUILTIN_ERROR_ARGS_CD, STDERR_FILENO));
 	if (getcwd(last_wd, PATH_MAX) == NULL)
 	{
 		mini->exit_status = EXIT_FAILURE;
 		ft_strlcpy(last_wd, mini->pwd, ft_strlen(mini->pwd) + 1);
 	}
-	new_cd = ft_change_directory(mini, cmd->args->next);
-	if (new_cd)
+	if (!ft_change_directory(mini, cmd->args->next))
+		return ;
+	free(mini->pwd);
+	if (getcwd(new_wd, PATH_MAX) == NULL)
 	{
-		free(mini->pwd);
-		if (getcwd(new_wd, PATH_MAX) == NULL)
-		{
-			mini->exit_status = EXIT_FAILURE;
-			cd_parts[0] = last_wd;
-			mini->pwd = ft_joinstrs(cd_parts);
-		}
-		else
-			mini->pwd = ft_strdup(new_wd);
-		ft_update_env_cd(mini, last_wd, new_wd);
+		mini->exit_status = EXIT_FAILURE;
+		cd_parts[0] = last_wd;
+		mini->pwd = ft_joinstrs(cd_parts);
 	}
+	else
+		mini->pwd = ft_strdup(new_wd);
+	ft_update_env_cd(mini, last_wd, new_wd);
 }
 
 static char	*ft_change_directory(t_minishell *mini, t_list *args)
 {
-	char *to_set;
+	char	*to_set;
 
 	if (!args)
 	{
@@ -74,9 +69,6 @@ static char	*ft_change_directory(t_minishell *mini, t_list *args)
 	return (to_set);
 }
 
-//Update PWD: if it exists, modify its value.
-//If PWD exists: Update OLDPWD only if it exists.
-//If PWD doesnt exist, UNSET OLDPWD.
 static void	ft_update_env_cd(t_minishell *mini, char *last_wd, char	*to_set)
 {
 	t_envp	*pwd_node;
@@ -91,9 +83,7 @@ static void	ft_update_env_cd(t_minishell *mini, char *last_wd, char	*to_set)
 			ft_envp_modify_value(mini, oldpwd_node, last_wd);
 	}
 	else
-	{
-		//FUNCION REMOVER NODO.
-	}
+		ft_remove_envp_var(&mini->tenvp, oldpwd_node);
 }
 
 static void	ft_envp_modify_value(t_minishell *mini, t_envp *envp, char *to_set)

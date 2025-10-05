@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/05 19:27:46 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/05 19:57:29 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ filename for redirection\n"
 # define BUILTIN_ERROR_HOME_CD "minishell: cd: HOME not set\n"
 # define BUILTIN_ERROR_IDENTIFIER_EXPORT "minishell: export: '%s': not a valid identifier\n"
 # define BUILTIN_ERROR_GETCWD "minishell: cd: error retrieving current directory\n"
+# define BUILTIN_ERROR_PWD "minishell: pwd: error retrieving current directory\n"
 # define BUILTIN_ERROR_IDENTIFIER_UNSET "minishell: unset: '%s': not a valid identifier\n"
 
 # define READ_END STDIN_FILENO

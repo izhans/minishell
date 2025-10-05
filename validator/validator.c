@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 18:54:51 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/04 21:09:10 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/05 19:34:46 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 static bool	ft_validate_redirections(char *str);
 static bool	ft_check_redir_parse(char *str, int *i);
 static bool	ft_validate_cmds(t_minishell *mini, t_line *line);
-static bool ft_validate_quotes(char *line);
-
+static bool	ft_validate_quotes(char *line);
 
 /**
  * @brief validates whether a t_line struct is valid after parsing. Errors
@@ -128,7 +127,7 @@ static bool	ft_validate_cmds(t_minishell *mini, t_line *line)
  * @param line to check.
  * @return true if there is NOT an unclosed quote, false otherwise.
  */
-static bool ft_validate_quotes(char *line)
+static bool	ft_validate_quotes(char *line)
 {
 	int		i;
 	char	comma;

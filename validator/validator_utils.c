@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 21:01:05 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/04 21:02:12 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/05 19:34:55 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,3 @@ bool	ft_check_redir_file(char *str)
 		j++;
 	return (str[j] != '\0' && str[j] != '|' && !ft_is_redir(str[j]));
 }
-
