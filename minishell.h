@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/05 21:53:13 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/05 21:54:11 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ directory"
 # define PERROR_PIPE "minishell: pipe"
 # define PERROR_FORK "minishell: fork"
 # define PERROR_OPEN "minishell: open"
-# define PERROR_CD "Error cd"
+# define PERROR_CD "minishell: cd"
 # define BUILTIN_ERROR_ARGS_EXIT "minishell: exit: too many arguments"
 # define BUILTIN_ERROR_NUMERIC_ARG_ONLY_EXIT "minishell: exit: numeric argument \
 required"
@@ -60,7 +60,7 @@ required"
 # define BUILTIN_ERROR_HOME_CD "minishell: cd: HOME not set"
 # define BUILTIN_ERROR_IDENTIFIER_EXPORT "minishell: export: not a valid \
 identifier"
-# define BUILTIN_ERROR_GETCWD "minishell: cd: error retrieving current directory\n"
+# define BUILTIN_ERROR_GETCWD "minishell: cd: error retrieving current directory"
 # define BUILTIN_ERROR_PWD "minishell: pwd: error retrieving current directory"
 # define BUILTIN_ERROR_IDENTIFIER_UNSET "minishell: unset: not a valid \
 identifier"
