@@ -7,6 +7,7 @@ VPATH = /:src/:
 
 SRC	= 	\
 		built-ins/envp_utils.c \
+		built-ins/ft_cd.c \
 		built-ins/ft_echo.c \
 		built-ins/ft_env.c \
 		built-ins/ft_exit.c \
@@ -29,11 +30,12 @@ SRC	= 	\
 		structures/t_line_utils.c \
 		structures/t_minishell_utils.c \
 		structures/t_redir_utils.c \
+		validator/validator.c \
+		validator/validator_utils.c \
 		minishell.c \
 		signals.c \
 		utils.c \
-		here_doc.c \
-		validator.c
+		here_doc.c
 
 OBJ_DIR = objects
 OBJ =	$(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))

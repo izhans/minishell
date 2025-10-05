@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/05 21:24:38 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/05 21:54:11 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 # include <stdbool.h>
 # include <sysexits.h>
+# include <linux/limits.h>
 
 # include "libft/libft.h"
 
@@ -38,11 +39,11 @@
 # define DOUBLE_COMMA '"'
 # define PIPE '|'
 # define PROMPT "minishell> "
-# define WARNING_HD_EOF "Warning: here-doc delimited by EOF (CTRL-D)\
-(wanted: '%s')\n"
+# define WARNING_HD_EOF "Warning: here-doc last line delimited by CTRL-D"
 # define ERROR_MSG_REDIRECTION "Invalid input: invalid redirection or \
-filename for redirection\n"
-# define ERROR_MSG_PIPES "Invalid input: missing command.\n"
+filename for redirection"
+# define ERROR_MSG_PIPES "Invalid input: missing command"
+# define ERROR_MSG_UNCLOSED_QUOTES "Invalid input: unclosed quotes"
 # define ERROR_CMD_NOT_FOUND "minishell: command not found"
 # define ERROR_CMD_PERMISSION_DENIED "minishell: permission denied or is a \
 directory"
@@ -51,11 +52,16 @@ directory"
 # define PERROR_PIPE "minishell: pipe"
 # define PERROR_FORK "minishell: fork"
 # define PERROR_OPEN "minishell: open"
+# define PERROR_CD "minishell: cd"
 # define BUILTIN_ERROR_ARGS_EXIT "minishell: exit: too many arguments"
 # define BUILTIN_ERROR_NUMERIC_ARG_ONLY_EXIT "minishell: exit: numeric argument \
 required"
+# define BUILTIN_ERROR_ARGS_CD "minishell: cd: too many arguments"
+# define BUILTIN_ERROR_HOME_CD "minishell: cd: HOME not set"
 # define BUILTIN_ERROR_IDENTIFIER_EXPORT "minishell: export: not a valid \
 identifier"
+# define BUILTIN_ERROR_GETCWD "minishell: cd: error retrieving current directory"
+# define BUILTIN_ERROR_PWD "minishell: pwd: error retrieving current directory"
 # define BUILTIN_ERROR_IDENTIFIER_UNSET "minishell: unset: not a valid \
 identifier"
 
@@ -113,6 +119,7 @@ typedef struct s_minishell
 	char	**envp_array;
 	pid_t	*pids;
 	int		(*pipes)[2];
+	char	*pwd;
 }	t_minishell;
 
 typedef struct s_envp
@@ -208,6 +215,7 @@ void		ft_close_pipes(t_minishell *mini);
 
 //Validator
 bool		ft_validate(t_minishell *mini, t_line *line);
+bool		ft_check_redir_file(char *str);
 
 //Heredoc
 bool		ft_register_heredoc(t_minishell *mini, char **filename,
@@ -217,7 +225,7 @@ bool		ft_must_expand(char *str);
 //Redirections
 bool		ft_equals_type(bool input, t_redir_type type);
 int			ft_open_options(t_redir_type type);
-void		ft_dup2_redir(t_minishell *mini, t_command *cmd, bool input);
+void		ft_dup2_redir(t_minishell *mini, t_command *cmd);
 bool		ft_cmd_has_redirection(t_command *cmd, bool input);
 
 //Signal handler
@@ -226,6 +234,7 @@ bool		signal_check(int status);
 void		signal_setup_child(void);
 
 // built-ins
+void		ft_cd(t_minishell *mini, t_command *cmd);
 void		ft_echo(t_minishell *mini, t_command *cmd);
 void		ft_env(t_minishell *mini);
 void		ft_exit(t_minishell *mini, t_command *cmd);

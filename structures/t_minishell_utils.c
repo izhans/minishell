@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_minishell_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 04:09:02 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/04 02:03:24 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/04 22:49:17 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_minishell	*ft_create_t_minishell(char *envp[])
 	mini->tenvp = ft_init_envp(envp);
 	if (!mini->tenvp)
 		ft_minishell_exit(mini, EXIT_FAILURE);
+	mini->pwd = getcwd(NULL, 0);
 	return (mini);
 }
 
@@ -105,6 +106,11 @@ void	ft_free_t_minishell(t_minishell *mini)
 		{
 			ft_envp_clear(&mini->tenvp);
 			mini->tenvp = NULL;
+		}
+		if (mini->pwd)
+		{
+			free(mini->pwd);
+			mini->pwd = NULL;
 		}
 		free(mini);
 		mini = NULL;

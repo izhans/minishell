@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:41:51 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/04 01:47:14 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/05 20:43:10 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	ft_collect_heredoc_input(t_minishell *mini, char *delim,
 		str = ft_readline_mini(mini, "> ");
 	}
 	if (str == NULL)
-		printf(WARNING_HD_EOF, delim);
+		ft_putendl_fd(WARNING_HD_EOF, STDERR_FILENO);
 	else
 		free(str);
 	close(fd);

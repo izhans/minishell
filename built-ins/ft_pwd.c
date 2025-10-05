@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 14:53:05 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/04 17:09:22 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/05 19:58:08 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,19 @@
 
 void	ft_pwd(t_minishell *mini)
 {
-	char	*pwd;
+	char	pwd[PATH_MAX];
 
-	pwd = getcwd(NULL, 0);
-	ft_putendl(pwd);
+	if (getcwd(pwd, PATH_MAX) == NULL)
+	{
+		if (mini->pwd != NULL)
+			ft_putendl(mini->pwd);
+		else
+		{
+			mini->exit_status = 1;
+			return (ft_putendl_fd(BUILTIN_ERROR_PWD, STDERR_FILENO));
+		}
+	}
+	else
+		ft_putendl(pwd);
 	mini->exit_status = 0;
-	free(pwd);
 }

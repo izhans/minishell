@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   validator.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 18:54:51 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/09/13 20:18:10 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/05 20:04:29 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static bool	ft_validate_redirections(char *str);
 static bool	ft_check_redir_parse(char *str, int *i);
-static bool	ft_check_redir_file(char *str);
 static bool	ft_validate_cmds(t_minishell *mini, t_line *line);
+static bool	ft_validate_quotes(char *line);
 
 /**
  * @brief validates whether a t_line struct is valid after parsing. Errors
@@ -27,9 +27,11 @@ static bool	ft_validate_cmds(t_minishell *mini, t_line *line);
 bool	ft_validate(t_minishell *mini, t_line *line)
 {
 	if (!ft_validate_redirections(line->line))
-		return (printf(ERROR_MSG_REDIRECTION), false);
+		return (ft_putendl_fd(ERROR_MSG_REDIRECTION, STDERR_FILENO), false);
 	if (!ft_validate_cmds(mini, line))
-		return (printf(ERROR_MSG_PIPES), false);
+		return (ft_putendl_fd(ERROR_MSG_PIPES, STDERR_FILENO), false);
+	if (!ft_validate_quotes(line->line))
+		return (ft_putendl_fd(ERROR_MSG_UNCLOSED_QUOTES, STDERR_FILENO), false);
 	return (true);
 }
 
@@ -84,26 +86,6 @@ static bool	ft_check_redir_parse(char *str, int *i)
 }
 
 /**
- * @brief checks whether an identified valid representation of a redirecion
- * 			has a specified name. This means 'echo < | grep' is NOT valid.
- * 			its not valid to not give a name before the string ends or another
- * 			command is started (with '|'), or before another redirection
- * 			metacharacter.
- * @param str string to check after the valid representation of redirection.
- * @return true if the filename has been found,
- * 			false if no name or empty name (is empty if it is "" or '').
- */
-static bool	ft_check_redir_file(char *str)
-{
-	int	j;
-
-	j = 0;
-	while (ft_isspace(str[j]))
-		j++;
-	return (str[j] != '\0' && str[j] != '|' && !ft_is_redir(str[j]));
-}
-
-/**
  * @brief validates if all of the commands are valid. This checks if the
  * 			commands have at least one argument and their redirections have
  * 			at least one character after cleaning the SIMPLE_COMMA
@@ -138,4 +120,24 @@ static bool	ft_validate_cmds(t_minishell *mini, t_line *line)
 		cmd = cmd->next;
 	}
 	return (true);
+}
+
+/**
+ * @brief validates if there is any unclosed quote or not.
+ * @param line to check.
+ * @return true if there is NOT an unclosed quote, false otherwise.
+ */
+static bool	ft_validate_quotes(char *line)
+{
+	int		i;
+	char	comma;
+
+	i = 0;
+	comma = 0;
+	while (line[i])
+	{
+		ft_comma_check(&comma, line[i]);
+		i++;
+	}
+	return (comma == 0);
 }
