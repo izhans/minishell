@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 19:32:36 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/04 20:27:37 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/05 20:01:57 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	ft_process_arg(t_minishell *mini, char *key, char *value)
 
 	if (!ft_is_valid_identifier(key))
 	{
-		printf(BUILTIN_ERROR_IDENTIFIER_EXPORT, key);
+		ft_putendl_fd(BUILTIN_ERROR_IDENTIFIER_EXPORT, STDERR_FILENO);
 		mini->exit_status = 1;
 		return ;
 	}
