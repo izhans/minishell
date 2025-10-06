@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/05 21:54:11 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/06 13:02:41 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ typedef struct s_minishell
 	pid_t	*pids;
 	int		(*pipes)[2];
 	char	*pwd;
+	int		std_in;
+	int		std_out;
 }	t_minishell;
 
 typedef struct s_envp
@@ -225,7 +227,7 @@ bool		ft_must_expand(char *str);
 //Redirections
 bool		ft_equals_type(bool input, t_redir_type type);
 int			ft_open_options(t_redir_type type);
-void		ft_dup2_redir(t_minishell *mini, t_command *cmd);
+bool		ft_dup2_redir(t_minishell *mini, t_command *cmd);
 bool		ft_cmd_has_redirection(t_command *cmd, bool input);
 
 //Signal handler
