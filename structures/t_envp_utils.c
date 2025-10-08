@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 12:50:49 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/05 22:20:47 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/08 10:33:00 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_envp	*ft_init_envp(char **envp)
 	{
 		if (!ft_split_key_value(envp[i], &key, &value))
 		{
-			ft_envp_clear(lst);
+			ft_envp_clear(&lst);
 			return (NULL);
 		}
 		node = ft_envp_new(key, value);

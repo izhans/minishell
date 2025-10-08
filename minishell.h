@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/05 21:59:28 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/08 10:41:02 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ typedef enum e_type_arg
 
 typedef struct s_minishell
 {
-	t_list	*envp;
 	t_envp	*tenvp;
 	int		exit_status; // last exit status
 	t_line	*line;
@@ -154,7 +153,7 @@ typedef struct s_redir // is contained into a t_list
 
 // struct t_envp
 t_envp		*ft_init_envp(char **envp);
-void		ft_split_key_value(char *var, char **key, char **value);
+bool		ft_split_key_value(char *var, char **key, char **value);
 t_envp		*ft_envp_new(char *key, char *value);
 void		ft_envp_add_back(t_envp **lst, t_envp *new);
 void		ft_envp_clear(t_envp **lst);
@@ -226,7 +225,7 @@ bool		ft_must_expand(char *str);
 //Redirections
 bool		ft_equals_type(bool input, t_redir_type type);
 int			ft_open_options(t_redir_type type);
-void		ft_dup2_redir(t_minishell *mini, t_command *cmd);
+void		ft_dup2_redir(t_minishell *mini, t_command *cmd, bool input);
 bool		ft_cmd_has_redirection(t_command *cmd, bool input);
 
 //Signal handler
