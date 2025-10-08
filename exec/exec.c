@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 01:08:21 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/05 21:53:29 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/08 02:30:08 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,7 @@ static void	ft_process_one_cmd(t_minishell *mini, t_command *cmd)
 	}
 	else if (pid == FORK_CHILD)
 	{
-		ft_dup2_redir(mini, cmd, true);
-		ft_dup2_redir(mini, cmd, false);
+		ft_dup2_redir(mini, cmd);
 		ft_exec_cmd(mini, cmd);
 	}
 	else
@@ -120,6 +119,10 @@ static void	ft_run_built_in(t_minishell *mini, t_command *cmd)
 	char	*cmd_name;
 
 	cmd_name = (char *) cmd->args->content;
+	mini->std_in = -1;
+	mini->std_out = -1;
+	if (!ft_dup2_redir(mini, cmd))
+		return ;
 	if (ft_equals(CMD_ECHO, cmd_name))
 		ft_echo(mini, cmd);
 	else if (ft_equals(CMD_CD, cmd_name))
@@ -134,6 +137,7 @@ static void	ft_run_built_in(t_minishell *mini, t_command *cmd)
 		ft_env(mini);
 	else if (ft_equals(CMD_EXIT, cmd_name))
 		ft_exit(mini, cmd);
+	ft_restore_std(mini);
 	if (mini->line->cmd_number > 1)
 		ft_minishell_exit(mini, mini->exit_status);
 }
