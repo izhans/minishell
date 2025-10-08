@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 12:36:14 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/06 12:50:47 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/08 02:23:59 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,7 @@ void	ft_connect_pipes_and_redirections(t_minishell *mini,
             ft_minishell_exit(mini, EXIT_FAILURE);
         }
     }
-	if (ft_cmd_has_redirection(cmd, true)
-		|| ft_cmd_has_redirection(cmd, false))
-        ft_dup2_redir(mini, cmd);
+    ft_dup2_redir(mini, cmd);
 }
 
 void	ft_close_pipes(t_minishell *mini)

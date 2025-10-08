@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 01:08:21 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/06 13:02:59 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/08 02:30:08 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ static void	ft_run_built_in(t_minishell *mini, t_command *cmd)
 	char	*cmd_name;
 
 	cmd_name = (char *) cmd->args->content;
+	mini->std_in = -1;
+	mini->std_out = -1;
 	if (!ft_dup2_redir(mini, cmd))
 		return ;
 	if (ft_equals(CMD_ECHO, cmd_name))
@@ -135,19 +137,7 @@ static void	ft_run_built_in(t_minishell *mini, t_command *cmd)
 		ft_env(mini);
 	else if (ft_equals(CMD_EXIT, cmd_name))
 		ft_exit(mini, cmd);
-	if (mini->line->cmd_number == 1)
-	{
-		if (dup2(STDIN_FILENO, mini->std_in) == DUP2_ERROR)
-		{
-			perror(PERROR_DUP2);
-			ft_minishell_exit(mini, EXIT_FAILURE);
-		}
-		if (dup2(STDOUT_FILENO, mini->std_out) == DUP2_ERROR)
-		{
-			perror(PERROR_DUP2);
-			ft_minishell_exit(mini, EXIT_FAILURE);
-		}
-	}
+	ft_restore_std(mini);
 	if (mini->line->cmd_number > 1)
 		ft_minishell_exit(mini, mini->exit_status);
 }
