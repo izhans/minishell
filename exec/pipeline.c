@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 12:36:14 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/02 20:05:28 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/08 02:23:59 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,26 +49,23 @@ void	ft_connect_pipes_and_redirections(t_minishell *mini,
 
 	pipes = mini->pipes;
 	n = mini->line->cmd_number;
-	if (ft_cmd_has_redirection(cmd, true))
-		ft_dup2_redir(mini, cmd, true);
-	else if (i > 0)
+    if (i > 0)
 	{
-		if (dup2(pipes[i -1][READ_END], STDIN_FILENO) == DUP2_ERROR)
+        if (dup2(pipes[i - 1][READ_END], STDIN_FILENO) == DUP2_ERROR)
 		{
-			perror(PERROR_DUP2);
-			ft_minishell_exit(mini, EXIT_FAILURE);
-		}
-	}
-	if (ft_cmd_has_redirection(cmd, false))
-		ft_dup2_redir(mini, cmd, false);
-	else if (i < n -1)
+            perror(PERROR_DUP2);
+            ft_minishell_exit(mini, EXIT_FAILURE);
+        }
+    }
+    if (i < n - 1)
 	{
-		if (dup2(pipes[i][WRITE_END], STDOUT_FILENO) == DUP2_ERROR)
+        if (dup2(pipes[i][WRITE_END], STDOUT_FILENO) == DUP2_ERROR)
 		{
-			perror(PERROR_DUP2);
-			ft_minishell_exit(mini, EXIT_FAILURE);
-		}
-	}
+            perror(PERROR_DUP2);
+            ft_minishell_exit(mini, EXIT_FAILURE);
+        }
+    }
+    ft_dup2_redir(mini, cmd);
 }
 
 void	ft_close_pipes(t_minishell *mini)
