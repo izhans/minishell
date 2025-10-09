@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 21:01:05 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/09 18:02:14 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:30:22 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ bool	ft_validate_empty_cmd(t_minishell *mini, char *str)
 		{
 			subs = ft_substr(str, start, i - start);
 			if (subs == NULL)
-			{
-				perror(PERROR_MALLOC);
-				ft_minishell_exit(mini, EXIT_FAILURE);
-			}
+				return (perror(PERROR_MALLOC),
+					ft_minishell_exit(mini, EXIT_FAILURE), false);
 			if (ft_is_empty(subs))
 				return (free(subs), false);
 			free(subs);
