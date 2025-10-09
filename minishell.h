@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/08 11:22:17 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:02:30 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,8 +216,9 @@ void		ft_connect_pipes_and_redirections(t_minishell *mini,
 void		ft_close_pipes(t_minishell *mini);
 
 //Validator
-bool		ft_validate(t_minishell *mini, t_line *line);
+bool		ft_validate(t_minishell *mini, t_line *line, char *original_str);
 bool		ft_check_redir_file(char *str);
+bool		ft_validate_empty_cmd(t_minishell *mini, char *str);
 
 //Heredoc
 bool		ft_register_heredoc(t_minishell *mini, char **filename,
