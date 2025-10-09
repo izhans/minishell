@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/08 21:24:39 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/09 17:50:07 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:14:35 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,11 @@ bool	ft_minishell(t_minishell *mini)
 		&& ft_validate(mini, mini->line, temp2))
 	{
 		free(temp2);
+		temp2 = NULL;
 		ft_process(mini);
 	}
+	if (temp2)
+		free(temp2);
 	ft_free_t_minishell_execution(mini);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 18:54:51 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/09 17:51:05 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:08:37 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool	ft_validate(t_minishell *mini, t_line *line, char *original_str)
 		return (ft_putendl_fd(ERROR_MSG_PIPES, STDERR_FILENO), false);
 	if (!ft_validate_quotes(line->line))
 		return (ft_putendl_fd(ERROR_MSG_UNCLOSED_QUOTES, STDERR_FILENO), false);
-	if (!ft_validate_empty_cmd(original_str))
+	if (!ft_validate_empty_cmd(mini, original_str))
 		return (ft_putendl_fd(ERROR_MSG_PIPES, STDERR_FILENO), false);
 	return (true);
 }
