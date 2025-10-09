@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/04 21:01:05 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/05 19:34:55 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:41:46 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,30 @@ bool	ft_check_redir_file(char *str)
 	while (ft_isspace(str[j]))
 		j++;
 	return (str[j] != '\0' && str[j] != '|' && !ft_is_redir(str[j]));
+}
+
+bool	ft_validate_empty_cmd(char *str)
+{
+	int		i;
+	char	comma;
+	int		start;
+	char	*subs;
+
+	i = 0;
+	comma = 0;
+	start = 0;
+	while (str[i])
+	{
+		ft_comma_check(&comma, str[i]);
+		if (comma == 0 && str[i] == PIPE)
+		{
+			subs = ft_substr(str, start, i - start);
+			if (ft_is_empty(subs))
+				return (free(subs), false);
+			free(subs);
+			start = i + 1;
+		}
+		i++;
+	}
+	return (true);
 }

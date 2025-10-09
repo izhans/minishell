@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 18:54:51 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/05 20:04:29 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:51:05 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static bool	ft_validate_quotes(char *line);
  * @param line t_line struct to check parsing.
  * @return true if its a valid parse and no errors are found, false otherwise.
  */
-bool	ft_validate(t_minishell *mini, t_line *line)
+bool	ft_validate(t_minishell *mini, t_line *line, char *original_str)
 {
 	if (!ft_validate_redirections(line->line))
 		return (ft_putendl_fd(ERROR_MSG_REDIRECTION, STDERR_FILENO), false);
@@ -32,6 +32,8 @@ bool	ft_validate(t_minishell *mini, t_line *line)
 		return (ft_putendl_fd(ERROR_MSG_PIPES, STDERR_FILENO), false);
 	if (!ft_validate_quotes(line->line))
 		return (ft_putendl_fd(ERROR_MSG_UNCLOSED_QUOTES, STDERR_FILENO), false);
+	if (!ft_validate_empty_cmd(original_str))
+		return (ft_putendl_fd(ERROR_MSG_PIPES, STDERR_FILENO), false);
 	return (true);
 }
 
@@ -102,8 +104,6 @@ static bool	ft_validate_cmds(t_minishell *mini, t_line *line)
 	cmd = line->cmds;
 	while (cmd)
 	{
-		if (ft_lstsize(((t_command *)cmd->content)->args) == 0)
-			return (false);
 		redir = ((t_command *)cmd->content)->redir;
 		while (redir)
 		{

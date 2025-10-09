@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 19:20:23 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/05 21:24:57 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:31:06 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,14 @@ static char	**ft_get_path(char **envp)
  */
 bool	ft_is_built_in(t_command *cmd)
 {
-	const char	*cmd_name = cmd->args->content;
+	char		*cmd_name;
 	int			i;
 	const char	*built_ins[] = {CMD_ECHO, CMD_CD, CMD_PWD, CMD_EXPORT,
 		CMD_UNSET, CMD_ENV, CMD_EXIT, NULL};
 
+	if (!cmd->args)
+		return (false);
+	cmd_name = cmd->args->content;
 	i = 0;
 	while (built_ins[i])
 	{
