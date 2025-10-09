@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 12:50:49 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/04 20:36:25 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:14:38 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ t_envp	*ft_init_envp(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		ft_split_key_value(envp[i], &key, &value);
+		if (!ft_split_key_value(envp[i], &key, &value))
+		{
+			ft_envp_clear(&lst);
+			return (NULL);
+		}
 		node = ft_envp_new(key, value);
 		if (!node)
 		{
@@ -37,9 +41,11 @@ t_envp	*ft_init_envp(char **envp)
 	return (lst);
 }
 
-void	ft_split_key_value(char *var, char **key, char **value)
+/**
+ * @returns true if all correct, false if malloc error
+ */
+bool	ft_split_key_value(char *var, char **key, char **value)
 {
-	// TODO malloc errors
 	char	*split;
 
 	split = ft_strchr(var, '=');
@@ -50,9 +56,17 @@ void	ft_split_key_value(char *var, char **key, char **value)
 	}
 	else
 	{
-		*key = ft_substr(var, 0, split - var);
 		*value = ft_strdup(split + 1);
+		if (value == NULL)
+			return (false);
+		*key = ft_substr(var, 0, split - var);
+		if (key == NULL)
+		{
+			if (value)
+				free(value);
+		}
 	}
+	return (key != NULL);
 }
 
 t_envp	*ft_envp_new(char *key, char *value)

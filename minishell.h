@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
+/*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 02:14:56 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/08 02:27:35 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/08 11:22:17 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ required"
 # define BUILTIN_ERROR_HOME_CD "minishell: cd: HOME not set"
 # define BUILTIN_ERROR_IDENTIFIER_EXPORT "minishell: export: not a valid \
 identifier"
-# define BUILTIN_ERROR_GETCWD "minishell: cd: error retrieving current directory"
+# define BUILTIN_ERROR_GETCWD "minishell: cd: error retrieving current \
+directory"
 # define BUILTIN_ERROR_PWD "minishell: pwd: error retrieving current directory"
 # define BUILTIN_ERROR_IDENTIFIER_UNSET "minishell: unset: not a valid \
 identifier"
@@ -112,7 +113,6 @@ typedef enum e_type_arg
 
 typedef struct s_minishell
 {
-	t_list	*envp;
 	t_envp	*tenvp;
 	int		exit_status; // last exit status
 	t_line	*line;
@@ -155,7 +155,7 @@ typedef struct s_redir // is contained into a t_list
 
 // struct t_envp
 t_envp		*ft_init_envp(char **envp);
-void		ft_split_key_value(char *var, char **key, char **value);
+bool		ft_split_key_value(char *var, char **key, char **value);
 t_envp		*ft_envp_new(char *key, char *value);
 void		ft_envp_add_back(t_envp **lst, t_envp *new);
 void		ft_envp_clear(t_envp **lst);
