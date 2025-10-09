@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralba-ji <ralba-ji@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 01:08:21 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/08 02:30:08 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:22:43 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,8 @@ static void	ft_exec_cmd(t_minishell *mini, t_command *cmd)
 	char	**cmd_args_array;
 
 	signal_setup_child();
+	if (!cmd->args)
+		ft_minishell_exit(mini, EXIT_SUCCESS);
 	cmd_args_array = ft_str_list_to_str_array(cmd->args);
 	if (cmd_args_array == NULL)
 	{
@@ -160,7 +162,7 @@ static void	ft_exec_cmd(t_minishell *mini, t_command *cmd)
 	}
 	cmd->path = ft_get_cmd_executable(mini->envp_array, cmd);
 	execve(cmd->path, cmd_args_array, mini->envp_array);
-	if (cmd->path == NULL)
+	if (cmd->path == NULL || ft_is_empty(cmd->args->content))
 	{
 		mini->exit_status = EX_CMD_NOT_FOUND;
 		ft_putendl_fd(ERROR_CMD_NOT_FOUND, STDERR_FILENO);

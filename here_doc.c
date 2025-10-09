@@ -6,7 +6,7 @@
 /*   By: ralba-ji <ralba-ji@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:41:51 by ralba-ji          #+#    #+#             */
-/*   Updated: 2025/10/05 20:43:10 by ralba-ji         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:08:28 by ralba-ji         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ static void	ft_collect_heredoc_input(t_minishell *mini, char *delim,
 	fd = open(tmp_name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		perror(PERROR_OPEN);
-		ft_minishell_exit(mini, EXIT_FAILURE);
+		return (perror(PERROR_OPEN), ft_minishell_exit(mini, EXIT_FAILURE));
 	}
 	str = ft_readline_mini(mini, "> ");
 	while (str != NULL && ft_strcmp(str, delim) != 0)
