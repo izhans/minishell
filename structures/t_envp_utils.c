@@ -6,7 +6,7 @@
 /*   By: isastre- <isastre-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 12:50:49 by isastre-          #+#    #+#             */
-/*   Updated: 2025/10/08 10:33:00 by isastre-         ###   ########.fr       */
+/*   Updated: 2025/10/09 12:14:38 by isastre-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,14 @@ bool	ft_split_key_value(char *var, char **key, char **value)
 	}
 	else
 	{
-		*key = ft_substr(var, 0, split - var);
 		*value = ft_strdup(split + 1);
 		if (value == NULL)
-		{
-			if (key)
-				free(key);
 			return (false);
+		*key = ft_substr(var, 0, split - var);
+		if (key == NULL)
+		{
+			if (value)
+				free(value);
 		}
 	}
 	return (key != NULL);
